@@ -29,7 +29,7 @@ public class Swerve extends SubsystemBase {
     private SwerveDrive swerveDrive;
     private File swerveJsonDirectory;
 
-    public Swerve(File directory){
+    public Swerve(){
         maximumSpeed = Units.feetToMeters(14.5);
         swerveJsonDirectory = new File(Filesystem.getDeployDirectory(), "swerve/neo");
         try{
@@ -51,8 +51,8 @@ public class Swerve extends SubsystemBase {
                     swerveDrive.swerveController.config.headingPIDF.p,
                     swerveDrive.swerveController.config.headingPIDF.i,
                     swerveDrive.swerveController.config.headingPIDF.d),
-                4.5,
-                6.8125,
+                Constants.kMaxModuleSpeed,
+                Units.feetToMeters(Constants.kDriveBaseRadius),
                 new ReplanningConfig()
             ),
             this
