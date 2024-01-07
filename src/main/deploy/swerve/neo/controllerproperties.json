@@ -1,0 +1,12 @@
+{
+  "angleJoystickRadiusDeadband": 0.5,
+  "heading": {
+    "p": 0.8,
+    "i": 0,
+    "d": 0.01,
+    "f": 0,
+    "iz": 0.25,
+    "maxSpeed": 3.0,
+    "maxAccel": 5.0
+  }
+}
