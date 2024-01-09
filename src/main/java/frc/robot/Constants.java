@@ -1,6 +1,10 @@
 package frc.robot;
 
 public class Constants {
+    // Driver Controls
+    public static final int kDriverControllerPort = 0;
+    public static final int kOperatorControllerPort = 1;
+    public static final int kDebugControllerPort = 2;
     // Swerve
     public static final double kMaxModuleSpeed = 4.0;
     public static final double kDriveBaseRadius = 6.8125;

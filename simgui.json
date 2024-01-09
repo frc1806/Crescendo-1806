@@ -1,0 +1,20 @@
+{
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Auto Mode": "String Chooser",
+      "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/navX-Sensor[4]": "Gyro"
+    },
+    "windows": {
+      "/SmartDashboard/Field": {
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  },
+  "NetworkTables Info": {
+    "visible": true
+  }
+}

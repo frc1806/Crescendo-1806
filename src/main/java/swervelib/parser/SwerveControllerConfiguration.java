@@ -11,7 +11,7 @@ public class SwerveControllerConfiguration
   /**
    * PIDF for the heading of the robot.
    */
-  public final PIDFConfig headingPIDF;
+  public final ProfiledPIDFConfig headingPIDF;
   /**
    * hypotenuse deadband for the robot angle control joystick.
    */
@@ -34,7 +34,7 @@ public class SwerveControllerConfiguration
    */
   public SwerveControllerConfiguration(
       SwerveDriveConfiguration driveCfg,
-      PIDFConfig headingPIDF,
+      ProfiledPIDFConfig headingPIDF,
       double angleJoyStickRadiusDeadband,
       double maxSpeedMPS)
   {
@@ -56,7 +56,7 @@ public class SwerveControllerConfiguration
    * @param maxSpeedMPS Maximum speed in meters per second for angular velocity, remember if you have feet per second
    *                    use {@link edu.wpi.first.math.util.Units#feetToMeters(double)}.
    */
-  public SwerveControllerConfiguration(SwerveDriveConfiguration driveCfg, PIDFConfig headingPIDF, double maxSpeedMPS)
+  public SwerveControllerConfiguration(SwerveDriveConfiguration driveCfg, ProfiledPIDFConfig headingPIDF, double maxSpeedMPS)
   {
     this(driveCfg, headingPIDF, 0.5, maxSpeedMPS);
   }

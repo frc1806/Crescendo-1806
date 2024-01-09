@@ -14,6 +14,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -55,6 +56,7 @@ public class Swerve extends SubsystemBase {
                 Units.feetToMeters(Constants.kDriveBaseRadius),
                 new ReplanningConfig()
             ),
+            this::shouldPathFlip,
             this
         );
     }
@@ -81,6 +83,15 @@ public class Swerve extends SubsystemBase {
 
     public void setChassisSpeed(ChassisSpeeds velocity){
         swerveDrive.setChassisSpeeds(velocity);
+    }
+
+    public boolean shouldPathFlip(){
+        //Path will not flip if the current alliance is blue alliance
+        var alliance = DriverStation.getAlliance();
+        if(alliance.isPresent()){
+            return alliance.get() == DriverStation.Alliance.Red;
+        }
+        return false;
     }
 
     public void postTrajectory(Trajectory trajectory){

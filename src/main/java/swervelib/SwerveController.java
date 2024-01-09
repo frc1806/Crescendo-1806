@@ -1,6 +1,7 @@
 package swervelib;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -20,7 +21,7 @@ public class SwerveController
   /**
    * PID Controller for the robot heading.
    */
-  public final PIDController                 thetaController; // TODO: Switch to ProfilePIDController
+  public final ProfiledPIDController                 thetaController; // TODO: Switch to ProfilePIDController
   /**
    * Last angle as a scalar [-1,1] the robot was set to.
    */
