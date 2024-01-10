@@ -1,7 +1,9 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
+import frc.robot.commands.Swerve.LockPods;
 
 public class DriverControls {
     
@@ -45,24 +47,22 @@ public class DriverControls {
         return driverController.getLeftX();
     }
 
-    public boolean rotateCenter(){
-        return driverController.getRightY() > 0;
+    public double rotation(){
+        double joystickFieldX = driverController.getRightX();
+        double joystickFieldY = driverController.getRightY();
+
+        double xyMag = Math.hypot(joystickFieldX, joystickFieldY);
+        double angle = Math.acos(joystickFieldX / xyMag) * (joystickFieldY > 0? 1:-1);
+        return angle;
     }
 
-    public boolean rotateAbout(){
-        return driverController.getRightY() < 0;
-    }
-
-    public boolean rotateLeft(){
-        return driverController.getRightX() < 0;
-    }
-
-    public boolean rotateRight(){
-        return driverController.getRightX() > 0;
+    private boolean lockPods(){
+        return driverController.getXButton();
     }
 
     public void registerTriggers(Swerve swerve){
         //Driver
+        new Trigger(this::lockPods).onTrue(new LockPods(swerve));
     }
 
 }

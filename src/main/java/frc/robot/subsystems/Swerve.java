@@ -61,6 +61,10 @@ public class Swerve extends SubsystemBase {
         );
     }
 
+    public void drive(Translation2d translation, double rotation, boolean fieldRelative){
+        swerveDrive.drive(translation, rotation, fieldRelative, false);
+    }
+
     public void driveRobotOriented(Translation2d translation, double rotation){
         swerveDrive.drive(translation, rotation, false, false);
     }
