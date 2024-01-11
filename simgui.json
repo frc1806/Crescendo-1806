@@ -1,13 +1,4 @@
 {
-  "HALProvider": {
-    "Other Devices": {
-      "SPARK MAX [2]": {
-        "header": {
-          "open": true
-        }
-      }
-    }
-  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
@@ -16,6 +7,11 @@
       "/SmartDashboard/navX-Sensor[4]": "Gyro"
     },
     "windows": {
+      "/SmartDashboard/Auto Mode": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Field": {
         "window": {
           "visible": true

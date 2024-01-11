@@ -41,11 +41,11 @@ public class DriverControls {
     // DRIVER CONTROLS
 
     public double translationY(){
-        return driverController.getLeftY();
+        return -driverController.getLeftX();
     }
-
+    
     public double translationX(){
-        return driverController.getLeftX();
+        return -driverController.getLeftY();
     }
 
     public boolean rotateCenter(){
