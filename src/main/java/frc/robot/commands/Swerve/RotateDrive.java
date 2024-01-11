@@ -5,13 +5,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriverControls;
 import frc.robot.subsystems.Swerve;
 
-public class FieldOrientedDrive extends Command{
+public class RotateDrive extends Command{
 
+    private double mAngle;
     private Swerve mSwerve;
     private DriverControls mDriverControls;
 
-    public FieldOrientedDrive(Swerve swerve, DriverControls driverControls){
+    public RotateDrive(double angle, Swerve swerve, DriverControls driverControls){
         addRequirements(swerve);
+        mAngle = angle;
         mSwerve = swerve;
         mDriverControls = driverControls;
     }
@@ -22,7 +24,7 @@ public class FieldOrientedDrive extends Command{
 
     @Override
     public void execute() {
-        mSwerve.driveFieldOriented(mSwerve.getTargetSpeeds(mDriverControls.translationX(), mDriverControls.translationY(), mSwerve.getPitch()));
+        mSwerve.driveFieldOriented(mSwerve.getTargetSpeeds(mDriverControls.translationX(), mDriverControls.translationY(), new Rotation2d(mAngle)));
     }
 
     @Override
