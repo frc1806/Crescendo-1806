@@ -1,6 +1,6 @@
 package swervelib.parser.json;
 
-import swervelib.parser.ProfiledPIDFConfig;
+import swervelib.parser.PIDFConfig;
 import swervelib.parser.SwerveControllerConfiguration;
 import swervelib.parser.SwerveDriveConfiguration;
 
@@ -17,7 +17,7 @@ public class ControllerPropertiesJson
   /**
    * The PID used to control the robot heading.
    */
-  public ProfiledPIDFConfig heading;
+  public PIDFConfig heading;
 
   /**
    * Create the {@link SwerveControllerConfiguration} based on parsed and given data.
