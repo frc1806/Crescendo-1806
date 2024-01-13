@@ -6,8 +6,8 @@ public class Constants {
     public static final int kOperatorControllerPort = 1;
     public static final int kDebugControllerPort = 2;
 
-    public static final double kRightStickDeadzone = 0.5;
 
+    public static final double kRightStickDeadzone = 0.5;
     // Swerve
     public static final double kMaxModuleSpeed = 4.0;
     public static final double kDriveBaseRadius = 6.8125;
@@ -15,12 +15,4 @@ public class Constants {
     public static final double kSwerveAutoPIDP = 5.0;
     public static final double kSwerveAutoPIDI = 0.0;
     public static final double kSwerveAutoPIDD = 0.0;
-
-    // Intake
-    public static final double kIntakeP = 0.5;
-    public static final double kIntakeI = 0.0;
-    public static final double kIntakeD = 0.1;
-    public static final double kIntakeV = 0.0;
-    public static final double kIntakeS = 0.0;
-    public static final double kIntakeA = 0.0;
 }
