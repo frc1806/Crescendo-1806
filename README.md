@@ -6,5 +6,9 @@ Currently the project is using the YAGSL `swervelib` folder from the YAGSL-Examp
 ## Subsystems
 `src.main.java.frc.robot.subsystems`
 
+- `Angler.java`: Subsystem that sets our shooter to our wanted angles
+- `DriverControls.java`: Subsystem that has all the controls for our two Xbox Controllers. This is also has a method that registers all of our triggers.
+- `Intake.java`: Subsystem that intakes the notes into our shooter
+- `Launcher.java`: Subsystem that launches notes into the goals
 - `Swerve.java`: Our swerve drive subsystem. Powered by YAGSL
-- `DriverControls.java`: A class that has all the controls for our two Xbox Controllers. This is also has a method that registers all of our triggers.
+- `Vision.java`: Subsystem that uses our vision cameras to detect April Tags on the field. Powered by PhotonLib
