@@ -24,7 +24,7 @@ public class Angler extends SubsystemBase {
         mAnglerMotor = new CANSparkFlex(21, CANSparkFlex.MotorType.kBrushless);
         mPidController = new PIDController(Constants.kAnglerP, Constants.kAnglerI, Constants.kAnglerD);
         mAnglerMotor.setIdleMode(IdleMode.kBrake);
-        mCurrentDesiredAngle = Shots.ExampleShot.getPivotAngle();
+        mCurrentDesiredAngle = Shots.Home.getPivotAngle();
         mCurrentAngle = mAnglerMotor.getEncoder().getPosition();
     }
 
@@ -33,7 +33,7 @@ public class Angler extends SubsystemBase {
     }
 
     public void setAngle(double angle) {
-        mCurrentDesiredAngle = angle;
+        mCurrentDesiredAngle = angle; 
     }
 
     public void setWantedManualPower(double wantedPower){
