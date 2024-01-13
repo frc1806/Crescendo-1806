@@ -1,5 +1,6 @@
 package frc.robot;
 
 public class RobotMap {
-    // empty for now
+    // Intake
+    public static final int kIntakeMotorPort = 11;
 }

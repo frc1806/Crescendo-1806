@@ -15,12 +15,14 @@ import frc.robot.commands.Swerve.FieldOrientedDrive;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.subsystems.DriverControls;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Swerve;
 
 public class RobotContainer {
   
   public final Swerve S_SWERVE = new Swerve();
   public final DriverControls S_DRIVERCONTROLS = new DriverControls();
+  public final Intake S_INTAKE = new Intake();
 
   private final SendableChooser<Command> autoChooser;
 
@@ -39,7 +41,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    S_DRIVERCONTROLS.registerTriggers(S_SWERVE);
+    S_DRIVERCONTROLS.registerTriggers(S_SWERVE, S_INTAKE);
   }
 
   public Command getAutonomousCommand() {
