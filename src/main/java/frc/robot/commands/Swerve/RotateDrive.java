@@ -12,7 +12,6 @@ public class RotateDrive extends Command{
     private DriverControls mDriverControls;
 
     public RotateDrive(double angle, Swerve swerve, DriverControls driverControls){
-        addRequirements(swerve);
         mAngle = angle;
         mSwerve = swerve;
         mDriverControls = driverControls;
@@ -24,7 +23,7 @@ public class RotateDrive extends Command{
 
     @Override
     public void execute() {
-        mSwerve.driveFieldOriented(mSwerve.getTargetSpeeds(mDriverControls.translationX(), mDriverControls.translationY(), Rotation2d.fromDegrees(mAngle)));
+       mSwerve.driveFieldOriented(mSwerve.getTargetSpeeds(mDriverControls.translationX(), mDriverControls.translationY(), Rotation2d.fromDegrees(mAngle)));
     }
 
     @Override
