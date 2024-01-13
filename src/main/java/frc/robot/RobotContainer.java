@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.Swerve.FieldOrientedDrive;
 import frc.robot.commands.Swerve.LockPods;
+import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.subsystems.DriverControls;
 import frc.robot.subsystems.Swerve;
 
@@ -28,7 +29,7 @@ public class RobotContainer {
     setDefaultCommands();
     
     NamedCommands.registerCommand("lockPods", new LockPods(S_SWERVE));
-
+    NamedCommands.registerCommand("resetGyro", new ResetGyro(S_SWERVE));
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Mode", autoChooser);
   }
