@@ -10,8 +10,10 @@ public class Shots {
         this.name = name;
     }
 
-    public static Shots ExampleShot = new Shots("Example Shot", 45.0);
+    //home angle needs to be determined
+    public static Shots Home = new Shots("Home", 15.0);
     //make more shots here
+
 
     public Double getPivotAngle() {
         return pivotAngle;

@@ -28,4 +28,5 @@ public class Constants {
     public static final double kAnglerP = 0.1;
     public static final double kAnglerI = 0.0;
     public static final double kAnglerD = 0.0;
+    public static final double kAcceptableAngleError = 0.5;
 }

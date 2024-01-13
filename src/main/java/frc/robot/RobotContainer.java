@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.Swerve.FieldOrientedDrive;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
+import frc.robot.subsystems.Angler;
 import frc.robot.subsystems.DriverControls;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Swerve;
@@ -23,6 +24,7 @@ public class RobotContainer {
   public final Swerve S_SWERVE = new Swerve();
   public final DriverControls S_DRIVERCONTROLS = new DriverControls();
   public final Intake S_INTAKE = new Intake();
+  public final Angler S_ANGLER = new Angler();
 
   private final SendableChooser<Command> autoChooser;
 

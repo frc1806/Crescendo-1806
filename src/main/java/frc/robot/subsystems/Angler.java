@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import frc.robot.Constants;
+import frc.robot.game.Shots;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,7 +24,7 @@ public class Angler extends SubsystemBase {
         mAnglerMotor = new CANSparkFlex(21, CANSparkFlex.MotorType.kBrushless);
         mPidController = new PIDController(Constants.kAnglerP, Constants.kAnglerI, Constants.kAnglerD);
         mAnglerMotor.setIdleMode(IdleMode.kBrake);
-        mCurrentDesiredAngle = 0; //Something idk
+        mCurrentDesiredAngle = Shots.ExampleShot.getPivotAngle();
         mCurrentAngle = mAnglerMotor.getEncoder().getPosition();
     }
 
@@ -34,4 +35,17 @@ public class Angler extends SubsystemBase {
     public void setAngle(double angle) {
         mCurrentDesiredAngle = angle;
     }
+
+    public void setWantedManualPower(double wantedPower){
+        mWantedManualPower = wantedPower;
+    }
+
+    public boolean atPosition(){
+        return Math.abs(getAngle()-mCurrentDesiredAngle) < Constants.kAcceptableAngleError;
+    }
+
+    public void setMotor(Double num){
+        mAnglerMotor.setVoltage(num);
+    }
+
 }
