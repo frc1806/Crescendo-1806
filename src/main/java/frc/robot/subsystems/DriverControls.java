@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
 import frc.robot.commands.Intake.SetIntake;
 import frc.robot.commands.Swerve.LockPods;
+import frc.robot.commands.Swerve.PreciseRotateDrive;
 import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.commands.Swerve.RotateDrive;
 
@@ -51,22 +52,26 @@ public class DriverControls {
 
     public boolean rotateCenter(){
         // Rotate the robot facing forwards field relative
-        return (driverController.getRightY() > Constants.kRightStickDeadzone);
+        return (driverController.getRightY() > 0) && !wantPreciseRotation();
     }
 
     public boolean rotateAbout(){
         // Rotate the robot facing backwards field relative
-        return (driverController.getRightY() < -Constants.kRightStickDeadzone);
+        return (driverController.getRightY() < 0)  && !wantPreciseRotation();
     }
 
     public boolean rotateRight(){
         // Rotate the robot facing right field relative
-        return (driverController.getRightX() > Constants.kRightStickDeadzone);
+        return (driverController.getRightX() > 0) && !wantPreciseRotation();
     }
 
     public boolean rotateLeft(){
         // Rotate the robot facing left field relative
-        return (driverController.getRightX() < -Constants.kRightStickDeadzone);
+        return (driverController.getRightX() < 0) && !wantPreciseRotation();
+    }
+
+    public boolean wantPreciseRotation(){
+        return driverController.getRightTriggerAxis() > 0;
     }
 
     public boolean intake(){
@@ -90,6 +95,7 @@ public class DriverControls {
         new Trigger(this::rotateRight).onTrue(new RotateDrive(90, swerve, this));
         new Trigger(this::resetGyro).onTrue(new ResetGyro(swerve));
         new Trigger(this::intake).whileTrue(new SetIntake(intake, 1));
+        new Trigger(this::wantPreciseRotation).onTrue(new PreciseRotateDrive(swerve, this));
     }
 
 }

@@ -7,7 +7,7 @@ public class Constants {
     public static final int kDebugControllerPort = 2;
 
 
-    public static final double kRightStickDeadzone = 0.5;
+    public static final double kRightStickDeadzone = 0.8;
     // Swerve
     public static final double kMaxModuleSpeed = 4.0;
     public static final double kDriveBaseRadius = 6.8125;

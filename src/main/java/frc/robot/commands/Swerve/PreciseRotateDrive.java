@@ -5,14 +5,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriverControls;
 import frc.robot.subsystems.Swerve;
 
-public class RotateDrive extends Command{
+public class PreciseRotateDrive extends Command {
 
-    private double mAngle;
     private Swerve mSwerve;
     private DriverControls mDriverControls;
+    private double angle;
 
-    public RotateDrive(double angle, Swerve swerve, DriverControls driverControls){
-        mAngle = angle;
+    public PreciseRotateDrive(Swerve swerve, DriverControls driverControls){
         mSwerve = swerve;
         mDriverControls = driverControls;
     }
@@ -23,7 +22,8 @@ public class RotateDrive extends Command{
 
     @Override
     public void execute() {
-        mSwerve.driveFieldOriented(mSwerve.getTargetSpeeds(mDriverControls.translationX(), mDriverControls.translationY(), Rotation2d.fromDegrees(mAngle)));
+        angle += (mDriverControls.getDriverController().getRightX() * 4);
+        mSwerve.driveFieldOriented(mSwerve.getTargetSpeeds(mDriverControls.translationX(), mDriverControls.translationY(), Rotation2d.fromDegrees(angle)));
     }
 
     @Override
@@ -32,7 +32,7 @@ public class RotateDrive extends Command{
 
     @Override
     public boolean isFinished() {
-        return mDriverControls.wantPreciseRotation();
+        return !mDriverControls.wantPreciseRotation();
     }
     
 }
