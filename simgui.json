@@ -1,9 +1,19 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "SPARK MAX [4]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
       "/SmartDashboard/Auto Mode": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Intake": "Subsystem",
       "/SmartDashboard/navX-Sensor[4]": "Gyro"
     },
     "windows": {
@@ -16,6 +26,18 @@
         "window": {
           "visible": true
         }
+      },
+      "/SmartDashboard/Intake": {
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  },
+  "NetworkTables": {
+    "transitory": {
+      "SmartDashboard": {
+        "open": true
       }
     }
   },

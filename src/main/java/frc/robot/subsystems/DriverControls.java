@@ -70,7 +70,7 @@ public class DriverControls {
     }
 
     public boolean intake(){
-        return driverController.getLeftBumper();
+        return driverController.getRightBumper();
     }
 
     private boolean lockPods(){
