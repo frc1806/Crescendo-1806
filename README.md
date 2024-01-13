@@ -6,5 +6,5 @@ Currently the project is using the YAGSL `swervelib` folder from the YAGSL-Examp
 ## Subsystems
 `src.main.java.frc.robot.subsystems`
 
-`Swerve.java`: Our swerve drive subsystem. Powered by YAGSL
-`DriverControls.java`: A class that has all the controls for our two Xbox Controllers. This is also has a method that registers all of our triggers.
+- `Swerve.java`: Our swerve drive subsystem. Powered by YAGSL
+- `DriverControls.java`: A class that has all the controls for our two Xbox Controllers. This is also has a method that registers all of our triggers.
