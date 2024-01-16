@@ -5,13 +5,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriverControls;
 import frc.robot.subsystems.Swerve;
 
-public class RotateDrive extends Command{
+public class SnapRotateDrive extends Command{
 
     private double mAngle;
     private Swerve mSwerve;
     private DriverControls mDriverControls;
 
-    public RotateDrive(double angle, Swerve swerve, DriverControls driverControls){
+    public SnapRotateDrive(double angle, Swerve swerve, DriverControls driverControls){
         mAngle = angle;
         mSwerve = swerve;
         mDriverControls = driverControls;

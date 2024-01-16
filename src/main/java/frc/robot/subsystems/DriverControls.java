@@ -7,7 +7,7 @@ import frc.robot.commands.Intake.SetIntake;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.PreciseRotateDrive;
 import frc.robot.commands.Swerve.ResetGyro;
-import frc.robot.commands.Swerve.RotateDrive;
+import frc.robot.commands.Swerve.SnapRotateDrive;
 
 public class DriverControls {
     
@@ -89,10 +89,10 @@ public class DriverControls {
     public void registerTriggers(Swerve swerve, Intake intake){
         //Driver
         new Trigger(this::lockPods).onTrue(new LockPods(swerve));
-        new Trigger(this::rotateCenter).onTrue(new RotateDrive(180, swerve, this));
-        new Trigger(this::rotateAbout).onTrue(new RotateDrive(0, swerve, this));
-        new Trigger(this::rotateLeft).onTrue(new RotateDrive(-90, swerve, this));
-        new Trigger(this::rotateRight).onTrue(new RotateDrive(90, swerve, this));
+        new Trigger(this::rotateCenter).onTrue(new SnapRotateDrive(180, swerve, this));
+        new Trigger(this::rotateAbout).onTrue(new SnapRotateDrive(0, swerve, this));
+        new Trigger(this::rotateLeft).onTrue(new SnapRotateDrive(-90, swerve, this));
+        new Trigger(this::rotateRight).onTrue(new SnapRotateDrive(90, swerve, this));
         new Trigger(this::resetGyro).onTrue(new ResetGyro(swerve));
         new Trigger(this::intake).whileTrue(new SetIntake(intake, 1));
         new Trigger(this::wantPreciseRotation).onTrue(new PreciseRotateDrive(swerve, this));

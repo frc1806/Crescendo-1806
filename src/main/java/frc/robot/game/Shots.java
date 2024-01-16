@@ -2,10 +2,10 @@ package frc.robot.game;
 
 
 public class Shots {
-    Double pivotAngle;
+    double pivotAngle;
     String name;
 
-    public Shots(String name, Double pivotAngle) {
+    public Shots(String name, double pivotAngle) {
         this.pivotAngle = pivotAngle;
         this.name = name;
     }
@@ -15,7 +15,7 @@ public class Shots {
     //make more shots here
 
 
-    public Double getPivotAngle() {
+    public double getPivotAngle() {
         return pivotAngle;
     }
 
