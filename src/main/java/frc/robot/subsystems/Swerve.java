@@ -17,6 +17,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import swervelib.SwerveController;
@@ -161,6 +162,7 @@ public class Swerve extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putData(this);
     }
 
     @Override
