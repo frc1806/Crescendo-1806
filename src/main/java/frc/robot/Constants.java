@@ -1,5 +1,14 @@
 package frc.robot;
 
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.Vector;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.util.Units;
+
 public class Constants {
     // Driver Controls
     public static final int kDriverControllerPort = 0;
@@ -29,4 +38,42 @@ public class Constants {
     public static final double kAnglerI = 0.0;
     public static final double kAnglerD = 0.0;
     public static final double kAcceptableAngleError = 0.5;
+
+    // Vision
+
+    // Pose Estimator Constants
+    public static final Transform3d kFrontLeftCamToCenter = new Transform3d(
+        new Translation3d(Units.inchesToMeters(0), Units.inchesToMeters(0), Units.inchesToMeters(0)),
+        new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(0))
+    );
+    public static final Transform3d kFrontRightCamToCenter = new Transform3d(
+        new Translation3d(Units.inchesToMeters(0), Units.inchesToMeters(0), Units.inchesToMeters(0)),
+        new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(0))
+    );
+    public static final Transform3d kBackLeftCamToCenter = new Transform3d(
+        new Translation3d(Units.inchesToMeters(0), Units.inchesToMeters(0), Units.inchesToMeters(0)),
+        new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(0))
+    );
+    public static final Transform3d kBackRightCamToCenter = new Transform3d(
+        new Translation3d(Units.inchesToMeters(0), Units.inchesToMeters(0), Units.inchesToMeters(0)),
+        new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(0), Units.degreesToRadians(0))
+    );
+
+    // Swerve Drive Pose Estimator Constants
+    public static final SwerveModulePosition[] kSwerveModulePositions = {};
+    public static final Vector<N3> kStateStds = VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5));
+    public static final Vector<N3> kVisionStds = VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(10));
+
+    //  Camera Heights
+    public static final double kFrontLeftCameraHeight = 0.0;
+    public static final double kFrontRightCameraHeight = 0.0;
+    public static final double kBackLeftCameraHeight = 0.0;
+    public static final double kBackRightCameraHeight = 0.0;
+
+    //  Camera Pitch
+    public static final double kFrontLeftCameraPitch = 0.0;
+    public static final double kFrontRightCameraPitch = 0.0;
+    public static final double kBackLeftCameraPitch = 0.0;
+    public static final double kBackRightCameraPitch = 0.0;
+    
 }

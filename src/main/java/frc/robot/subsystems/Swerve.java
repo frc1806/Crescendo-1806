@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
 import swervelib.parser.SwerveDriveConfiguration;
@@ -153,6 +154,10 @@ public class Swerve extends SubsystemBase {
 
     public Rotation2d getPitch(){
         return swerveDrive.getPitch();
+    }
+
+    public void visionAlign(){
+        swerveDrive.drive(new Translation2d(), RobotContainer.S_VISION.getEstimatedPose().getRotation().getRadians(), true, false);
     }
 
     //Test function for testing vision

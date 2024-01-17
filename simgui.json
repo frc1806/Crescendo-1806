@@ -14,6 +14,7 @@
       "/SmartDashboard/Auto Mode": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Intake": "Subsystem",
+      "/SmartDashboard/Swerve": "Subsystem",
       "/SmartDashboard/navX-Sensor[4]": "Gyro"
     },
     "windows": {

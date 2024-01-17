@@ -8,6 +8,7 @@ import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.PreciseRotateDrive;
 import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.commands.Swerve.SnapRotateDrive;
+import frc.robot.commands.Swerve.VisionRotateDrive;
 
 public class DriverControls {
     
@@ -78,12 +79,16 @@ public class DriverControls {
         return driverController.getRightBumper();
     }
 
-    private boolean lockPods(){
+    public boolean lockPods(){
         return driverController.getXButton();
     }
 
-    private boolean resetGyro(){
+    public boolean resetGyro(){
         return driverController.getYButton();
+    }
+
+    public boolean wantVisionAlign(){
+        return driverController.getAButton();
     }
 
     public void registerTriggers(Swerve swerve, Intake intake){
@@ -96,6 +101,7 @@ public class DriverControls {
         new Trigger(this::resetGyro).onTrue(new ResetGyro(swerve));
         new Trigger(this::intake).whileTrue(new SetIntake(intake, 1));
         new Trigger(this::wantPreciseRotation).onTrue(new PreciseRotateDrive(swerve, this));
+        new Trigger(this::wantVisionAlign).whileTrue(new VisionRotateDrive(swerve, this));
     }
 
 }

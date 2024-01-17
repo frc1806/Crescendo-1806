@@ -18,13 +18,15 @@ import frc.robot.subsystems.Angler;
 import frc.robot.subsystems.DriverControls;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Vision;
 
 public class RobotContainer {
   
-  public final Swerve S_SWERVE = new Swerve();
-  public final DriverControls S_DRIVERCONTROLS = new DriverControls();
-  public final Intake S_INTAKE = new Intake();
-  public final Angler S_ANGLER = new Angler();
+  public static final Swerve S_SWERVE = new Swerve();
+  public static final DriverControls S_DRIVERCONTROLS = new DriverControls();
+  public static final Intake S_INTAKE = new Intake();
+  public static final Angler S_ANGLER = new Angler();
+  public static final Vision S_VISION = new Vision();
 
   private final SendableChooser<Command> autoChooser;
 
