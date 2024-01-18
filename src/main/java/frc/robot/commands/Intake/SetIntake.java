@@ -23,11 +23,11 @@ public class SetIntake extends Command{
 
     @Override
     public void execute() {
-        mIntake.setIntake(mSpeed);
     }
 
     @Override
     public void initialize() {
+        mIntake.setIntake(mSpeed);
     }
 
     @Override
