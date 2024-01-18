@@ -34,8 +34,8 @@ public class Launcher extends SubsystemBase{
             setLauncherMode(IdleMode.kBrake);
         }
 
-        mLauncherMaster.set(speed);
-        mLauncherSlave.set(speed);
+        mLauncherMaster.set(mPIDController.calculate(speed));
+        mLauncherSlave.set(mPIDController.calculate(speed));
     }
 
     public void setLauncherMode(IdleMode mode){
