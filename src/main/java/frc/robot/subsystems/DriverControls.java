@@ -99,7 +99,7 @@ public class DriverControls {
         new Trigger(this::rotateLeft).onTrue(new SnapRotateDrive(-90, swerve, this));
         new Trigger(this::rotateRight).onTrue(new SnapRotateDrive(90, swerve, this));
         new Trigger(this::resetGyro).onTrue(new ResetGyro(swerve));
-        new Trigger(this::intake).whileTrue(new SetIntake(intake, 1));
+        new Trigger(this::intake).whileTrue(new SetIntake(intake, this, 1));
         new Trigger(this::wantPreciseRotation).onTrue(new PreciseRotateDrive(swerve, this));
         new Trigger(this::wantVisionAlign).whileTrue(new VisionRotateDrive(swerve, this));
     }

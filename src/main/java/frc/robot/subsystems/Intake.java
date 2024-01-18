@@ -26,6 +26,14 @@ public class Intake extends SubsystemBase{
     }
 
     public void setIntake(double speed){
+
+        if(speed != 0.0){
+            setIntakeMode(IdleMode.kCoast);
+        }
+        else {
+            setIntakeMode(IdleMode.kBrake);
+        }
+        
         mIntakeMotor.set(mIntakeFeedForward.calculate(mIntakePID.calculate(speed)));
     }
 
