@@ -2,31 +2,19 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 2.0,
-      "y": 7.0
+      "x": 0.881889763776735,
+      "y": 6.679382086039531
     },
-    "rotation": -26.569999999999993
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "resetGyro"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "Example Path"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "lockPods"
+            "pathName": "Test Path"
           }
         }
       ]

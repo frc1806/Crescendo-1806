@@ -25,14 +25,6 @@ public class Constants {
     public static final double kSwerveAutoPIDI = 0.0;
     public static final double kSwerveAutoPIDD = 0.0;
 
-    // Intake
-    public static final double kIntakeP = 0.5;
-    public static final double kIntakeI = 0.0;
-    public static final double kIntakeD = 0.1;
-    public static final double kIntakeV = 0.0;
-    public static final double kIntakeS = 0.0;
-    public static final double kIntakeA = 0.0;
-
     // Angler
     public static final double kAnglerP = 0.1;
     public static final double kAnglerI = 0.0;
@@ -75,5 +67,9 @@ public class Constants {
     public static final double kFrontRightCameraPitch = 0.0;
     public static final double kBackLeftCameraPitch = 0.0;
     public static final double kBackRightCameraPitch = 0.0;
-    
+
+    // Launcher
+    public static final double kLauncherkP = 0.0;
+    public static final double kLauncherkI = 0.0;
+    public static final double kLauncherkD = 0.0;
 }

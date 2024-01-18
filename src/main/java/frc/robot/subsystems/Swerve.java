@@ -58,7 +58,13 @@ public class Swerve extends SubsystemBase {
                 Units.feetToMeters(Constants.kDriveBaseRadius),
                 new ReplanningConfig()
             ),
-            this::shouldPathFlip,
+            () -> {          
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent()) {
+                    return alliance.get() == DriverStation.Alliance.Red;
+                }
+                return false;
+            },
             this
         );
     }
@@ -89,15 +95,6 @@ public class Swerve extends SubsystemBase {
 
     public void setChassisSpeed(ChassisSpeeds velocity){
         swerveDrive.setChassisSpeeds(velocity);
-    }
-
-    public boolean shouldPathFlip(){
-        //Path will not flip if the current alliance is blue alliance
-        var alliance = DriverStation.getAlliance();
-        if(alliance.isPresent()){
-            return alliance.get() == DriverStation.Alliance.Red;
-        }
-        return false;
     }
 
     public void postTrajectory(Trajectory trajectory){

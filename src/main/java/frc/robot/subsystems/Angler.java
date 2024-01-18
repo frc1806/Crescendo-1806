@@ -45,7 +45,7 @@ public class Angler extends SubsystemBase {
     }
 
     public void setMotor(Double num){
-        mAnglerMotor.setVoltage(num);
+        mAnglerMotor.setVoltage(num * 12);
     }
 
 }

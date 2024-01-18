@@ -15,6 +15,7 @@
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Intake": "Subsystem",
       "/SmartDashboard/Swerve": "Subsystem",
+      "/SmartDashboard/Vision": "Subsystem",
       "/SmartDashboard/navX-Sensor[4]": "Gyro"
     },
     "windows": {

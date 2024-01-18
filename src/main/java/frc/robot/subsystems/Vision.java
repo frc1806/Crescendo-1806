@@ -56,14 +56,23 @@ public class Vision extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putData(this);
         SmartDashboard.putNumber("Vision Angle", getEstimatedPose().getRotation().getDegrees());
         SmartDashboard.putNumber("Vision X", getEstimatedPose().getTranslation().getX());
         SmartDashboard.putNumber("Vision Y", getEstimatedPose().getTranslation().getY());
 
-        mSwerveDrivePoseEstimator.addVisionMeasurement(mFrontLeftEstimator.update().get().estimatedPose.toPose2d(), mFrontLeftEstimator.update().get().timestampSeconds);
-        mSwerveDrivePoseEstimator.addVisionMeasurement(mFrontRightEstimator.update().get().estimatedPose.toPose2d(), mFrontRightEstimator.update().get().timestampSeconds);
-        mSwerveDrivePoseEstimator.addVisionMeasurement(mBackLeftEstimator.update().get().estimatedPose.toPose2d(), mBackLeftEstimator.update().get().timestampSeconds);
-        mSwerveDrivePoseEstimator.addVisionMeasurement(mBackRightEstimator.update().get().estimatedPose.toPose2d(), mBackRightEstimator.update().get().timestampSeconds);
+        if(mFrontLeftEstimator.update().isPresent()){
+            mSwerveDrivePoseEstimator.addVisionMeasurement(mFrontLeftEstimator.update().get().estimatedPose.toPose2d(), mFrontLeftEstimator.update().get().timestampSeconds);
+        }
+        if(mFrontRightEstimator.update().isPresent()){
+            mSwerveDrivePoseEstimator.addVisionMeasurement(mFrontRightEstimator.update().get().estimatedPose.toPose2d(), mFrontRightEstimator.update().get().timestampSeconds);
+        }
+        if(mBackLeftEstimator.update().isPresent()){
+            mSwerveDrivePoseEstimator.addVisionMeasurement(mBackLeftEstimator.update().get().estimatedPose.toPose2d(), mBackLeftEstimator.update().get().timestampSeconds);
+        }
+        if(mBackRightEstimator.update().isPresent()){
+            mSwerveDrivePoseEstimator.addVisionMeasurement(mBackRightEstimator.update().get().estimatedPose.toPose2d(), mBackRightEstimator.update().get().timestampSeconds);
+        }
     }
 
     @Override

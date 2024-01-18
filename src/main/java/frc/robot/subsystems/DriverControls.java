@@ -10,7 +10,7 @@ import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.commands.Swerve.SnapRotateDrive;
 import frc.robot.commands.Swerve.VisionRotateDrive;
 
-public class DriverControls {
+public class DriverControls{
     
     /*
      * My unusual naming conventions documentation:
