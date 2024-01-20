@@ -80,7 +80,7 @@
               "_type": "Text View",
               "_source0": "network_table:///SmartDashboard/swerve/robotRotation",
               "_title": "swerve/robotRotation",
-              "_glyph": 148,
+              "_glyph": 149,
               "_showGlyph": false
             }
           },
@@ -171,6 +171,71 @@
               "_type": "Basic Subsystem",
               "_source0": "network_table:///SmartDashboard/Intake",
               "_title": "Intake",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "5,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Basic Subsystem",
+              "_source0": "network_table:///SmartDashboard/Swerve",
+              "_title": "Swerve",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "7,1": {
+            "size": [
+              2,
+              1
+            ],
+            "content": {
+              "_type": "Basic Subsystem",
+              "_source0": "network_table:///SmartDashboard/Vision",
+              "_title": "Vision",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "0,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Vision Angle",
+              "_title": "Vision Angle",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "9,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Vision X",
+              "_title": "Vision X",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "10,1": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Vision Y",
+              "_title": "Vision Y",
               "_glyph": 148,
               "_showGlyph": false
             }

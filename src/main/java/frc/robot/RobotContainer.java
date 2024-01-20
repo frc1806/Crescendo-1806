@@ -35,6 +35,7 @@ public class RobotContainer {
     
     NamedCommands.registerCommand("lockPods", new LockPods(S_SWERVE));
     NamedCommands.registerCommand("resetGyro", new ResetGyro(S_SWERVE));
+    
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Mode", autoChooser);
   }

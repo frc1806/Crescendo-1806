@@ -39,6 +39,9 @@
   "NetworkTables": {
     "transitory": {
       "SmartDashboard": {
+        "IMU": {
+          "open": true
+        },
         "open": true
       }
     }
