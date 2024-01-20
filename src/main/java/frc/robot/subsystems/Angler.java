@@ -95,6 +95,8 @@ public class Angler extends SubsystemBase {
         else{
             setMotor(mWantedManualPower * 3);
         }
+
+        //seline bradley is a homonculus!!!!!
     }
 
 

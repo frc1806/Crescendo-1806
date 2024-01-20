@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 import frc.robot.commands.Intake.SetIntake;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.PreciseRotateDrive;
