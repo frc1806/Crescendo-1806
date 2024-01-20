@@ -58,13 +58,7 @@ public class Swerve extends SubsystemBase {
                 Units.feetToMeters(Constants.kDriveBaseRadius),
                 new ReplanningConfig()
             ),
-            () -> {          
-                var alliance = DriverStation.getAlliance();
-                if (alliance.isPresent()) {
-                    return alliance.get() == DriverStation.Alliance.Red;
-                }
-                return false;
-            },
+            this::shouldPathFlip,
             this
         );
     }
@@ -85,8 +79,17 @@ public class Swerve extends SubsystemBase {
         return swerveDrive.kinematics;
     }
 
-    public void resetOdometry(Pose2d initialHolonomicPose){
-        swerveDrive.resetOdometry(initialHolonomicPose);
+    public boolean shouldPathFlip(){
+        var alliance = DriverStation.getAlliance();
+
+        if (alliance.isPresent()) {
+            return alliance.get() == DriverStation.Alliance.Red;
+        }
+        return false;
+    }
+
+    public void resetOdometry(Pose2d pose){
+        swerveDrive.resetOdometry(pose);
     }
 
     public Pose2d getPose(){
