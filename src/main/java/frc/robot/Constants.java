@@ -30,6 +30,7 @@ public class Constants {
     public static final double kAnglerI = 0.0;
     public static final double kAnglerD = 0.0;
     public static final double kAcceptableAngleError = 0.5;
+    public static final double kAnglerGearRatio = 1.0; //to find out
 
     // Vision
 

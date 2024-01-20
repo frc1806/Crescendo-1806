@@ -6,6 +6,7 @@ public class RobotMap {
     
     // Angler
     public static final int kAnglerMotorPort = 21;
+    public static final int kAnglerEncoderPort = 22;
 
     // Launcher
     public static final int kLauncherMasterPort = 31;

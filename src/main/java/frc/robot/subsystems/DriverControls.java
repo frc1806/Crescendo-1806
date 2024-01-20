@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.commands.Intake.SetIntake;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.PreciseRotateDrive;
@@ -91,6 +92,20 @@ public class DriverControls{
         return driverController.getAButton();
     }
 
+        // OPERATOR CONTROLS
+     public boolean o_wantManualAnglerRotate(){
+        return operatorController.getRightTriggerAxis() > 0;
+    }
+
+    // Debug Controls
+    public double d_pivotAnglerManual() {
+        return debugController.getRightY();
+    }
+
+    public boolean d_wantAnglerManual() {
+        return d_pivotAnglerManual() != 0;
+    }
+
     public void registerTriggers(Swerve swerve, Intake intake){
         //Driver
         new Trigger(this::lockPods).onTrue(new LockPods(swerve));
@@ -103,5 +118,7 @@ public class DriverControls{
         new Trigger(this::wantPreciseRotation).onTrue(new PreciseRotateDrive(swerve, this));
         new Trigger(this::wantVisionAlign).whileTrue(new VisionRotateDrive(swerve, this));
     }
+
+
 
 }
