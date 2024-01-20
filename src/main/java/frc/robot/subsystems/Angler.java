@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Angler extends SubsystemBase {
     
-    private CANSparkFlex mAnglerMotor;
+    private CANSparkMax mAnglerMotor;
     private PIDController mPidController;
     private double mCurrentDesiredAngle;
     private double mCurrentAngle;
@@ -26,7 +26,7 @@ public class Angler extends SubsystemBase {
     private DutyCycleEncoder mAnglerEncoder;
 
     public Angler() {
-        mAnglerMotor = new CANSparkFlex(RobotMap.kAnglerMotorPort, CANSparkFlex.MotorType.kBrushless);
+        mAnglerMotor = new CANSparkMax(RobotMap.kAnglerMotorPort, CANSparkFlex.MotorType.kBrushless);
         mAnglerMotor.getEncoder().setPositionConversionFactor(1/Constants.kAnglerGearRatio * 360);
         mPidController = new PIDController(Constants.kAnglerP, Constants.kAnglerI, Constants.kAnglerD);
         mAnglerMotor.setIdleMode(IdleMode.kBrake);
@@ -65,7 +65,7 @@ public class Angler extends SubsystemBase {
     public void setMotor(Double num){
         mAnglerMotor.setVoltage(num * 12);
     }
-        public CANSparkFlex getPivotMotor(){
+        public CANSparkMax getPivotMotor(){
         return mAnglerMotor;
     }
     
