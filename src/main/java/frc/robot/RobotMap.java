@@ -9,6 +9,8 @@ public class RobotMap {
     public static final int kAnglerEncoderPort = 22;
 
     // Launcher
-    public static final int kLauncherMasterPort = 31;
-    public static final int kLauncherSlavePort = 32;
+    public static final int kLauncherLeaderPort = 31;
+    public static final int kLauncherFollowerPort = 32;
+    public static final int kIndexerLeaderId = 35;
+    public static final int kIndexerFollowerId = 36;
 }

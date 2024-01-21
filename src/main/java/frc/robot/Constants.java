@@ -73,4 +73,6 @@ public class Constants {
     public static final double kLauncherkP = 0.0;
     public static final double kLauncherkI = 0.0;
     public static final double kLauncherkD = 0.0;
+    public static final double kLauncherkF = (1.0/6800);
+    public static final double kLauncherAcceptableSpeedTolerance = 100; //RPM
 }
