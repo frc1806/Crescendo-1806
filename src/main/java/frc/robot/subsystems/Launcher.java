@@ -6,10 +6,6 @@ import com.revrobotics.SparkLimitSwitch.Type;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
-
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -100,7 +96,7 @@ public class Launcher extends SubsystemBase{
     public boolean isNoteInIndexer(){
         return mIndexerPhotoEye.isPressed();
     }
-    
+
     public void stop(){
         setLauncher(0.0);
     }
