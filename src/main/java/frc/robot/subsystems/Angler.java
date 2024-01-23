@@ -2,9 +2,10 @@ package frc.robot.subsystems;
 
 
 
-import com.revrobotics.CANSparkFlex;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkBase.IdleMode;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -18,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Angler extends SubsystemBase {
     
-    private CANSparkMax mAnglerMotor;
+    private TalonSRX mAnglerMotor;
     private PIDController mPidController;
     private double mCurrentDesiredAngle;
     private double mCurrentAngle;
@@ -26,13 +27,16 @@ public class Angler extends SubsystemBase {
     private DutyCycleEncoder mAnglerEncoder;
 
     public Angler() {
-        mAnglerMotor = new CANSparkMax(RobotMap.kAnglerMotorPort, CANSparkFlex.MotorType.kBrushless);
-        mAnglerMotor.getEncoder().setPositionConversionFactor(1/Constants.kAnglerGearRatio * 360);
-        mPidController = new PIDController(Constants.kAnglerP, Constants.kAnglerI, Constants.kAnglerD);
-        mAnglerMotor.setIdleMode(IdleMode.kBrake);
-        mCurrentDesiredAngle = Shots.Home.getPivotAngle();
-        mCurrentAngle = mAnglerMotor.getEncoder().getPosition();
+        mAnglerMotor = new TalonSRX(RobotMap.kAnglerMotorPort);
         mAnglerEncoder = new DutyCycleEncoder(RobotMap.kAnglerEncoderPort);
+        mAnglerMotor.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition);
+        mAnglerMotor.setSelectedSensorPosition(0);
+        mAnglerMotor.getSensorCollection().getPulseWidthRiseToFallUs();
+        mAnglerMotor.set(ControlMode.Position, 10 * 4096);
+        mPidController = new PIDController(Constants.kAnglerP, Constants.kAnglerI, Constants.kAnglerD);
+        mAnglerMotor.setNeutralMode(NeutralMode.Brake);
+        mCurrentDesiredAngle = Shots.Home.getPivotAngle();
+        mCurrentAngle = mAnglerMotor.getSelectedSensorPosition();
         mAnglerEncoder.setDutyCycleRange(1.0/1025.0,  1024.0/1025.0);
         mAnglerEncoder.setDistancePerRotation(180.0);
     }
@@ -43,7 +47,7 @@ public class Angler extends SubsystemBase {
         {
             proposedNewPos +=360;
         }
-        mAnglerMotor.getEncoder().setPosition(proposedNewPos);
+        mAnglerMotor.setSelectedSensorPosition(proposedNewPos);
     }
 
     public double getAngle() {
@@ -63,9 +67,9 @@ public class Angler extends SubsystemBase {
     }
 
     public void setMotor(Double num){
-        mAnglerMotor.setVoltage(num * 12);
+        mAnglerMotor.set(ControlMode.PercentOutput, num);
     }
-        public CANSparkMax getPivotMotor(){
+        public TalonSRX getPivotMotor(){
         return mAnglerMotor;
     }
     
@@ -75,7 +79,7 @@ public class Angler extends SubsystemBase {
 
         @Override
     public void periodic(){
-        mCurrentAngle = mAnglerMotor.getEncoder().getPosition();
+        mCurrentAngle = mAnglerMotor.getSelectedSensorPosition();
         
         if(!(RobotContainer.S_DRIVERCONTROLS.d_wantAnglerManual() || RobotContainer.S_DRIVERCONTROLS.o_wantManualAnglerRotate())){
             if (atPosition()){
