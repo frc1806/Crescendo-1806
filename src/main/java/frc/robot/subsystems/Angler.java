@@ -34,7 +34,7 @@ public class Angler extends SubsystemBase {
         mCurrentAngle = mAnglerMotor.getEncoder().getPosition();
         mAnglerEncoder = new DutyCycleEncoder(RobotMap.kAnglerEncoderPort);
         mAnglerEncoder.setDutyCycleRange(1.0/1025.0,  1024.0/1025.0);
-        mAnglerEncoder.setDistancePerRotation(360.0);
+        mAnglerEncoder.setDistancePerRotation(180.0);
     }
 
     public void resetMotorEncoderToAbsoluteEncoder(){
