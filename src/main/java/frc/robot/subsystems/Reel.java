@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
-public class Intake extends SubsystemBase{
+public class Reel extends SubsystemBase{
     
     private CANSparkMax mIntakeMotor;
     
-    public Intake(){
+    public Reel(){
         mIntakeMotor = new CANSparkMax(RobotMap.kIntakeMotorPort, MotorType.kBrushless);
 
         setIntakeMode(IdleMode.kBrake);

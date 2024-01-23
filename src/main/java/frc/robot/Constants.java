@@ -16,6 +16,8 @@ public class Constants {
     public static final int kDebugControllerPort = 2;
 
     public static final double kAcceptableRotationStickError = 1.0/32.0;
+    public static final double kRightXboxJoystickDeadzone = 0.1;
+    public static final double kLeftXboxJoystickDeadzone = 0.07;
 
     // Swerve
     public static final double kMaxModuleSpeed = 4.0;

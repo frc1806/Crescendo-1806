@@ -2,15 +2,15 @@ package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriverControls;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Reel;
 
 public class SetIntake extends Command{
 
-    private Intake mIntake;
+    private Reel mIntake;
     private DriverControls mDriverControls;
     private double mSpeed;
 
-    public SetIntake(Intake intake, DriverControls driverControls, double speed){
+    public SetIntake(Reel intake, DriverControls driverControls, double speed){
         mIntake = intake;
         mDriverControls = driverControls;
         mSpeed = speed;
