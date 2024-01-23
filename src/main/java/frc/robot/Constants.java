@@ -16,14 +16,16 @@ public class Constants {
     public static final int kDebugControllerPort = 2;
 
     public static final double kAcceptableRotationStickError = 1.0/32.0;
+    public static final double kRightXboxJoystickDeadzone = 0.1;
+    public static final double kLeftXboxJoystickDeadzone = 0.07;
 
     // Swerve
     public static final double kMaxModuleSpeed = 4.0;
     public static final double kDriveBaseRadius = 6.8125;
     // Translation PID
-    public static final double kSwerveAutoPIDP = 5.0;
+    public static final double kSwerveAutoPIDP = 3.0;
     public static final double kSwerveAutoPIDI = 0.0;
-    public static final double kSwerveAutoPIDD = 0.0;
+    public static final double kSwerveAutoPIDD = 0.001;
 
     // Angler
     public static final double kAnglerP = 0.1;

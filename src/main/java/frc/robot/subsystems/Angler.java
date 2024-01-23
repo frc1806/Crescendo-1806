@@ -103,5 +103,4 @@ public class Angler extends SubsystemBase {
         //seline bradley is a homonculus!!!!!
     }
 
-
 }

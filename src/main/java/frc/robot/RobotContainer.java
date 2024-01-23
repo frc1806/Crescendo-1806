@@ -15,7 +15,7 @@ import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.subsystems.Angler;
 import frc.robot.subsystems.DriverControls;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Reel;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Vision;
 
@@ -23,7 +23,7 @@ public class RobotContainer {
   
   public static final Swerve S_SWERVE = new Swerve();
   public static final DriverControls S_DRIVERCONTROLS = new DriverControls();
-  public static final Intake S_INTAKE = new Intake();
+  public static final Reel S_INTAKE = new Reel();
   public static final Angler S_ANGLER = new Angler();
   public static final Vision S_VISION = new Vision();
 

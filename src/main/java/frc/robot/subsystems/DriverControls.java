@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
@@ -44,31 +45,31 @@ public class DriverControls{
     // DRIVER CONTROLS
 
     public double translationY(){
-        return -driverController.getLeftX();
+        return -MathUtil.applyDeadband(driverController.getLeftX(), Constants.kLeftXboxJoystickDeadzone);
     }
     
     public double translationX(){
-        return -driverController.getLeftY();
+        return -MathUtil.applyDeadband(driverController.getLeftY(), Constants.kLeftXboxJoystickDeadzone);
     }
 
     public boolean rotateCenter(){
         // Rotate the robot facing forwards field relative
-        return (driverController.getRightY() > 0) && !wantPreciseRotation();
+        return MathUtil.applyDeadband(driverController.getRightY(), Constants.kRightXboxJoystickDeadzone) > 0 && !wantPreciseRotation();
     }
 
     public boolean rotateAbout(){
         // Rotate the robot facing backwards field relative
-        return (driverController.getRightY() < 0)  && !wantPreciseRotation();
+        return MathUtil.applyDeadband(driverController.getRightY(), Constants.kRightXboxJoystickDeadzone) < 0 && !wantPreciseRotation();
     }
 
     public boolean rotateRight(){
         // Rotate the robot facing right field relative
-        return (driverController.getRightX() > 0) && !wantPreciseRotation();
+        return MathUtil.applyDeadband(driverController.getRightX(), Constants.kRightXboxJoystickDeadzone) > 0 && !wantPreciseRotation();
     }
 
     public boolean rotateLeft(){
         // Rotate the robot facing left field relative
-        return (driverController.getRightX() < 0) && !wantPreciseRotation();
+        return MathUtil.applyDeadband(driverController.getRightX(), Constants.kRightXboxJoystickDeadzone) < 0 && !wantPreciseRotation();
     }
 
     public boolean wantPreciseRotation(){
@@ -83,6 +84,10 @@ public class DriverControls{
         return driverController.getXButton();
     }
 
+    public boolean noInput(){
+        return !rotateCenter() && !rotateAbout() && !rotateLeft() && !rotateRight() && !wantPreciseRotation() && (translationX()==0) && (translationY()==0);
+    }
+
     public boolean resetGyro(){
         return driverController.getYButton();
     }
@@ -91,8 +96,12 @@ public class DriverControls{
         return driverController.getAButton();
     }
 
-        // OPERATOR CONTROLS
-     public boolean o_wantManualAnglerRotate(){
+    // OPERATOR CONTROLS
+    public boolean o_wantVisionShot(){
+        return operatorController.getXButton();
+    }
+
+    public boolean o_wantManualAnglerRotate(){
         return operatorController.getRightTriggerAxis() > 0;
     }
 
@@ -105,9 +114,10 @@ public class DriverControls{
         return d_pivotAnglerManual() != 0;
     }
 
-    public void registerTriggers(Swerve swerve, Intake intake){
+    public void registerTriggers(Swerve swerve, Reel intake){
         //Driver
         new Trigger(this::lockPods).onTrue(new LockPods(swerve));
+        new Trigger(this::noInput).whileTrue(new LockPods(swerve));
         new Trigger(this::rotateCenter).onTrue(new SnapRotateDrive(180, swerve, this));
         new Trigger(this::rotateAbout).onTrue(new SnapRotateDrive(0, swerve, this));
         new Trigger(this::rotateLeft).onTrue(new SnapRotateDrive(-90, swerve, this));
