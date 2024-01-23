@@ -1,7 +1,6 @@
 package frc.robot.commands.Launcher;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.DriverControls;
 import frc.robot.subsystems.Launcher;
 
 public class SetLauncher extends Command{
