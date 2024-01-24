@@ -84,8 +84,16 @@ public class DriverControls{
         return driverController.getXButton();
     }
 
+    public boolean noRotation(){
+        return !rotateCenter() && !rotateAbout() && !rotateLeft() && !rotateRight();
+    }
+
+    public boolean noTranslation(){
+        return (translationX()==0) && (translationY()==0);
+    }
+
     public boolean noInput(){
-        return !rotateCenter() && !rotateAbout() && !rotateLeft() && !rotateRight() && !wantPreciseRotation() && (translationX()==0) && (translationY()==0);
+        return  noRotation() && !wantPreciseRotation() && noTranslation();
     }
 
     public boolean resetGyro(){

@@ -32,7 +32,7 @@ public class SnapRotateDrive extends Command{
 
     @Override
     public boolean isFinished() {
-        return mDriverControls.wantPreciseRotation();
+        return mDriverControls.noRotation();
     }
     
 }
