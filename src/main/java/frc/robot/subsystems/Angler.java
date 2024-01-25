@@ -35,10 +35,10 @@ public class Angler extends SubsystemBase {
         mAnglerMotor.set(ControlMode.Position, 10 * 4096);
         mPidController = new PIDController(Constants.kAnglerP, Constants.kAnglerI, Constants.kAnglerD);
         mAnglerMotor.setNeutralMode(NeutralMode.Brake);
-        mCurrentDesiredAngle = Shots.Home.getPivotAngle();
+        mCurrentDesiredAngle = Shots.HOME.getPivotAngle();
         mCurrentAngle = mAnglerMotor.getSelectedSensorPosition();
         mAnglerEncoder.setDutyCycleRange(1.0/1025.0,  1024.0/1025.0);
-        mAnglerEncoder.setDistancePerRotation(180.0);
+        mAnglerEncoder.setDistancePerRotation(360);
     }
 
     public void resetMotorEncoderToAbsoluteEncoder(){
@@ -48,6 +48,10 @@ public class Angler extends SubsystemBase {
             proposedNewPos +=360;
         }
         mAnglerMotor.setSelectedSensorPosition(proposedNewPos);
+    }
+
+    public void goToPosition(double angle){
+        mCurrentDesiredAngle = angle;
     }
 
     public double getAngle() {

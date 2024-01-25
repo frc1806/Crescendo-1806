@@ -11,7 +11,7 @@ public class Shots {
     }
 
     //home angle needs to be determined
-    public static Shots Home = new Shots("Home", 15.0);
+    public static Shots HOME = new Shots("Home", 154.0);
     //make more shots here
 
 

@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class BoatHook extends SubsystemBase{
 
     public BoatHook(){
-
+        
     }
 
     @Override
