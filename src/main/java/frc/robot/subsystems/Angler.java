@@ -13,6 +13,7 @@ import frc.robot.RobotMap;
 import frc.robot.game.Shots;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,7 +25,11 @@ public class Angler extends SubsystemBase {
     private double mCurrentDesiredAngle;
     private double mCurrentAngle;
     private double mWantedManualPower;
+    private double mDistancex;
+    private double mDistancey;
+    private double mTotalDistance;
     private DutyCycleEncoder mAnglerEncoder;
+    private Translation2d mBlueSpeakerPose;
 
     public Angler() {
         mAnglerMotor = new TalonSRX(RobotMap.kAnglerMotorPort);
@@ -39,6 +44,7 @@ public class Angler extends SubsystemBase {
         mCurrentAngle = mAnglerMotor.getSelectedSensorPosition();
         mAnglerEncoder.setDutyCycleRange(1.0/1025.0,  1024.0/1025.0);
         mAnglerEncoder.setDistancePerRotation(360);
+        mBlueSpeakerPose = new Translation2d(0.06, 5.55);
     }
 
     public void resetMotorEncoderToAbsoluteEncoder(){
@@ -81,6 +87,16 @@ public class Angler extends SubsystemBase {
     public DutyCycleEncoder getEncoder(){
         return mAnglerEncoder;
     }
+
+    public void toSpeaker(){
+       mDistancex =  RobotContainer.S_VISION.getEstimatedPose().getTranslation().getX() - mBlueSpeakerPose.getX();
+       mDistancey =  RobotContainer.S_VISION.getEstimatedPose().getTranslation().getY() - mBlueSpeakerPose.getY();
+       mTotalDistance = Math.sqrt(Math.pow(mDistancex, 2) + Math.pow(mDistancey, 2));
+       mCurrentDesiredAngle = Math.toDegrees(Math.atan(Constants.kSpeakerHeight/mTotalDistance));
+    }
+
+
+
 
         @Override
     public void periodic(){
