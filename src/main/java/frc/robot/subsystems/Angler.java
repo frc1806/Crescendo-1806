@@ -44,6 +44,7 @@ public class Angler extends SubsystemBase {
     public void resetMotorEncoderToAbsoluteEncoder(){
         double proposedNewPos = mAnglerEncoder.getDistance();
         if(proposedNewPos < 0)
+
         {
             proposedNewPos +=360;
         }
@@ -104,7 +105,6 @@ public class Angler extends SubsystemBase {
             setMotor(mWantedManualPower * 3);
         }
 
-        //seline bradley is a homonculus!!!!!
     }
 
 }
