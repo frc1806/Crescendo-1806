@@ -88,13 +88,14 @@ public class Angler extends SubsystemBase {
         return mAnglerEncoder;
     }
 
-    public void toSpeaker(){
-       mDistancex =  RobotContainer.S_VISION.getEstimatedPose().getTranslation().getX() - mBlueSpeakerPose.getX();
-       mDistancey =  RobotContainer.S_VISION.getEstimatedPose().getTranslation().getY() - mBlueSpeakerPose.getY();
-       mTotalDistance = Math.sqrt(Math.pow(mDistancex, 2) + Math.pow(mDistancey, 2));
-       mCurrentDesiredAngle = Math.toDegrees(Math.atan(Constants.kSpeakerHeight/mTotalDistance));
-    }
 
+    public void toSpeakerPose(){
+        mDistancex =  RobotContainer.S_VISION.getEstimatedPose().getTranslation().getX() - mBlueSpeakerPose.getX();
+        mDistancey =  RobotContainer.S_VISION.getEstimatedPose().getTranslation().getY() - mBlueSpeakerPose.getY();
+        mTotalDistance = Math.sqrt(Math.pow(mDistancex, 2) + Math.pow(mDistancey, 2));
+        mCurrentDesiredAngle = Math.toDegrees(Math.atan(Constants.kSpeakerHeight/mTotalDistance));
+        goToPosition(mCurrentDesiredAngle);
+    }
 
 
 
