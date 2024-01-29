@@ -1,23 +1,24 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.commands.Intake.SetIntake;
 import frc.robot.commands.Swerve.LockPods;
-import frc.robot.commands.Swerve.PreciseRotateDrive;
 import frc.robot.commands.Swerve.ResetGyro;
-import frc.robot.commands.Swerve.SnapRotateDrive;
 import frc.robot.commands.Swerve.VisionRotateDrive;
+import frc.robot.util.PolarCoordinate;
 
 public class DriverControls{
     
     /*
      * My unusual naming conventions documentation:
      * methodName means the method is tied to the driver controller
-     * oMethodName means the method is tied to the operator controller
-     * dMethodName means the method is tied to the debug controller
+     * o_MethodName means the method is tied to the operator controller
+     * d_MethodName means the method is tied to the debug controller
     */
 
     private XboxController driverController;
@@ -52,24 +53,44 @@ public class DriverControls{
         return -MathUtil.applyDeadband(driverController.getLeftY(), Constants.kLeftXboxJoystickDeadzone);
     }
 
-    public boolean rotateCenter(){
-        // Rotate the robot facing forwards field relative
-        return MathUtil.applyDeadband(driverController.getRightY(), Constants.kRightXboxJoystickDeadzone) > 0 && !wantPreciseRotation();
+    public int snapRotation(){
+        double[] rightJoyPolarCoordinate = PolarCoordinate.toPolarCoordinate(driverController::getRightX, driverController::getRightY);
+        double r = MathUtil.applyDeadband(rightJoyPolarCoordinate[0], Constants.kRightXboxJoystickDeadzone);
+        double theta = Units.radiansToDegrees(rightJoyPolarCoordinate[1]);
+    
+        if(r < Constants.kRightXboxJoystickDeadzone){
+            RobotContainer.S_SWERVE.getSwerveDrive().getOdometryHeading().getDegrees();
+        }
+
+        if(theta < 22.5 && theta >= 337.5){
+            return 270;
+        }
+        else if(theta < 67.5 && theta >= 22.5){
+            return 315;
+        }
+        else if(theta < 112.5 && theta >= 67.5){
+            return 0;
+        }
+        else if(theta < 157.5 && theta >= 112.5){
+            return 45;
+        }
+        else if(theta < 202.5 && theta >= 157.5){
+            return 90;
+        }
+        else if(theta < 247.5 && theta >= 202.5){
+            return 135;
+        }
+        else if(theta < 292.5 && theta >= 247.5){
+            return 180;
+        }
+        else{
+            return 225;
+        }
     }
 
-    public boolean rotateAbout(){
-        // Rotate the robot facing backwards field relative
-        return MathUtil.applyDeadband(driverController.getRightY(), Constants.kRightXboxJoystickDeadzone) < 0 && !wantPreciseRotation();
-    }
-
-    public boolean rotateRight(){
-        // Rotate the robot facing right field relative
-        return MathUtil.applyDeadband(driverController.getRightX(), Constants.kRightXboxJoystickDeadzone) > 0 && !wantPreciseRotation();
-    }
-
-    public boolean rotateLeft(){
-        // Rotate the robot facing left field relative
-        return MathUtil.applyDeadband(driverController.getRightX(), Constants.kRightXboxJoystickDeadzone) < 0 && !wantPreciseRotation();
+    public boolean wantSnapRotation(){
+        return MathUtil.applyDeadband(driverController.getRightX(), Constants.kRightXboxJoystickDeadzone)>0
+        || MathUtil.applyDeadband(driverController.getRightY(), Constants.kRightXboxJoystickDeadzone)>0;
     }
 
     public boolean wantPreciseRotation(){
@@ -82,18 +103,6 @@ public class DriverControls{
 
     public boolean lockPods(){
         return driverController.getXButton();
-    }
-
-    public boolean noRotation(){
-        return !rotateCenter() && !rotateAbout() && !rotateLeft() && !rotateRight();
-    }
-
-    public boolean noTranslation(){
-        return (translationX()==0) && (translationY()==0);
-    }
-
-    public boolean noInput(){
-        return  noRotation() && !wantPreciseRotation() && noTranslation();
     }
 
     public boolean resetGyro(){
@@ -125,14 +134,8 @@ public class DriverControls{
     public void registerTriggers(Swerve swerve, Reel intake){
         //Driver
         new Trigger(this::lockPods).onTrue(new LockPods(swerve));
-        new Trigger(this::noInput).whileTrue(new LockPods(swerve));
-        new Trigger(this::rotateCenter).onTrue(new SnapRotateDrive(180, swerve, this));
-        new Trigger(this::rotateAbout).onTrue(new SnapRotateDrive(0, swerve, this));
-        new Trigger(this::rotateLeft).onTrue(new SnapRotateDrive(-90, swerve, this));
-        new Trigger(this::rotateRight).onTrue(new SnapRotateDrive(90, swerve, this));
         new Trigger(this::resetGyro).onTrue(new ResetGyro(swerve));
         new Trigger(this::intake).whileTrue(new SetIntake(intake, this, 1));
-        new Trigger(this::wantPreciseRotation).onTrue(new PreciseRotateDrive(swerve, this));
         new Trigger(this::wantVisionAlign).whileTrue(new VisionRotateDrive(swerve, this));
     }
 

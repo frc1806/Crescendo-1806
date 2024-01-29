@@ -64,6 +64,10 @@ public class Swerve extends SubsystemBase {
 
     }
 
+    public SwerveDrive getSwerveDrive(){
+        return swerveDrive;
+    }
+
     public void drive(Translation2d translation, double rotation, boolean fieldRelative){
         swerveDrive.drive(translation, rotation, fieldRelative, false);
     }
