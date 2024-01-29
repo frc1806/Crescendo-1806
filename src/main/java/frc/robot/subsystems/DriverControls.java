@@ -88,12 +88,7 @@ public class DriverControls{
             return 225;
         }
     }
-
-    public boolean wantSnapRotation(){
-        return MathUtil.applyDeadband(driverController.getRightX(), Constants.kRightXboxJoystickDeadzone)>0
-        || MathUtil.applyDeadband(driverController.getRightY(), Constants.kRightXboxJoystickDeadzone)>0;
-    }
-
+    
     public boolean wantPreciseRotation(){
         return driverController.getRightTriggerAxis() > 0;
     }
