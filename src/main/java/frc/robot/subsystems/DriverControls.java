@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.commands.VisionShot;
 import frc.robot.commands.Intake.SetIntake;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
@@ -131,12 +132,17 @@ public class DriverControls{
         return d_pivotAnglerManual() != 0;
     }
 
-    public void registerTriggers(Swerve swerve, Reel intake){
+    public void registerTriggers(Swerve swerve, Reel intake, Angler angler, Vision vision, Launcher launcher){
         //Driver
         new Trigger(this::lockPods).onTrue(new LockPods(swerve));
         new Trigger(this::resetGyro).onTrue(new ResetGyro(swerve));
         new Trigger(this::intake).whileTrue(new SetIntake(intake, this, 1));
         new Trigger(this::wantVisionAlign).whileTrue(new VisionRotateDrive(swerve, this));
+
+        //Operator
+        new Trigger(this::o_wantVisionShot).whileTrue(new VisionShot(angler, launcher, this));
+
+
     }
 
 

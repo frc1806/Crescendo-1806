@@ -20,6 +20,7 @@ import frc.robot.subsystems.DriverControls;
 import frc.robot.subsystems.Reel;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Launcher;
 
 public class RobotContainer {
   
@@ -28,6 +29,7 @@ public class RobotContainer {
   public static final Reel S_INTAKE = new Reel();
   public static final Angler S_ANGLER = new Angler();
   public static final Vision S_VISION = new Vision();
+  public static final Launcher S_LAUNCHER = new Launcher();
 
   private final SendableChooser<Command> autoChooser;
 
@@ -48,7 +50,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    S_DRIVERCONTROLS.registerTriggers(S_SWERVE, S_INTAKE);
+    S_DRIVERCONTROLS.registerTriggers(S_SWERVE, S_INTAKE, S_ANGLER, S_VISION, S_LAUNCHER);
   }
 
   public Command getAutonomousCommand() {
