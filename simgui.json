@@ -19,6 +19,7 @@
       "/SmartDashboard/Auto Mode": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Intake": "Subsystem",
+      "/SmartDashboard/Launcher": "Subsystem",
       "/SmartDashboard/Reel": "Subsystem",
       "/SmartDashboard/Swerve": "Subsystem",
       "/SmartDashboard/Vision": "Subsystem",

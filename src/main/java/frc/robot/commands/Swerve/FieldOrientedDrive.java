@@ -33,10 +33,11 @@ public class FieldOrientedDrive extends Command{
                 Rotation2d.fromDegrees(angle)));
 
         } else {
+            mDriverControls.snapRotation();
             mSwerve.driveFieldOriented(mSwerve.getTargetSpeeds(
                 mDriverControls.translationX(),
                 mDriverControls.translationY(),
-                Rotation2d.fromDegrees(mDriverControls.snapRotation())));
+                Rotation2d.fromDegrees(mDriverControls.commandedAngle)));
         }
     }
 

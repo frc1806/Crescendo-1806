@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
@@ -25,6 +27,7 @@ public class DriverControls{
     private XboxController driverController;
     private XboxController operatorController;
     private XboxController debugController;
+    public double commandedAngle;
 
     public DriverControls(){
         driverController = new XboxController(Constants.kDriverControllerPort);
@@ -54,39 +57,23 @@ public class DriverControls{
         return -MathUtil.applyDeadband(driverController.getLeftY(), Constants.kLeftXboxJoystickDeadzone);
     }
 
-    public int snapRotation(){
-        double[] rightJoyPolarCoordinate = PolarCoordinate.toPolarCoordinate(driverController::getRightX, driverController::getRightY);
+    public double snapRotation(){
+        DoubleSupplier x = () -> -driverController.getRightX();
+        DoubleSupplier y = () -> -driverController.getRightY();
+
+        double[] rightJoyPolarCoordinate = PolarCoordinate.toPolarCoordinate(y,x);
+    
         double r = MathUtil.applyDeadband(rightJoyPolarCoordinate[0], Constants.kRightXboxJoystickDeadzone);
         double theta = Units.radiansToDegrees(rightJoyPolarCoordinate[1]);
-    
-        if(r < Constants.kRightXboxJoystickDeadzone){
-            RobotContainer.S_SWERVE.getSwerveDrive().getOdometryHeading().getDegrees();
+
+        if(r < 0.8){
+            return RobotContainer.S_SWERVE.getSwerveDrive().getOdometryHeading().getDegrees();
         }
 
-        if(theta < 22.5 && theta >= 337.5){
-            return 270;
-        }
-        else if(theta < 67.5 && theta >= 22.5){
-            return 315;
-        }
-        else if(theta < 112.5 && theta >= 67.5){
-            return 0;
-        }
-        else if(theta < 157.5 && theta >= 112.5){
-            return 45;
-        }
-        else if(theta < 202.5 && theta >= 157.5){
-            return 90;
-        }
-        else if(theta < 247.5 && theta >= 202.5){
-            return 135;
-        }
-        else if(theta < 292.5 && theta >= 247.5){
-            return 180;
-        }
-        else{
-            return 225;
-        }
+        theta /= 45;
+        theta = Math.round(theta) * 45;
+        commandedAngle = theta;
+        return theta;
     }
     
     public boolean wantPreciseRotation(){
@@ -136,8 +123,6 @@ public class DriverControls{
 
         //Operator
         new Trigger(this::o_wantVisionShot).whileTrue(new VisionShot(angler, launcher, this));
-
-
     }
 
 
