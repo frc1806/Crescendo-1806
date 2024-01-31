@@ -27,7 +27,6 @@ public class DriverControls{
     private XboxController driverController;
     private XboxController operatorController;
     private XboxController debugController;
-    public double commandedAngle;
 
     public DriverControls(){
         driverController = new XboxController(Constants.kDriverControllerPort);
@@ -57,7 +56,7 @@ public class DriverControls{
         return -MathUtil.applyDeadband(driverController.getLeftY(), Constants.kLeftXboxJoystickDeadzone);
     }
 
-    public void snapRotation(){
+    public double snapRotation(){
         DoubleSupplier x = () -> -driverController.getRightX();
         DoubleSupplier y = () -> -driverController.getRightY();
 
@@ -67,12 +66,12 @@ public class DriverControls{
         double theta = Units.radiansToDegrees(rightJoyPolarCoordinate[1]);
 
         if(r < 0.8){
-            commandedAngle = RobotContainer.S_SWERVE.getSwerveDrive().getOdometryHeading().getDegrees();
+            return RobotContainer.S_SWERVE.getSwerveDrive().getOdometryHeading().getDegrees();
         }
 
         theta /= 45;
         theta = Math.round(theta) * 45;
-        commandedAngle = theta;
+        return theta;
     }
     
     public boolean wantPreciseRotation(){
