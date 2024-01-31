@@ -1,0 +1,92 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.887570138776641,
+        "y": 5.531946336619947
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.1226129724986724,
+        "y": 5.2520839587133725
+      },
+      "isLocked": false,
+      "linkedName": "5NotePath3End"
+    },
+    {
+      "anchor": {
+        "x": 1.8147643568014407,
+        "y": 4.52444177615628
+      },
+      "prevControl": {
+        "x": 1.776007833550882,
+        "y": 4.919758313311978
+      },
+      "nextControl": {
+        "x": 1.8614080864525364,
+        "y": 4.048675733715104
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.607707760870067,
+        "y": 4.113976955226638
+      },
+      "prevControl": {
+        "x": 2.4323618816443036,
+        "y": 4.113976955226638
+      },
+      "nextControl": {
+        "x": 3.027501327729928,
+        "y": 4.113976955226638
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.887570138776641,
+        "y": 5.531946336619947
+      },
+      "prevControl": {
+        "x": 2.8315976631953257,
+        "y": 5.121481515690305
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "5NotePath4End"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 2.05,
+      "rotationDegrees": 0.0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 2.75,
+      "rotationDegrees": 90.0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "5 Note Paths",
+  "previewStartingState": null,
+  "useDefaultConstraints": false
+}

@@ -12,11 +12,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.VisionShot;
+import frc.robot.commands.Intake.SetIntake;
 import frc.robot.commands.Swerve.FieldOrientedDrive;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.subsystems.Angler;
 import frc.robot.subsystems.DriverControls;
+import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Reel;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Vision;
@@ -30,6 +33,7 @@ public class RobotContainer {
   public static final Angler S_ANGLER = new Angler();
   public static final Vision S_VISION = new Vision();
   public static final Launcher S_LAUNCHER = new Launcher();
+  public static final LED S_LED = new LED();
 
   private final SendableChooser<Command> autoChooser;
 
@@ -40,6 +44,9 @@ public class RobotContainer {
     
     NamedCommands.registerCommand("lockPods", new LockPods(S_SWERVE));
     NamedCommands.registerCommand("resetGyro", new ResetGyro(S_SWERVE));
+    NamedCommands.registerCommand("intakeMax", new SetIntake(S_INTAKE, S_DRIVERCONTROLS , 1.0));
+    NamedCommands.registerCommand("intakeStop", new SetIntake(S_INTAKE, S_DRIVERCONTROLS, 0.0));
+    NamedCommands.registerCommand("visionShot", new VisionShot(S_ANGLER, S_LAUNCHER, S_DRIVERCONTROLS, S_LED));
     
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Mode", autoChooser);
@@ -50,7 +57,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    S_DRIVERCONTROLS.registerTriggers(S_SWERVE, S_INTAKE, S_ANGLER, S_VISION, S_LAUNCHER);
+    S_DRIVERCONTROLS.registerTriggers(S_SWERVE, S_INTAKE, S_ANGLER, S_VISION, S_LAUNCHER, S_LED);
   }
 
   public Command getAutonomousCommand() {

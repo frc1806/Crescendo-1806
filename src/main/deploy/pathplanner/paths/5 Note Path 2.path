@@ -1,0 +1,150 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.288914032373519,
+        "y": 7.435010506384649
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.6004110190038565,
+        "y": 7.164476874408294
+      },
+      "isLocked": false,
+      "linkedName": "5NotePath1End"
+    },
+    {
+      "anchor": {
+        "x": 4.277553282379292,
+        "y": 5.625233795922139
+      },
+      "prevControl": {
+        "x": 4.939894243424851,
+        "y": 5.625233795922139
+      },
+      "nextControl": {
+        "x": 3.6179646720493386,
+        "y": 5.625233795922139
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.8968988847068604,
+        "y": 6.99655944766435
+      },
+      "prevControl": {
+        "x": 3.9785846604374804,
+        "y": 7.045174538708421
+      },
+      "nextControl": {
+        "x": 2.0666404969173575,
+        "y": 6.959244463943474
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.4229570277322372,
+        "y": 5.531946336619947
+      },
+      "prevControl": {
+        "x": 1.6095319463366198,
+        "y": 5.9330824116193694
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "5NotePath2End"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.25,
+      "rotationDegrees": 179.43273359014213,
+      "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 3.0,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "Shoot",
+      "waypointRelativePos": 1.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "wait",
+              "data": {
+                "waitTime": 1.0
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "visionShot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Intake",
+      "waypointRelativePos": 1.7,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "intakeMax"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "StopIntake",
+      "waypointRelativePos": 2.15,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "intakeStop"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "5 Note Paths",
+  "previewStartingState": null,
+  "useDefaultConstraints": false
+}

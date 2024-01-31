@@ -13,4 +13,7 @@ public class RobotMap {
     public static final int kLauncherFollowerPort = 32;
     public static final int kIndexerLeaderId = 35;
     public static final int kIndexerFollowerId = 36;
+
+    // LED
+    public static final int kCANDlePort = 41;
 }

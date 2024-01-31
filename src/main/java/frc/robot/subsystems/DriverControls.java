@@ -4,7 +4,11 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -12,10 +16,9 @@ import frc.robot.commands.VisionShot;
 import frc.robot.commands.Intake.SetIntake;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
-import frc.robot.commands.Swerve.VisionRotateDrive;
 import frc.robot.util.PolarCoordinate;
 
-public class DriverControls{
+public class DriverControls extends SubsystemBase{
     
     /*
      * My unusual naming conventions documentation:
@@ -94,6 +97,11 @@ public class DriverControls{
         return driverController.getAButton();
     }
 
+    public void setRumble(double speed){
+        driverController.setRumble(RumbleType.kBothRumble, speed);
+        operatorController.setRumble(RumbleType.kBothRumble, speed);
+    }
+
     // OPERATOR CONTROLS
     public boolean o_wantVisionShot(){
         return operatorController.getXButton();
@@ -112,15 +120,29 @@ public class DriverControls{
         return d_pivotAnglerManual() != 0;
     }
 
-    public void registerTriggers(Swerve swerve, Reel intake, Angler angler, Vision vision, Launcher launcher){
+    public void registerTriggers(Swerve swerve, Reel intake, Angler angler, Vision vision, Launcher launcher, LED led){
         //Driver
         new Trigger(this::lockPods).onTrue(new LockPods(swerve));
         new Trigger(this::resetGyro).onTrue(new ResetGyro(swerve));
         new Trigger(this::intake).whileTrue(new SetIntake(intake, this, 1));
-        new Trigger(this::wantVisionAlign).whileTrue(new VisionRotateDrive(swerve, this));
-
         //Operator
-        new Trigger(this::o_wantVisionShot).whileTrue(new VisionShot(angler, launcher, this));
+        new Trigger(this::o_wantVisionShot).whileTrue(new VisionShot(angler, launcher, this, led));
+    }
+    
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("TIMER", DriverStation.getMatchTime());
+
+        if(DriverStation.getMatchTime() < 20){
+            setRumble(1);
+        }
+        else if(DriverStation.getMatchTime() < 10){
+            setRumble(1);
+        }
+    }
+
+    @Override
+    public void simulationPeriodic() {
     }
 
 

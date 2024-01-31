@@ -78,4 +78,12 @@ public class Constants {
     public static final double kLauncherkD = 0.0;
     public static final double kLauncherkF = (1.0/6800);
     public static final double kLauncherAcceptableSpeedTolerance = 100; //RPM
+
+    // LED
+    public static final int kNumLED = 100; // TODO: placeholder
+    public static final double kTwinkleOffAnimationSpeed = 0.75;
+    public static final double kLarsonAnimationSpeed = 0.5;
+    public static final double kColorFlowAnimationSpeed = 0.5;
+    public static final double kStrobeAnimationSpeed = 0.5;
+    public static final double kRGBFadeAnimationSpeed = 0.5;
 }
