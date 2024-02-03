@@ -32,8 +32,8 @@ public class Angler extends SubsystemBase {
     private Translation2d mBlueSpeakerPose;
 
     public Angler() {
-        mAnglerMotor = new TalonSRX(RobotMap.kAnglerMotorPort);
-        mAnglerEncoder = new DutyCycleEncoder(RobotMap.kAnglerEncoderPort);
+        mAnglerMotor = new TalonSRX(RobotMap.AnglerMotorPort);
+        mAnglerEncoder = new DutyCycleEncoder(RobotMap.AnglerEncoderPort);
         mAnglerMotor.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition);
         mAnglerMotor.setSelectedSensorPosition(0);
         mAnglerMotor.getSensorCollection().getPulseWidthRiseToFallUs();

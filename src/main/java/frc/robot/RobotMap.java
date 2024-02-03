@@ -5,8 +5,11 @@ public class RobotMap {
     public static final int kIntakeMotorPort = 11;
     
     // Angler
-    public static final int kAnglerMotorPort = 21;
-    public static final int kAnglerEncoderPort = 22;
+    public static final int AnglerMotorPort = 21;
+    public static final int AnglerEncoderPort = 22;
+
+    // BoatHook
+    public static final int kBoatHookMotorPort = 23;
 
     // Launcher
     public static final int kLauncherLeaderPort = 31;
@@ -16,4 +19,5 @@ public class RobotMap {
 
     // LED
     public static final int kCANDlePort = 41;
+
 }

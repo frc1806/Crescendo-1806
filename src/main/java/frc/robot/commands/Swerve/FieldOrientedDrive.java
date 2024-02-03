@@ -34,11 +34,10 @@ public class FieldOrientedDrive extends Command{
         } else if (mDriverControls.wantVisionAlign()){
             mSwerve.visionAlign();
         } else {
-            mDriverControls.snapRotation();
             mSwerve.driveFieldOriented(mSwerve.getTargetSpeeds(
                 mDriverControls.translationX(),
                 mDriverControls.translationY(),
-                Rotation2d.fromDegrees(mDriverControls.commandedAngle)));
+                Rotation2d.fromDegrees(mDriverControls.snapRotation())));
         }
     }
 
