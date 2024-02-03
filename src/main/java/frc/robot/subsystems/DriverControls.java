@@ -12,10 +12,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.commands.PresetShot;
 import frc.robot.commands.VisionShot;
 import frc.robot.commands.Intake.SetIntake;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
+import frc.robot.game.Shots;
 import frc.robot.util.PolarCoordinate;
 
 public class DriverControls extends SubsystemBase{
@@ -121,6 +123,10 @@ public class DriverControls extends SubsystemBase{
         return d_pivotAnglerManual() != 0;
     }
 
+    public boolean d_wantDashboardShot(){
+        return debugController.getXButton();
+    }
+
     public void registerTriggers(Swerve swerve, Reel intake, Angler angler, Vision vision, Launcher launcher, LED led){
         //Driver
         new Trigger(this::lockPods).onTrue(new LockPods(swerve));
@@ -128,6 +134,12 @@ public class DriverControls extends SubsystemBase{
         new Trigger(this::intake).whileTrue(new SetIntake(intake, this, 1));
         //Operator
         new Trigger(this::o_wantVisionShot).whileTrue(new VisionShot(angler, launcher, this, led));
+
+        //Debug
+        new Trigger(this::d_wantDashboardShot).whileTrue(new PresetShot(angler, launcher, this, led, new Shots(
+            "Dashboard Shot",
+            SmartDashboard.getNumber("Angle", 0),
+            SmartDashboard.getNumber("Launcher Power", 0))));
     }
     
     @Override
@@ -139,6 +151,14 @@ public class DriverControls extends SubsystemBase{
         }
         else if(DriverStation.getMatchTime() < 10){
             setRumble(1);
+        }
+
+        boolean shotDebounce = false;
+
+        if(!shotDebounce){
+            SmartDashboard.putNumber("Angle", 0);
+            SmartDashboard.putNumber("Launcher Power", 0);
+            shotDebounce = true;
         }
     }
 
