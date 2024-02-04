@@ -23,11 +23,15 @@ public class Angler extends SubsystemBase {
     private TalonSRX mAnglerMotorLeft, mAnglerMotorRight;
     private double mCurrentDesiredAngle;
     private double mCurrentAngle;
+    private double mLeftSensorAngle;
+    private double mRightSensorAngle;
     private double mWantedManualPower;
     private double mDistancex;
     private double mDistancey;
     private double mTotalDistance;
     private Translation2d mBlueSpeakerPose;
+
+    private boolean isAnglerEnabled;
 
     public Angler() {
 
@@ -60,14 +64,21 @@ public class Angler extends SubsystemBase {
         mAnglerMotorRight.setNeutralMode(NeutralMode.Brake);
 
 
-        mCurrentAngle = getAngleFromSensors();
+        updateAnglesFromSensors();
         mCurrentDesiredAngle = Shots.HOME.getPivotAngle();
 
         mBlueSpeakerPose = new Translation2d(0.06, 5.55);
+
+        isAnglerEnabled = true;
     }
 
-    public void goToPosition(double angle){
-        mCurrentDesiredAngle = angle;
+    private void goToPosition(double wantedAngle){
+        if(isAnglerEnabled)
+        {
+        double wantedSensorValue = convertAngleToSensorValue(wantedAngle);
+        mAnglerMotorLeft.set(ControlMode.MotionMagic, wantedSensorValue);
+        mAnglerMotorRight.set(ControlMode.MotionMagic, wantedSensorValue);
+        }
     }
 
     public double getAngle() {
@@ -76,6 +87,7 @@ public class Angler extends SubsystemBase {
 
     public void setAngle(double angle) {
         mCurrentDesiredAngle = angle; 
+        goToPosition(angle);
     }
 
     public void setWantedManualPower(double wantedPower){
@@ -97,14 +109,31 @@ public class Angler extends SubsystemBase {
         return mAnglerMotorLeft;
     }
 
-    private double getAngleFromSensors(){
-        return (mAnglerMotorLeft.getSelectedSensorPosition() + mAnglerMotorRight.getSelectedSensorPosition()) / ((4096.0/360.0) * 2.0);
+    private void updateAnglesFromSensors(){
+        mLeftSensorAngle = convertSensorValueToAngle(mAnglerMotorLeft.getSelectedSensorPosition());
+        mRightSensorAngle = convertAngleToSensorValue(mAnglerMotorRight.getSelectedSensorPosition());
+        mCurrentAngle = (mLeftSensorAngle + mRightSensorAngle) / 2.0;
     }
 
     private double convertAngleToSensorValue(double angle){
         return (angle / 360.0) * 4096.0;
     }
 
+    private double convertSensorValueToAngle(double sensorValue){
+        return (sensorValue / 4096.0) * 360.0;
+    }
+
+    private boolean isTwistDetected(){
+        return Math.abs(mLeftSensorAngle - mRightSensorAngle) > Constants.kAnglerTwistDetectionAngleDifference;
+    }
+
+    private boolean isEitherSensorOutsideAcceptableRange(){
+        return (mLeftSensorAngle > 360.0 || mLeftSensorAngle < 0.0 || mRightSensorAngle > 360.0 || mRightSensorAngle < 0.0);
+    }
+
+    private boolean hasSomethingGoneHorriblyWrong(){
+        return isTwistDetected() || isEitherSensorOutsideAcceptableRange();
+    }
 
     public void toSpeakerPose(){
         mDistancex =  RobotContainer.S_VISION.getEstimatedPose().getTranslation().getX() - mBlueSpeakerPose.getX();
@@ -114,29 +143,34 @@ public class Angler extends SubsystemBase {
         goToPosition(mCurrentDesiredAngle);
     }
 
+    public void enableAngler(){
+        isAnglerEnabled = true;
+    }
 
+    public void disableAngler(){
+        isAnglerEnabled = false;
+    }
 
     @Override
     public void periodic(){
-        mCurrentAngle = getAngleFromSensors();
-        
-        if(!(RobotContainer.S_DRIVERCONTROLS.d_wantAnglerManual() || RobotContainer.S_DRIVERCONTROLS.o_wantManualAnglerRotate())){
-            if (atPosition()){
-                //true stuff here
+        //Read encoders
+        updateAnglesFromSensors();
+
+        if(hasSomethingGoneHorriblyWrong())
+        {
+            isAnglerEnabled = false; //TODO: Notify drivers somehow. LEDs? Dashboard? Rumble?
+        }
+
+        //Run motor with manual contorl if wanted
+        if((RobotContainer.S_DRIVERCONTROLS.d_wantAnglerManual() || RobotContainer.S_DRIVERCONTROLS.o_wantManualAnglerRotate())){
+                setMotor(mWantedManualPower);
+        }
+        else
+        {
+            if(!isAnglerEnabled)
+            {
                 setMotor(0.0);
             }
-            else{
-                setAngle(mCurrentDesiredAngle);;
-            }
-            if(RobotState.isDisabled())
-            {
-                mCurrentDesiredAngle = mCurrentAngle;
-            }
         }
-        else{
-            setMotor(mWantedManualPower);
-        }
-
     }
-
 }

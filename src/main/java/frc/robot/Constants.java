@@ -34,6 +34,7 @@ public class Constants {
     public static final double kAcceptableAngleError = 1.0;
     public static final double kAnglerGearRatio = 1.0; //to find out //unused?
     public static final double kSpeakerHeight = 9.0; //Meters
+    public static final double kAnglerTwistDetectionAngleDifference = 5.0;
 
     // Vision
 
