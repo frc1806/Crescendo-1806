@@ -38,9 +38,9 @@ public class Angler extends SubsystemBase {
         mAnglerMotorLeft.config_kP(0, Constants.kAnglerP);
         mAnglerMotorLeft.config_kI(0, Constants.kAnglerI);
         mAnglerMotorLeft.config_kD(0, Constants.kAnglerD);
-        mAnglerMotorLeft.configMotionCruiseVelocity(40 * 4096); //degrees per tenth of a second, scaled to encoder units.
-        mAnglerMotorLeft.configMotionAcceleration(40* 4096); // degrees per tenth of a second squared scaled to encoder units.
-        mAnglerMotorLeft.set(ControlMode.Position, 10 * 4096);
+        mAnglerMotorLeft.configMotionCruiseVelocity((40.0 / 360.0) * 4096.0); //degrees per tenth of a second, scaled to encoder units.
+        mAnglerMotorLeft.configMotionAcceleration((40.0 / 360.0) * 4096.0); // degrees per tenth of a second squared scaled to encoder units.
+        mAnglerMotorLeft.set(ControlMode.PercentOutput, 0.0);
         mAnglerMotorLeft.setNeutralMode(NeutralMode.Brake);
         
     
@@ -54,9 +54,9 @@ public class Angler extends SubsystemBase {
         mAnglerMotorRight.config_kP(0, Constants.kAnglerP);
         mAnglerMotorRight.config_kI(0, Constants.kAnglerI);
         mAnglerMotorRight.config_kD(0, Constants.kAnglerD);
-        mAnglerMotorRight.configMotionCruiseVelocity(40 * 4096); //degrees per tenth of a second, scaled to encoder units.
-        mAnglerMotorRight.configMotionAcceleration(40* 4096); // degrees per tenth of a second squared scaled to encoder units.
-        mAnglerMotorRight.set(ControlMode.Position, 10 * 4096);
+        mAnglerMotorRight.configMotionCruiseVelocity((40.0 / 360.0) * 4096.0); //degrees per tenth of a second, scaled to encoder units.
+        mAnglerMotorRight.configMotionAcceleration((40.0 / 360.0) * 4096.0); // degrees per tenth of a second squared scaled to encoder units.
+        mAnglerMotorRight.set(ControlMode.PercentOutput, 0.0);
         mAnglerMotorRight.setNeutralMode(NeutralMode.Brake);
 
 
@@ -98,11 +98,11 @@ public class Angler extends SubsystemBase {
     }
 
     private double getAngleFromSensors(){
-        return (mAnglerMotorLeft.getSelectedSensorPosition() + mAnglerMotorRight.getSelectedSensorPosition()) / (4096.0 * 2.0);
+        return (mAnglerMotorLeft.getSelectedSensorPosition() + mAnglerMotorRight.getSelectedSensorPosition()) / ((4096.0/360.0) * 2.0);
     }
 
     private double convertAngleToSensorValue(double angle){
-        return angle * 4096.0;
+        return (angle / 360.0) * 4096.0;
     }
 
 
