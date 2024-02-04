@@ -12,7 +12,7 @@ public class BoatHook extends SubsystemBase{
     private CANSparkMax mBoatHookMotor;
 
     public BoatHook(){
-        mBoatHookMotor = new CANSparkMax(RobotMap.kBoatHookMotorPort, CANSparkMax.MotorType.kBrushless);
+        mBoatHookMotor = new CANSparkMax(RobotMap.kBoatHookMotorId, CANSparkMax.MotorType.kBrushless);
     }
 
     @Override

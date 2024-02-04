@@ -31,7 +31,7 @@ public class LED extends SubsystemBase{
     public LEDState mStateBeforeShooting;
 
     public LED(){
-        mLED = new CANdle(RobotMap.kCANDlePort);
+        mLED = new CANdle(RobotMap.kCANDleId);
         setIdleAnimation();
     }
 

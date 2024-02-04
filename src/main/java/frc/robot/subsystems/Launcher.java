@@ -24,12 +24,12 @@ public class Launcher extends SubsystemBase{
 
     private double mLauncherTargetSpeed;
     public Launcher(){
-        mLauncherLeader = new CANSparkFlex(RobotMap.kLauncherLeaderPort, CANSparkFlex.MotorType.kBrushless);
+        mLauncherLeader = new CANSparkFlex(RobotMap.kLauncherLeaderId, CANSparkFlex.MotorType.kBrushless);
         mOuterLauncherPhotoEye = mLauncherLeader.getForwardLimitSwitch(Type.kNormallyClosed); //TODO: Verify photosensor switch type
         mOuterLauncherPhotoEye.enableLimitSwitch(false);
         mInnerLauncherPhotoEye = mLauncherLeader.getReverseLimitSwitch(Type.kNormallyClosed);
         mInnerLauncherPhotoEye.enableLimitSwitch(false);
-        mLauncherFollower = new CANSparkFlex(RobotMap.kLauncherFollowerPort, CANSparkFlex.MotorType.kBrushless);
+        mLauncherFollower = new CANSparkFlex(RobotMap.kLauncherFollowerId, CANSparkFlex.MotorType.kBrushless);
         mLauncherFollower.follow(mLauncherLeader, true);
         mSparkPIDController = mLauncherLeader.getPIDController();
         mSparkPIDController.setP(Constants.kLauncherkP);

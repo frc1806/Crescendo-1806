@@ -13,7 +13,7 @@ public class Reel extends SubsystemBase{
     private CANSparkMax mIntakeMotor;
     
     public Reel(){
-        mIntakeMotor = new CANSparkMax(RobotMap.kIntakeMotorPort, MotorType.kBrushless);
+        mIntakeMotor = new CANSparkMax(RobotMap.kIntakeMotorId, MotorType.kBrushless);
 
         setIntakeMode(IdleMode.kBrake);
     }
