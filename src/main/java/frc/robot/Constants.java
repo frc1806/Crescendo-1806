@@ -28,7 +28,7 @@ public class Constants {
     public static final double kSwerveAutoPIDD = 0.001;
 
     // Angler
-    public static final double kAnglerP = (30.0/ 360.0) * 4096.0 ;
+    public static final double kAnglerP = 1.0 / ((30.0/ 360.0) * 4096.0) ; //100% power at 30 degrees away.
     public static final double kAnglerI = 0.0;
     public static final double kAnglerD = 0.0;
     public static final double kAcceptableAngleError = 1.0;
