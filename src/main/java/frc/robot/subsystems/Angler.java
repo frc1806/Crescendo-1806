@@ -134,7 +134,7 @@ public class Angler extends SubsystemBase {
             }
         }
         else{
-            setMotor(mWantedManualPower * 3);
+            setMotor(mWantedManualPower);
         }
 
     }
