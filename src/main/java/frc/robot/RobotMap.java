@@ -9,7 +9,8 @@ public class RobotMap {
     public static final int AnglerRightMotorId = 22;
 
     // BoatHook
-    public static final int kBoatHookMotorId = 23;
+    public static final int kBoatHookMotorLeaderId = 23;
+    public static final int kBoatHookMotorFollowerId = 24;
 
     // Launcher
     public static final int kLauncherLeaderId = 31;

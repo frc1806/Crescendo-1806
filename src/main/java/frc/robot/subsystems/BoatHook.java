@@ -9,10 +9,13 @@ import frc.robot.RobotMap;
 
 public class BoatHook extends SubsystemBase{
     
-    private CANSparkMax mBoatHookMotor;
+    private CANSparkMax mBoatHookMotorLeader;
+    private CANSparkMax mBoatHookMotorFollower;
 
     public BoatHook(){
-        mBoatHookMotor = new CANSparkMax(RobotMap.kBoatHookMotorId, CANSparkMax.MotorType.kBrushless);
+        mBoatHookMotorLeader = new CANSparkMax(RobotMap.kBoatHookMotorLeaderId, CANSparkMax.MotorType.kBrushless);
+        mBoatHookMotorFollower = new CANSparkMax(RobotMap.kBoatHookMotorFollowerId, CANSparkMax.MotorType.kBrushless);
+        mBoatHookMotorFollower.follow(mBoatHookMotorLeader);
     }
 
     @Override

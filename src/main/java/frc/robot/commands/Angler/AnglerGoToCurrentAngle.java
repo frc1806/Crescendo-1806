@@ -14,7 +14,7 @@ public class AnglerGoToCurrentAngle extends AnglerGoToAngle {
   @Override
   public void initialize() {
     wantedAngle = RobotContainer.S_ANGLER.getAngle(); //Set wanted angle to current angle
-    RobotContainer.S_ANGLER.goToPosition(wantedAngle);
+    RobotContainer.S_ANGLER.setAngle(wantedAngle);
   }
 
   @Override
