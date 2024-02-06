@@ -7,6 +7,8 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.SparkPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
@@ -60,7 +62,7 @@ public class Launcher extends SubsystemBase{
     }
 
     public void runMotorsForIntake(){
-        setLauncher(-3000);
+        CommandScheduler.getInstance().schedule(setLauncher(-3000));
         mIndexLeader.set(-0.5);
     }
 

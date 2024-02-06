@@ -14,7 +14,6 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.PresetShot;
 import frc.robot.commands.VisionShot;
-import frc.robot.commands.Intake.SetIntake;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.game.Shot;
@@ -114,6 +113,16 @@ public class DriverControls extends SubsystemBase{
         return operatorController.getRightTriggerAxis() > 0;
     }
 
+    public boolean o_wantExtendBoatHook(){
+        return operatorController.getAButton();
+    }
+    public boolean o_wantRetractBoatHook(){
+        return operatorController.getBButton();
+    }
+    public boolean o_wantStopBoatHook(){
+        return operatorController.getYButton();
+    }
+
     // Debug Controls
     public double d_pivotAnglerManual() {
         return debugController.getRightY();
@@ -127,12 +136,15 @@ public class DriverControls extends SubsystemBase{
         return debugController.getXButton();
     }
 
-    public void registerTriggers(Swerve swerve, Reel intake, Angler angler, Vision vision, Launcher launcher, LED led, VisionShotLibrary shotLibrary){
+    public void registerTriggers(Swerve swerve, Reel intake, Angler angler, Vision vision, Launcher launcher, LED led, BoatHook boatHook, VisionShotLibrary shotLibrary){
         //Driver
         new Trigger(this::lockPods).onTrue(new LockPods(swerve));
         new Trigger(this::resetGyro).onTrue(new ResetGyro(swerve));
-        new Trigger(this::intake).whileTrue(new SetIntake(1));
+        new Trigger(this::intake).whileTrue(intake.setIntake(1));
         //Operator
+        new Trigger(this::o_wantExtendBoatHook).whileTrue(boatHook.extendBoatHook());
+        new Trigger(this::o_wantRetractBoatHook).whileTrue(boatHook.retractBoatHook());
+        new Trigger(this::o_wantStopBoatHook).whileTrue(boatHook.stopBoatHook());
         new Trigger(this::o_wantVisionShot).whileTrue(new VisionShot(angler, launcher, this, led, shotLibrary, 5.0));
 
         //Debug

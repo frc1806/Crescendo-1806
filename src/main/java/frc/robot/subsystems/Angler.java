@@ -15,7 +15,6 @@ import frc.robot.RobotMap;
 import frc.robot.game.Shot;
 
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Angler extends SubsystemBase {
@@ -73,7 +72,7 @@ public class Angler extends SubsystemBase {
         isAnglerEnabled = true;
     }
 
-    private void goToPosition(double wantedAngle){
+    public void goToPosition(double wantedAngle){
         if(isAnglerEnabled)
         {
         double wantedSensorValue = convertAngleToSensorValue(wantedAngle);
