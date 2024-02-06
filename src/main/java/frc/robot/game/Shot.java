@@ -1,21 +1,22 @@
 package frc.robot.game;
 
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 
-public class Shots {
+public class Shot {
     double pivotAngle;
     String name;
     double launcherSpeed;
 
-    public Shots(String name, double pivotAngle, double launcherSpeed) {
+    public Shot(String name, double pivotAngle, double launcherSpeed) {
         this.pivotAngle = pivotAngle;
         this.name = name;
         this.launcherSpeed = launcherSpeed;
     }
 
     //home angle needs to be determined
-    public static Shots HOME = new Shots("Home", 154.0, 0.0);
+    public static Shot HOME = new Shot("Home", 154.0, 0.0);
     //make more shots here
-    public static Shots SUBWOOFER = new Shots("Subwoofer", 70.0, 1.0);
+    public static Shot SUBWOOFER = new Shot("Subwoofer", 250.0, 1.0);
 
 
 

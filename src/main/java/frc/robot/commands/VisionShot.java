@@ -1,7 +1,9 @@
 package frc.robot.commands;
 
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.game.VisionShotLibrary;
 import frc.robot.subsystems.Angler;
 import frc.robot.subsystems.Launcher;
 import frc.robot.subsystems.LED.LEDState;
@@ -14,13 +16,20 @@ public class VisionShot extends Command{
     private Angler mAngler;
     private LED mLED;
     private DriverControls mDriverControls;
+    private Timer mTimer;
+    private double mTimeout;
+    private VisionShotLibrary mVisionShotLibrary;
+    boolean mIsNoteExiting;
 
     
-    public VisionShot(Angler angler, Launcher launcher, DriverControls driverControls, LED led){
+    public VisionShot(Angler angler, Launcher launcher, DriverControls driverControls, LED led, VisionShotLibrary visionShotLibrary, double timeout){
         mLauncher = launcher;
         mAngler = angler;
         mDriverControls = driverControls;
         mLED = led;
+        mTimer = new Timer();
+        mVisionShotLibrary = visionShotLibrary;
+        mTimeout = timeout;
     }
 
     @Override
@@ -36,13 +45,14 @@ public class VisionShot extends Command{
 
     @Override
     public void execute() {
-        if(mAngler.atPosition() == true){
+        if(mAngler.atPosition() == true && mLauncher.isLauncherAtSpeed()){
             mLauncher.sendNoteToFlywheel();
         }
     }
 
     @Override
     public void initialize() {
+        mTimer.start();
         mLED.mStateBeforeShooting = mLED.mState;
         mLED.setShootingAnimation();
         mAngler.toSpeakerPose();
@@ -50,7 +60,7 @@ public class VisionShot extends Command{
 
     @Override
     public boolean isFinished() {
-        return !mDriverControls.wantVisionAlign();
+        return false;
     }
     
 }

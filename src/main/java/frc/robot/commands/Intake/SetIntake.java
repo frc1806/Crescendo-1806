@@ -1,6 +1,7 @@
 package frc.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriverControls;
 import frc.robot.subsystems.Reel;
 
@@ -10,9 +11,8 @@ public class SetIntake extends Command{
     private DriverControls mDriverControls;
     private double mSpeed;
 
-    public SetIntake(Reel intake, DriverControls driverControls, double speed){
-        mIntake = intake;
-        mDriverControls = driverControls;
+    public SetIntake(double speed){
+        mIntake = RobotContainer.S_INTAKE;
         mSpeed = speed;
     }
 
@@ -32,7 +32,7 @@ public class SetIntake extends Command{
 
     @Override
     public boolean isFinished() {
-        return !mDriverControls.intake();
+        return false;
     }
 
 }

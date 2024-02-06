@@ -17,7 +17,8 @@ import frc.robot.commands.VisionShot;
 import frc.robot.commands.Intake.SetIntake;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
-import frc.robot.game.Shots;
+import frc.robot.game.Shot;
+import frc.robot.game.VisionShotLibrary;
 import frc.robot.util.PolarCoordinate;
 
 public class DriverControls extends SubsystemBase{
@@ -126,16 +127,16 @@ public class DriverControls extends SubsystemBase{
         return debugController.getXButton();
     }
 
-    public void registerTriggers(Swerve swerve, Reel intake, Angler angler, Vision vision, Launcher launcher, LED led){
+    public void registerTriggers(Swerve swerve, Reel intake, Angler angler, Vision vision, Launcher launcher, LED led, VisionShotLibrary shotLibrary){
         //Driver
         new Trigger(this::lockPods).onTrue(new LockPods(swerve));
         new Trigger(this::resetGyro).onTrue(new ResetGyro(swerve));
-        new Trigger(this::intake).whileTrue(new SetIntake(intake, this, 1));
+        new Trigger(this::intake).whileTrue(new SetIntake(1));
         //Operator
-        new Trigger(this::o_wantVisionShot).whileTrue(new VisionShot(angler, launcher, this, led));
+        new Trigger(this::o_wantVisionShot).whileTrue(new VisionShot(angler, launcher, this, led, shotLibrary, 5.0));
 
         //Debug
-        new Trigger(this::d_wantDashboardShot).whileTrue(new PresetShot(angler, launcher, this, led, new Shots(
+        new Trigger(this::d_wantDashboardShot).whileTrue(new PresetShot(angler, launcher, this, led, new Shot(
             "Dashboard Shot",
             SmartDashboard.getNumber("Angle", 0),
             SmartDashboard.getNumber("Launcher Power", 0))));

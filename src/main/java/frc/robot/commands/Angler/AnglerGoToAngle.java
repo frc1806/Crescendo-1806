@@ -18,7 +18,7 @@ public class AnglerGoToAngle extends Command{
 
     @Override
     public void initialize() {
-        RobotContainer.S_ANGLER.goToPosition(wantedAngle);
+        RobotContainer.S_ANGLER.setAngle(wantedAngle);
     }
 
     @Override

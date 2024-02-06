@@ -4,7 +4,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.Launcher.SetLauncher;
-import frc.robot.game.Shots;
+import frc.robot.game.Shot;
 import frc.robot.subsystems.Angler;
 import frc.robot.subsystems.Launcher;
 import frc.robot.subsystems.LED.LEDState;
@@ -17,9 +17,9 @@ public class PresetShot extends Command{
     private Angler mAngler;
     private LED mLED;
     private DriverControls mDriverControls;
-    private Shots mShot;
+    private Shot mShot;
     
-    public PresetShot(Angler angler, Launcher launcher, DriverControls driverControls, LED led, Shots shot){
+    public PresetShot(Angler angler, Launcher launcher, DriverControls driverControls, LED led, Shot shot){
         mLauncher = launcher;
         mAngler = angler;
         mDriverControls = driverControls;
@@ -41,7 +41,7 @@ public class PresetShot extends Command{
     @Override
     public void execute() {
         if(mAngler.atPosition() == true){
-            CommandScheduler.getInstance().schedule(new SetLauncher(mLauncher, mShot.getLauncherSpeed()));
+            //CommandScheduler.getInstance().schedule(new SetLauncher(mLauncher, mShot.getLauncherSpeed()));
         }
     }
 

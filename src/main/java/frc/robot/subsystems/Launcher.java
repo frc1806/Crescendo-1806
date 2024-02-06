@@ -51,13 +51,6 @@ public class Launcher extends SubsystemBase{
 
     public void setLauncher(double speed){
         mLauncherTargetSpeed = speed;
-        if(mLauncherTargetSpeed != 0.0)
-        {
-            setLauncherMode(IdleMode.kCoast);
-        }
-        else{
-            setLauncherMode(IdleMode.kBrake);
-        }
         mSparkPIDController.setReference(mLauncherTargetSpeed, ControlType.kVelocity);
     }
 
@@ -97,8 +90,13 @@ public class Launcher extends SubsystemBase{
         return mIndexerPhotoEye.isPressed();
     }
 
+    public void stopIndexer(){
+        mIndexLeader.set(0.0);
+    }
+
     public void stop(){
         setLauncher(0.0);
+        stopIndexer();
     }
 
     @Override
