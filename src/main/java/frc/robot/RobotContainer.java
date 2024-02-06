@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.VisionShot;
-import frc.robot.commands.Intake.SetIntake;
 import frc.robot.commands.Swerve.FieldOrientedDrive;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
@@ -44,8 +43,8 @@ public class RobotContainer {
     
     NamedCommands.registerCommand("lockPods", new LockPods(S_SWERVE));
     NamedCommands.registerCommand("resetGyro", new ResetGyro(S_SWERVE));
-    NamedCommands.registerCommand("intakeMax", new SetIntake(S_INTAKE, S_DRIVERCONTROLS , 1.0));
-    NamedCommands.registerCommand("intakeStop", new SetIntake(S_INTAKE, S_DRIVERCONTROLS, 0.0));
+    NamedCommands.registerCommand("intakeMax", S_INTAKE.setIntake(1.0));
+    NamedCommands.registerCommand("intakeStop", S_INTAKE.setIntake(0));
     NamedCommands.registerCommand("visionShot", new VisionShot(S_ANGLER, S_LAUNCHER, S_DRIVERCONTROLS, S_LED));
     
     autoChooser = AutoBuilder.buildAutoChooser();

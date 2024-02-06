@@ -14,7 +14,6 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.PresetShot;
 import frc.robot.commands.VisionShot;
-import frc.robot.commands.Intake.SetIntake;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.game.Shots;
@@ -130,7 +129,7 @@ public class DriverControls extends SubsystemBase{
         //Driver
         new Trigger(this::lockPods).onTrue(new LockPods(swerve));
         new Trigger(this::resetGyro).onTrue(new ResetGyro(swerve));
-        new Trigger(this::intake).whileTrue(new SetIntake(intake, this, 1));
+        new Trigger(this::intake).whileTrue(intake.setIntake(1));
         //Operator
         new Trigger(this::o_wantVisionShot).whileTrue(new VisionShot(angler, launcher, this, led));
 
