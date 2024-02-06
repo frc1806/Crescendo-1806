@@ -62,7 +62,7 @@ public class Launcher extends SubsystemBase{
     }
 
     public void runMotorsForIntake(){
-        CommandScheduler.getInstance().schedule(setLauncher(-3000));
+        setLauncher(-3000.0);
         mIndexLeader.set(-0.5);
     }
 
