@@ -17,6 +17,7 @@ import frc.robot.commands.Swerve.FieldOrientedDrive;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.subsystems.Angler;
+import frc.robot.subsystems.BoatHook;
 import frc.robot.subsystems.DriverControls;
 import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Reel;
@@ -33,6 +34,7 @@ public class RobotContainer {
   public static final Vision S_VISION = new Vision();
   public static final Launcher S_LAUNCHER = new Launcher();
   public static final LED S_LED = new LED();
+  public static final BoatHook S_BOATHOOK = new BoatHook();
 
   private final SendableChooser<Command> autoChooser;
 
@@ -56,7 +58,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    S_DRIVERCONTROLS.registerTriggers(S_SWERVE, S_INTAKE, S_ANGLER, S_VISION, S_LAUNCHER, S_LED);
+    S_DRIVERCONTROLS.registerTriggers(S_SWERVE, S_INTAKE, S_ANGLER, S_VISION, S_LAUNCHER, S_LED, S_BOATHOOK);
   }
 
   public Command getAutonomousCommand() {

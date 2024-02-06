@@ -112,6 +112,16 @@ public class DriverControls extends SubsystemBase{
         return operatorController.getRightTriggerAxis() > 0;
     }
 
+    public boolean o_wantExtendBoatHook(){
+        return operatorController.getAButton();
+    }
+    public boolean o_wantRetractBoatHook(){
+        return operatorController.getBButton();
+    }
+    public boolean o_wantStopBoatHook(){
+        return operatorController.getYButton();
+    }
+
     // Debug Controls
     public double d_pivotAnglerManual() {
         return debugController.getRightY();
@@ -125,13 +135,16 @@ public class DriverControls extends SubsystemBase{
         return debugController.getXButton();
     }
 
-    public void registerTriggers(Swerve swerve, Reel intake, Angler angler, Vision vision, Launcher launcher, LED led){
+    public void registerTriggers(Swerve swerve, Reel intake, Angler angler, Vision vision, Launcher launcher, LED led, BoatHook boatHook){
         //Driver
         new Trigger(this::lockPods).onTrue(new LockPods(swerve));
         new Trigger(this::resetGyro).onTrue(new ResetGyro(swerve));
         new Trigger(this::intake).whileTrue(intake.setIntake(1));
         //Operator
         new Trigger(this::o_wantVisionShot).whileTrue(new VisionShot(angler, launcher, this, led));
+        new Trigger(this::o_wantExtendBoatHook).whileTrue(boatHook.extendBoatHook());
+        new Trigger(this::o_wantRetractBoatHook).whileTrue(boatHook.retractBoatHook());
+        new Trigger(this::o_wantStopBoatHook).whileTrue(boatHook.stopBoatHook());
 
         //Debug
         new Trigger(this::d_wantDashboardShot).whileTrue(new PresetShot(angler, launcher, this, led, new Shots(
