@@ -46,6 +46,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("intakeMax", S_INTAKE.setIntake(1.0));
     NamedCommands.registerCommand("intakeStop", S_INTAKE.setIntake(0));
     NamedCommands.registerCommand("visionShot", new VisionShot(S_ANGLER, S_LAUNCHER, S_DRIVERCONTROLS, S_LED));
+    NamedCommands.registerCommand("mobilityPointDrive", S_SWERVE.autonDriveBackwards(5));
     
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Mode", autoChooser);
