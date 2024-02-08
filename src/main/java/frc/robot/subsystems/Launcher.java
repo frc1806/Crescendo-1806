@@ -7,8 +7,6 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.SparkPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
@@ -51,18 +49,9 @@ public class Launcher extends SubsystemBase{
         setIndexerMode(IdleMode.kBrake);
     }
 
-    public Command setLauncher(double speed){
-        return this.run(() -> {
-            mLauncherTargetSpeed = speed;
-            if(mLauncherTargetSpeed != 0.0)
-            {
-                setLauncherMode(IdleMode.kCoast);
-            }
-            else{
-                setLauncherMode(IdleMode.kBrake);
-            }
-            mSparkPIDController.setReference(mLauncherTargetSpeed, ControlType.kVelocity);
-        });
+    public void setLauncher(double speed){
+        mLauncherTargetSpeed = speed;
+        mSparkPIDController.setReference(mLauncherTargetSpeed, ControlType.kVelocity);
     }
 
     public boolean isLauncherAtSpeed(){
@@ -71,7 +60,7 @@ public class Launcher extends SubsystemBase{
     }
 
     public void runMotorsForIntake(){
-        CommandScheduler.getInstance().schedule(setLauncher(-3000));
+        setLauncher(-3000.0);
         mIndexLeader.set(-0.5);
     }
 
@@ -101,8 +90,13 @@ public class Launcher extends SubsystemBase{
         return mIndexerPhotoEye.isPressed();
     }
 
+    public void stopIndexer(){
+        mIndexLeader.set(0.0);
+    }
+
     public void stop(){
-        CommandScheduler.getInstance().schedule(setLauncher(0.0));
+        setLauncher(0.0);
+        stopIndexer();
     }
 
     @Override
