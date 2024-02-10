@@ -12,7 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
-import frc.robot.game.Shots;
+import frc.robot.game.Shot;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,6 +24,7 @@ public class Angler extends SubsystemBase {
     private double mCurrentAngle;
     private double mLeftSensorAngle;
     private double mRightSensorAngle;
+    private double mTwistAngle;
     private double mWantedManualPower;
     private double mDistancex;
     private double mDistancey;
@@ -64,7 +65,7 @@ public class Angler extends SubsystemBase {
 
 
         updateAnglesFromSensors();
-        mCurrentDesiredAngle = Shots.HOME.getPivotAngle();
+        mCurrentDesiredAngle = Shot.HOME.getPivotAngle();
 
         mBlueSpeakerPose = new Translation2d(0.06, 5.55);
 
@@ -111,6 +112,7 @@ public class Angler extends SubsystemBase {
     private void updateAnglesFromSensors(){
         mLeftSensorAngle = convertSensorValueToAngle(mAnglerMotorLeft.getSelectedSensorPosition());
         mRightSensorAngle = convertAngleToSensorValue(mAnglerMotorRight.getSelectedSensorPosition());
+        mTwistAngle = mLeftSensorAngle - mRightSensorAngle;
         mCurrentAngle = (mLeftSensorAngle + mRightSensorAngle) / 2.0;
     }
 
@@ -123,7 +125,7 @@ public class Angler extends SubsystemBase {
     }
 
     private boolean isTwistDetected(){
-        return Math.abs(mLeftSensorAngle - mRightSensorAngle) > Constants.kAnglerTwistDetectionAngleDifference;
+        return Math.abs(mTwistAngle) > Constants.kAnglerTwistDetectionAngleDifference;
     }
 
     private boolean isEitherSensorOutsideAcceptableRange(){

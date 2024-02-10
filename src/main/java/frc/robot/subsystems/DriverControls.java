@@ -12,11 +12,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.commands.PresetShot;
 import frc.robot.commands.VisionShot;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
-import frc.robot.game.Shots;
+import frc.robot.commands.sequence.PresetShotLaunchSequence;
+import frc.robot.game.Shot;
+import frc.robot.game.VisionShotLibrary;
 import frc.robot.util.PolarCoordinate;
 
 public class DriverControls extends SubsystemBase{
@@ -135,19 +136,19 @@ public class DriverControls extends SubsystemBase{
         return debugController.getXButton();
     }
 
-    public void registerTriggers(Swerve swerve, Reel intake, Angler angler, Vision vision, Launcher launcher, LED led, BoatHook boatHook){
+    public void registerTriggers(Swerve swerve, Reel intake, Angler angler, Vision vision, Launcher launcher, LED led, BoatHook boatHook, VisionShotLibrary shotLibrary){
         //Driver
         new Trigger(this::lockPods).onTrue(new LockPods(swerve));
         new Trigger(this::resetGyro).onTrue(new ResetGyro(swerve));
         new Trigger(this::intake).whileTrue(intake.setIntake(1));
         //Operator
-        new Trigger(this::o_wantVisionShot).whileTrue(new VisionShot(angler, launcher, this, led));
         new Trigger(this::o_wantExtendBoatHook).whileTrue(boatHook.extendBoatHook());
         new Trigger(this::o_wantRetractBoatHook).whileTrue(boatHook.retractBoatHook());
         new Trigger(this::o_wantStopBoatHook).whileTrue(boatHook.stopBoatHook());
+        new Trigger(this::o_wantVisionShot).whileTrue(new VisionShot(angler, launcher, this, led, shotLibrary, 5.0));
 
         //Debug
-        new Trigger(this::d_wantDashboardShot).whileTrue(new PresetShot(angler, launcher, this, led, new Shots(
+        new Trigger(this::d_wantDashboardShot).whileTrue(new PresetShotLaunchSequence(new Shot(
             "Dashboard Shot",
             SmartDashboard.getNumber("Angle", 0),
             SmartDashboard.getNumber("Launcher Power", 0))));
