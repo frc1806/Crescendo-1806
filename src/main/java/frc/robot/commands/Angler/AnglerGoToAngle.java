@@ -1,4 +1,4 @@
-package frc.robot.commands.Angler;
+package frc.robot.commands.angler;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;

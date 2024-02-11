@@ -13,9 +13,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.VisionShot;
-import frc.robot.commands.Swerve.LockPods;
-import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.commands.sequence.PresetShotLaunchSequence;
+import frc.robot.commands.swerve.LockPods;
+import frc.robot.commands.swerve.ResetGyro;
 import frc.robot.game.Shot;
 import frc.robot.game.VisionShotLibrary;
 import frc.robot.util.PolarCoordinate;
@@ -37,6 +37,9 @@ public class DriverControls extends SubsystemBase{
         driverController = new XboxController(Constants.kDriverControllerPort);
         operatorController = new XboxController(Constants.kOperatorControllerPort);
         debugController = new XboxController(Constants.kDebugControllerPort);
+
+        SmartDashboard.putNumber("Angle", 0);
+        SmartDashboard.putNumber("Launcher Power", 0);
     }
 
     public XboxController getDriverController(){
@@ -163,14 +166,6 @@ public class DriverControls extends SubsystemBase{
         }
         else if(DriverStation.getMatchTime() < 10){
             setRumble(1);
-        }
-
-        boolean shotDebounce = false;
-
-        if(!shotDebounce){
-            SmartDashboard.putNumber("Angle", 0);
-            SmartDashboard.putNumber("Launcher Power", 0);
-            shotDebounce = true;
         }
     }
 

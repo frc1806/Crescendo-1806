@@ -7,9 +7,9 @@ package frc.robot.commands.sequence;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.Angler.AnglerGoToAngle;
-import frc.robot.commands.Intake.SetIntake;
-import frc.robot.commands.Launcher.LauncherIntake;
+import frc.robot.commands.angler.AnglerGoToAngle;
+import frc.robot.commands.intake.SetIntake;
+import frc.robot.commands.launcher.LauncherIntake;
 import frc.robot.game.Shot;
 
 public class IntakeSequence extends SequentialCommandGroup {

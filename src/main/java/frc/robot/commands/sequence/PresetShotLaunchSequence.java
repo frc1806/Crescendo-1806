@@ -6,9 +6,9 @@ package frc.robot.commands.sequence;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.Angler.AnglerGoToAngle;
-import frc.robot.commands.Launcher.LaunchNote;
-import frc.robot.commands.Launcher.SetLauncher;
+import frc.robot.commands.angler.AnglerGoToAngle;
+import frc.robot.commands.launcher.LaunchNote;
+import frc.robot.commands.launcher.SetLauncher;
 import frc.robot.game.Shot;
 
 
