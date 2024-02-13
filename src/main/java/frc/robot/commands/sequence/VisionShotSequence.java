@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Angler.AnglerGoToAngle;
 import frc.robot.commands.Angler.AnglerGoToAngleFromSupplier;
-import frc.robot.commands.Launcher.LaunchNote;
 import frc.robot.commands.Launcher.LaunchNoteFromSupplier;
 import frc.robot.commands.Launcher.SetLauncher;
 import frc.robot.commands.Launcher.SetLauncherFromSupplier;
