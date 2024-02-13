@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.7009952201722585,
+        "y": 5.587918812201261
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.146950839356224,
+        "y": 5.326713926155125
+      },
+      "isLocked": false,
+      "linkedName": "Center 3 Note End"
+    },
+    {
+      "anchor": {
+        "x": 2.8968988847068604,
+        "y": 7.015216939524788
+      },
+      "prevControl": {
+        "x": 4.5760731521463045,
+        "y": 6.968573209873693
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "3 Note Paths",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
