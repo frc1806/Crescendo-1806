@@ -13,19 +13,20 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.VisionShot;
-import frc.robot.commands.angler.AnglerGoToAngle;
-import frc.robot.commands.intake.SetIntake;
-import frc.robot.commands.launcher.SetLauncher;
+import frc.robot.commands.Angler.AnglerGoToAngle;
+import frc.robot.commands.Intake.SetIntake;
+import frc.robot.commands.Launcher.IdleLauncher;
+import frc.robot.commands.Swerve.FieldOrientedDrive;
+import frc.robot.commands.Swerve.LockPods;
+import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.commands.sequence.IntakeSequence;
 import frc.robot.commands.sequence.PresetShotLaunchSequence;
-import frc.robot.commands.swerve.FieldOrientedDrive;
-import frc.robot.commands.swerve.LockPods;
-import frc.robot.commands.swerve.ResetGyro;
 import frc.robot.game.Shot;
 import frc.robot.game.VisionShotLibrary;
 import frc.robot.subsystems.Angler;
 import frc.robot.subsystems.BoatHook;
 import frc.robot.subsystems.DriverControls;
+import frc.robot.subsystems.DriverStationChecker;
 import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Reel;
 import frc.robot.subsystems.Swerve;
@@ -42,6 +43,7 @@ public class RobotContainer {
   public static final Launcher S_LAUNCHER = new Launcher();
   public static final LED S_LED = new LED();
   public static final BoatHook S_BOATHOOK = new BoatHook();
+  public static final DriverStationChecker S_DRIVERSTATIONCHECKER = new DriverStationChecker();
 
   private static final VisionShotLibrary mVisionShotLibrary = new VisionShotLibrary() //these are estimates TODO: Tune
     .withShotEntry(3, 250.0, 3800.0)
@@ -73,7 +75,7 @@ public class RobotContainer {
     CommandScheduler.getInstance().setDefaultCommand(S_SWERVE, new FieldOrientedDrive(S_SWERVE, S_DRIVERCONTROLS));
     CommandScheduler.getInstance().setDefaultCommand(S_INTAKE, new SetIntake(0.0));
     CommandScheduler.getInstance().setDefaultCommand(S_ANGLER, new AnglerGoToAngle(Shot.HOME.getPivotAngle()));
-    CommandScheduler.getInstance().setDefaultCommand(S_LAUNCHER, new SetLauncher(0.0));
+    CommandScheduler.getInstance().setDefaultCommand(S_LAUNCHER, new IdleLauncher());
   }
 
   private void configureBindings() {
