@@ -10,10 +10,12 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.game.Shot;
+import frc.robot.game.VisionShotLibrary;
+import java.util.function.DoubleSupplier;
 
 public class Vision extends SubsystemBase {
     
@@ -23,6 +25,9 @@ public class Vision extends SubsystemBase {
     private double mDistancex, mDistancey, mTotalDistance;
     private Translation2d mBlueSpeakerPose;
     private Translation2d mRedSpeakerPose;
+    private DoubleSupplier mVAngle;
+    private DoubleSupplier mVSpeed;
+    private Shot visionShot;
     
     private AprilTagFieldLayout mFieldLayout;
 
@@ -48,6 +53,8 @@ public class Vision extends SubsystemBase {
         mRedSpeakerPose = new Translation2d(16.53, 5.61);
 
 
+
+
         mSwerveDrivePoseEstimator = new SwerveDrivePoseEstimator(
             SWERVE.getKinematics(),
             SWERVE.getHeading(),
@@ -61,17 +68,29 @@ public class Vision extends SubsystemBase {
 
     public Double toSpeakerPose(){
         if(Angler.isBlueTeam() == true){
-        mDistancex =  RobotContainer.S_VISION.getEstimatedPose().getTranslation().getX() - mBlueSpeakerPose.getX();
-        mDistancey =  RobotContainer.S_VISION.getEstimatedPose().getTranslation().getY() - mBlueSpeakerPose.getY();
+        mDistancex =  getEstimatedPose().getTranslation().getX() - mBlueSpeakerPose.getX();
+        mDistancey =  getEstimatedPose().getTranslation().getY() - mBlueSpeakerPose.getY();
         mTotalDistance = Math.sqrt(Math.pow(mDistancex, 2) + Math.pow(mDistancey, 2));
         }
         else
         {
-        mDistancex =  RobotContainer.S_VISION.getEstimatedPose().getTranslation().getX() - mRedSpeakerPose.getX();
-        mDistancey =  RobotContainer.S_VISION.getEstimatedPose().getTranslation().getY() - mRedSpeakerPose.getY();
+        mDistancex =  getEstimatedPose().getTranslation().getX() - mRedSpeakerPose.getX();
+        mDistancey =  getEstimatedPose().getTranslation().getY() - mRedSpeakerPose.getY();
         mTotalDistance = Math.sqrt(Math.pow(mDistancex, 2) + Math.pow(mDistancey, 2));
         }
         return mTotalDistance;
+    }
+
+    public DoubleSupplier CalculateShotAngle() {
+        visionShot = VisionShotLibrary.getShotForDistance(toSpeakerPose());
+        mVAngle = visionShot::getPivotAngle;
+        return mVAngle;
+    }
+
+    public DoubleSupplier CalculateShotSpeed() {
+        visionShot = VisionShotLibrary.getShotForDistance(toSpeakerPose());
+        mVSpeed = visionShot::getLauncherSpeed;
+        return mVSpeed;
     }
 
     public Pose2d getEstimatedPose(){

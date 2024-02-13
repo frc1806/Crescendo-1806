@@ -8,8 +8,8 @@ import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 
 /** Add your docs here. */
 public class VisionShotLibrary {
-    private InterpolatingDoubleTreeMap mFlywheelSpeedDoubleTreeMap;
-    private InterpolatingDoubleTreeMap mLaunchAngleDoubleTreeMap;
+    private static InterpolatingDoubleTreeMap mFlywheelSpeedDoubleTreeMap;
+    private static InterpolatingDoubleTreeMap mLaunchAngleDoubleTreeMap;
 
 
     public VisionShotLibrary(){
@@ -36,7 +36,9 @@ public class VisionShotLibrary {
      * @param distance
      * @return
      */
-    public Shot getShotForDistance(double distance){
+    public static Shot getShotForDistance(double distance){
         return new Shot("Generated Vision Shot", mLaunchAngleDoubleTreeMap.get(distance), mFlywheelSpeedDoubleTreeMap.get(distance));
     }
+
+    
 }
