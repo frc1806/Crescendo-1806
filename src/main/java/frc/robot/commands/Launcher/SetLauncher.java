@@ -1,4 +1,4 @@
-package frc.robot.commands.launcher;
+package frc.robot.commands.Launcher;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;

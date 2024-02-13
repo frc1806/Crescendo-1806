@@ -1,4 +1,4 @@
-package frc.robot.commands.angler;
+package frc.robot.commands.Angler;
 
 import frc.robot.RobotContainer;
 import frc.robot.game.Shot;

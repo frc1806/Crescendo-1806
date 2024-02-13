@@ -12,15 +12,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.VisionShot;
+
+import frc.robot.commands.sequence.VisionShotSequence;
 import frc.robot.commands.Angler.AnglerGoToAngle;
 import frc.robot.commands.Intake.SetIntake;
-import frc.robot.commands.Launcher.IdleLauncher;
+import frc.robot.commands.Launcher.SetLauncher;
 import frc.robot.commands.Swerve.FieldOrientedDrive;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.commands.sequence.IntakeSequence;
 import frc.robot.commands.sequence.PresetShotLaunchSequence;
+import frc.robot.commands.sequence.VisionShotSequence;
 import frc.robot.game.Shot;
 import frc.robot.game.VisionShotLibrary;
 import frc.robot.subsystems.Angler;
@@ -61,7 +63,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("mobilityPointDrive", S_SWERVE.autonDriveBackwards(5));
     NamedCommands.registerCommand("intakeMax", new SetIntake(1.0));
     NamedCommands.registerCommand("intakeStop", new SetIntake(0.0));
-    NamedCommands.registerCommand("visionShot", new VisionShot(S_ANGLER, S_LAUNCHER, S_DRIVERCONTROLS, S_LED, mVisionShotLibrary, 5.0));
+    NamedCommands.registerCommand("visionShot", new VisionShotSequence(null, null));
     NamedCommands.registerCommand("IntakeSequence", new IntakeSequence());
     NamedCommands.registerCommand("PresetSubwooferShot", new PresetShotLaunchSequence(Shot.SUBWOOFER));
     

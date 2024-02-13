@@ -12,10 +12,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.commands.VisionShot;
+import frc.robot.commands.Swerve.LockPods;
+import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.commands.sequence.PresetShotLaunchSequence;
-import frc.robot.commands.swerve.LockPods;
-import frc.robot.commands.swerve.ResetGyro;
+import frc.robot.commands.sequence.VisionShotSequence;
+import frc.robot.commands.Swerve.LockPods;
+import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.game.Shot;
 import frc.robot.game.VisionShotLibrary;
 import frc.robot.util.PolarCoordinate;
@@ -148,7 +150,7 @@ public class DriverControls extends SubsystemBase{
         new Trigger(this::o_wantExtendBoatHook).whileTrue(boatHook.extendBoatHook());
         new Trigger(this::o_wantRetractBoatHook).whileTrue(boatHook.retractBoatHook());
         new Trigger(this::o_wantStopBoatHook).whileTrue(boatHook.stopBoatHook());
-        new Trigger(this::o_wantVisionShot).whileTrue(new VisionShot(angler, launcher, this, led, shotLibrary, 5.0));
+        new Trigger(this::o_wantVisionShot).whileTrue(new VisionShotSequence(null, null));
 
         //Debug
         new Trigger(this::d_wantDashboardShot).whileTrue(new PresetShotLaunchSequence(new Shot(

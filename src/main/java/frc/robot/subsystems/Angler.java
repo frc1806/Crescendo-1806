@@ -15,6 +15,8 @@ import frc.robot.RobotMap;
 import frc.robot.game.Shot;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Angler extends SubsystemBase {
@@ -26,10 +28,6 @@ public class Angler extends SubsystemBase {
     private double mRightSensorAngle;
     private double mTwistAngle;
     private double mWantedManualPower;
-    private double mDistancex;
-    private double mDistancey;
-    private double mTotalDistance;
-    private Translation2d mBlueSpeakerPose;
 
     private boolean isAnglerEnabled;
 
@@ -66,8 +64,6 @@ public class Angler extends SubsystemBase {
 
         updateAnglesFromSensors();
         mCurrentDesiredAngle = Shot.HOME.getPivotAngle();
-
-        mBlueSpeakerPose = new Translation2d(0.06, 5.55);
 
         isAnglerEnabled = true;
     }
@@ -136,12 +132,12 @@ public class Angler extends SubsystemBase {
         return isTwistDetected() || isEitherSensorOutsideAcceptableRange();
     }
 
-    public void toSpeakerPose(){
-        mDistancex =  RobotContainer.S_VISION.getEstimatedPose().getTranslation().getX() - mBlueSpeakerPose.getX();
-        mDistancey =  RobotContainer.S_VISION.getEstimatedPose().getTranslation().getY() - mBlueSpeakerPose.getY();
-        mTotalDistance = Math.sqrt(Math.pow(mDistancex, 2) + Math.pow(mDistancey, 2));
-        mCurrentDesiredAngle = Math.toDegrees(Math.atan(Constants.kSpeakerHeight/mTotalDistance));
-        goToPosition(mCurrentDesiredAngle);
+
+    public static boolean isBlueTeam(){
+        if(DriverStation.getAlliance().isPresent()){
+            return DriverStation.getAlliance().get() == Alliance.Blue;
+        }
+        return false;
     }
 
     public void enableAngler(){
