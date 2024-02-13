@@ -10,12 +10,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Launcher;
 
-public class SetLauncherFromSupplier extends Command {
+public class LaunchNoteFromSupplier extends Command {
   /** Creates a new SetLauncherFromVision. */
   private DoubleSupplier mSpeedDoubleSupplier;
   private Launcher mLauncher;
 
-  public SetLauncherFromSupplier(DoubleSupplier speedSupplier) {
+  public LaunchNoteFromSupplier(DoubleSupplier speedSupplier) {
      mLauncher = RobotContainer.S_LAUNCHER;
      mSpeedDoubleSupplier = speedSupplier;
      addRequirements(mLauncher);
@@ -32,7 +32,7 @@ public class SetLauncherFromSupplier extends Command {
   public void execute() {
     mLauncher.setLauncher(mSpeedDoubleSupplier.getAsDouble());
 
-    mLauncher.stopIndexer(); //idle the indexer while spinning up flywheel... or stopping flywheel.
+    mLauncher.sendNoteToFlywheel();
   }
 
   // Called once the command ends or is interrupted.
