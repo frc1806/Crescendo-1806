@@ -12,6 +12,7 @@ public class SetIntake extends Command{
     public SetIntake(double speed){
         mIntake = RobotContainer.S_INTAKE;
         mSpeed = speed;
+        addRequirements(mIntake);
     }
 
     @Override
