@@ -63,7 +63,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("mobilityPointDrive", S_SWERVE.autonDriveBackwards(5));
     NamedCommands.registerCommand("intakeMax", new SetIntake(1.0));
     NamedCommands.registerCommand("intakeStop", new SetIntake(0.0));
-    NamedCommands.registerCommand("visionShot", new VisionShotSequence(null, null));
+    NamedCommands.registerCommand("visionShot", new VisionShotSequence(S_VISION.CalculateShotAngle(), S_VISION.CalculateShotSpeed()));
     NamedCommands.registerCommand("IntakeSequence", new IntakeSequence());
     NamedCommands.registerCommand("PresetSubwooferShot", new PresetShotLaunchSequence(Shot.SUBWOOFER));
     
