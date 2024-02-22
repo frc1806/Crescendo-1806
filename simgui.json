@@ -16,7 +16,10 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Angler": "Subsystem",
       "/SmartDashboard/Auto Mode": "String Chooser",
+      "/SmartDashboard/BoatHook": "Subsystem",
+      "/SmartDashboard/DriverStationChecker": "Subsystem",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Intake": "Subsystem",
       "/SmartDashboard/Launcher": "Subsystem",
@@ -27,6 +30,11 @@
     },
     "windows": {
       "/SmartDashboard/Auto Mode": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/DriverStationChecker": {
         "window": {
           "visible": true
         }
@@ -67,6 +75,15 @@
       "open": true
     },
     "Server": {
+      "open": true
+    },
+    "shuffleboard@1": {
+      "Publishers": {
+        "open": true
+      },
+      "Subscribers": {
+        "open": true
+      },
       "open": true
     },
     "visible": true
