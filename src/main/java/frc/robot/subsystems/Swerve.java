@@ -35,7 +35,7 @@ public class Swerve extends SubsystemBase {
 
     public Swerve(){
         maximumSpeed = Units.feetToMeters(14.5);
-        swerveJsonDirectory = new File(Filesystem.getDeployDirectory(), "swerve/testBench");
+        swerveJsonDirectory = new File(Filesystem.getDeployDirectory(), "swerve/practice");
         try{
             swerveDrive = new SwerveParser(swerveJsonDirectory).createSwerveDrive(maximumSpeed);
         } catch (Exception exception){

@@ -21,7 +21,8 @@ public class DriverStationChecker extends SubsystemBase {
   /** Creates a new DriverStationChecker. */
   public DriverStationChecker() {
     mUpdateTimer = new Timer();
-    
+    updateIsRealMatch();
+    updateCurrentAlliance();
     SmartDashboard.putBoolean(S_SIMREALMATCHKEY, false);
   }
 
@@ -44,7 +45,11 @@ public class DriverStationChecker extends SubsystemBase {
   }
 
   private void updateCurrentAlliance(){
-    mCurrentAlliance = DriverStation.getAlliance().get();
+    if(DriverStation.getAlliance().isPresent()){
+      mCurrentAlliance = DriverStation.getAlliance().get();
+    } else {
+      mCurrentAlliance = Alliance.Blue;
+    }
   }
 
   private void updateIsRealMatch(){

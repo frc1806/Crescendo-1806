@@ -5,6 +5,7 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,8 +17,6 @@ import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.commands.sequence.PresetShotLaunchSequence;
 import frc.robot.commands.sequence.VisionShotSequence;
-import frc.robot.commands.Swerve.LockPods;
-import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.game.Shot;
 import frc.robot.game.VisionShotLibrary;
 import frc.robot.util.PolarCoordinate;
@@ -163,11 +162,13 @@ public class DriverControls extends SubsystemBase{
     public void periodic() {
         SmartDashboard.putNumber("TIMER", DriverStation.getMatchTime());
 
-        if(DriverStation.getMatchTime() < 20){
-            setRumble(1);
-        }
-        else if(DriverStation.getMatchTime() < 10){
-            setRumble(1);
+        if(!RobotState.isDisabled()){
+            if(DriverStation.getMatchTime() < 20){
+                setRumble(1);
+            }
+            else if(DriverStation.getMatchTime() < 10){
+                setRumble(1);
+            }
         }
     }
 

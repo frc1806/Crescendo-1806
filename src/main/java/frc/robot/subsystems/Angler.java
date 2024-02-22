@@ -38,11 +38,14 @@ public class Angler extends SubsystemBase {
         mAnglerMotorLeft = new TalonSRX(RobotMap.AnglerLeftMotorId);
         mAnglerMotorLeft.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition);
         mAnglerMotorLeft.configFeedbackNotContinuous(false, 50);
+        mAnglerMotorLeft.setInverted(InvertType.None);
+        mAnglerMotorLeft.setSensorPhase(false);
         mAnglerMotorLeft.config_kP(0, Constants.kAnglerP);
         mAnglerMotorLeft.config_kI(0, Constants.kAnglerI);
         mAnglerMotorLeft.config_kD(0, Constants.kAnglerD);
-        mAnglerMotorLeft.configMotionCruiseVelocity((40.0 / 360.0) * 4096.0); //degrees per tenth of a second, scaled to encoder units.
-        mAnglerMotorLeft.configMotionAcceleration((40.0 / 360.0) * 4096.0); // degrees per tenth of a second squared scaled to encoder units.
+        mAnglerMotorLeft.configMotionCruiseVelocity((90.0 / 360.0) * 4096.0); //degrees per tenth of a second, scaled to encoder units.
+        mAnglerMotorLeft.configMotionAcceleration((90.0 / 360.0) * 4096.0); // degrees per tenth of a second squared scaled to encoder units.
+        mAnglerMotorLeft.configMotionSCurveStrength(1);
         mAnglerMotorLeft.set(ControlMode.PercentOutput, 0.0);
         mAnglerMotorLeft.setNeutralMode(NeutralMode.Brake);
         
@@ -53,16 +56,21 @@ public class Angler extends SubsystemBase {
         mAnglerMotorRight.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition);
         mAnglerMotorRight.configFeedbackNotContinuous(false, 50);
         mAnglerMotorRight.setInverted(InvertType.InvertMotorOutput);
-        mAnglerMotorRight.setSensorPhase(true); //Invert sensor relative to motor, not sure if needed yet
+        mAnglerMotorRight.setSensorPhase(false); //Invert sensor relative to motor, not sure if needed yet
         mAnglerMotorRight.config_kP(0, Constants.kAnglerP);
         mAnglerMotorRight.config_kI(0, Constants.kAnglerI);
         mAnglerMotorRight.config_kD(0, Constants.kAnglerD);
-        mAnglerMotorRight.configMotionCruiseVelocity((40.0 / 360.0) * 4096.0); //degrees per tenth of a second, scaled to encoder units.
-        mAnglerMotorRight.configMotionAcceleration((40.0 / 360.0) * 4096.0); // degrees per tenth of a second squared scaled to encoder units.
+        mAnglerMotorRight.configMotionCruiseVelocity((90.0 / 360.0) * 4096.0); //degrees per tenth of a second, scaled to encoder units.
+        mAnglerMotorRight.configMotionAcceleration((90.0 / 360.0) * 4096.0); // degrees per tenth of a second squared scaled to encoder units.
+        mAnglerMotorRight.configMotionSCurveStrength(1);
         mAnglerMotorRight.set(ControlMode.PercentOutput, 0.0);
         mAnglerMotorRight.setNeutralMode(NeutralMode.Brake);
 
 
+
+        updateAnglesFromSensors();
+
+        mAnglerMotorRight.setSelectedSensorPosition(-mAnglerMotorLeft.getSelectedSensorPosition());
         updateAnglesFromSensors();
         mCurrentDesiredAngle = Shot.HOME.getPivotAngle();
 
@@ -108,7 +116,7 @@ public class Angler extends SubsystemBase {
 
     private void updateAnglesFromSensors(){
         mLeftSensorAngle = convertSensorValueToAngle(mAnglerMotorLeft.getSelectedSensorPosition());
-        mRightSensorAngle = convertAngleToSensorValue(mAnglerMotorRight.getSelectedSensorPosition());
+        mRightSensorAngle = convertSensorValueToAngle(mAnglerMotorRight.getSelectedSensorPosition());
         mTwistAngle = mLeftSensorAngle - mRightSensorAngle;
         mCurrentAngle = (mLeftSensorAngle + mRightSensorAngle) / 2.0;
     }
@@ -126,7 +134,7 @@ public class Angler extends SubsystemBase {
     }
 
     private boolean isEitherSensorOutsideAcceptableRange(){
-        return (mLeftSensorAngle > 360.0 || mLeftSensorAngle < 0.0 || mRightSensorAngle > 360.0 || mRightSensorAngle < 0.0);
+        return (mLeftSensorAngle > 450.0 || mLeftSensorAngle < 200.0 || mRightSensorAngle > 450.0 || mRightSensorAngle < 200.0);
     }
 
     private boolean hasSomethingGoneHorriblyWrong(){
@@ -166,6 +174,7 @@ public class Angler extends SubsystemBase {
         SmartDashboard.putBoolean("Angler Enabled", isAnglerEnabled);
 
         SmartDashboard.putNumber("Angler Wanted Angle", mCurrentDesiredAngle);
+        SmartDashboard.putNumber("Angler Wanted Sensor Angle:", convertAngleToSensorValue(mCurrentDesiredAngle));
 
         SmartDashboard.putNumber("Angler Wanted Manual Power", mWantedManualPower);
         //Read encoders
