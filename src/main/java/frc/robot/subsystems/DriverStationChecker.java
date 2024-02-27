@@ -24,6 +24,7 @@ public class DriverStationChecker extends SubsystemBase {
     updateIsRealMatch();
     updateCurrentAlliance();
     SmartDashboard.putBoolean(S_SIMREALMATCHKEY, false);
+    mUpdateTimer.start();
   }
 
   @Override

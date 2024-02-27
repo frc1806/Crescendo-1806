@@ -6,10 +6,15 @@
           "open": true
         }
       },
-      "navX-Sensor[0]": {
+      "Talon FX (v6)[4]": {
         "header": {
           "open": true
         }
+      }
+    },
+    "RoboRIO": {
+      "window": {
+        "visible": true
       }
     }
   },

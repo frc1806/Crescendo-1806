@@ -4,13 +4,17 @@
 
 package frc.robot.commands.sequence;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.RobotContainer;
 import frc.robot.commands.Angler.AnglerGoToAngle;
 import frc.robot.commands.Intake.SetIntake;
 import frc.robot.commands.Launcher.LauncherIntake;
 import frc.robot.game.Shot;
+import frc.robot.util.rumbleutil.RumbleCommand;
+import frc.robot.util.rumbleutil.SineWave;
 
 public class IntakeSequence extends SequentialCommandGroup {
   /** Creates a new IntakeSequence. */
@@ -27,7 +31,8 @@ public class IntakeSequence extends SequentialCommandGroup {
           new LauncherIntake(),
           new SetIntake(1.0)
         )
-      )
+      ),
+      RobotContainer.S_DRIVERCONTROLS.addDriverRumbleCommand(new RumbleCommand(new SineWave(0.25, 0.3), RumbleType.kRightRumble, 1.0))
     );
   }
 }

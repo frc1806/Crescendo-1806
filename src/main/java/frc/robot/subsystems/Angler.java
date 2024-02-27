@@ -13,10 +13,11 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 import frc.robot.game.Shot;
-
-
+import frc.robot.util.rumbleutil.RumbleCommand;
+import frc.robot.util.rumbleutil.SquareWave;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -182,7 +183,14 @@ public class Angler extends SubsystemBase {
 
         if(hasSomethingGoneHorriblyWrong())
         {
-            isAnglerEnabled = false; //TODO: Notify drivers somehow. LEDs? Dashboard? Rumble?
+            if(isAnglerEnabled){
+                //Notify Drivers
+                //6 long pulses.
+                RobotContainer.S_DRIVERCONTROLS.addRumbleCommandToDriverQueue(new RumbleCommand(new SquareWave(1.0, 0.75, 0.7), RumbleType.kRightRumble, 6.0));
+                RobotContainer.S_DRIVERCONTROLS.addRumbleCommandToOperatorQueue(new RumbleCommand(new SquareWave(1.0, 0.75, 0.7), RumbleType.kRightRumble, 6.0));
+                //TODO: LEDs.
+            }
+            isAnglerEnabled = false;
         }
 
         //Run motor with manual contorl if wanted
