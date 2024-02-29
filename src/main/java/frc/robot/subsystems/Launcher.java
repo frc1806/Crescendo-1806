@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.SparkLimitSwitch.Type;
 import com.revrobotics.CANSparkFlex;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.SparkPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,13 +22,14 @@ public class Launcher extends SubsystemBase{
     private SparkLimitSwitch mOuterLauncherPhotoEye;
     private SparkLimitSwitch mInnerLauncherPhotoEye;
     private SparkLimitSwitch mIndexerPhotoEye;
+    RelativeEncoder mSparkEncoder;
 
     private double mLauncherTargetSpeed;
     public Launcher(){
         mLauncherLeader = new CANSparkFlex(RobotMap.kLauncherLeaderId, CANSparkFlex.MotorType.kBrushless);
-        mOuterLauncherPhotoEye = mLauncherLeader.getForwardLimitSwitch(Type.kNormallyClosed); //TODO: Verify photosensor switch type
+        mOuterLauncherPhotoEye = mLauncherLeader.getForwardLimitSwitch(Type.kNormallyOpen); //TODO: Verify photosensor switch type
         mOuterLauncherPhotoEye.enableLimitSwitch(false);
-        mInnerLauncherPhotoEye = mLauncherLeader.getReverseLimitSwitch(Type.kNormallyClosed);
+        mInnerLauncherPhotoEye = mLauncherLeader.getReverseLimitSwitch(Type.kNormallyOpen);
         mInnerLauncherPhotoEye.enableLimitSwitch(false);
         mLauncherFollower = new CANSparkFlex(RobotMap.kLauncherFollowerId, CANSparkFlex.MotorType.kBrushless);
         mLauncherFollower.follow(mLauncherLeader, true);
@@ -38,11 +40,12 @@ public class Launcher extends SubsystemBase{
         mSparkPIDController.setFF(Constants.kLauncherkF);
 
         mIndexLeader = new CANSparkFlex(RobotMap.kIndexerLeaderId, CANSparkFlex.MotorType.kBrushless);
-        mIndexerPhotoEye = mIndexLeader.getReverseLimitSwitch(Type.kNormallyClosed);
+        mIndexerPhotoEye = mIndexLeader.getReverseLimitSwitch(Type.kNormallyOpen);
         mIndexerPhotoEye.enableLimitSwitch(true);
 
         mIndexFollower = new CANSparkFlex(RobotMap.kIndexerFollowerId, CANSparkFlex.MotorType.kBrushless);
         mIndexFollower.follow(mIndexLeader, true);
+        mSparkEncoder = mLauncherLeader.getEncoder();
 
 
         setLauncherMode(IdleMode.kBrake);
@@ -56,10 +59,11 @@ public class Launcher extends SubsystemBase{
 
     public boolean isLauncherAtSpeed(){
         return mLauncherTargetSpeed != 0 
-            && Math.abs(mLauncherLeader.getEncoder().getVelocity() - mLauncherTargetSpeed) < Constants.kLauncherAcceptableSpeedTolerance;
+            && Math.abs(mSparkEncoder.getVelocity() - mLauncherTargetSpeed) < Constants.kLauncherAcceptableSpeedTolerance;
     }
 
     public void runMotorsForIntake(){
+        mLauncherTargetSpeed = -3000.0;
         setLauncher(-3000.0);
         mIndexLeader.set(-0.5);
     }
@@ -102,6 +106,9 @@ public class Launcher extends SubsystemBase{
     @Override
     public void periodic() {
         SmartDashboard.putData(this);
+        SmartDashboard.putNumber("Launcher Speed", mSparkEncoder.getVelocity());
+        SmartDashboard.putNumber("Launcher Target Speed", mLauncherTargetSpeed);
+        SmartDashboard.putBoolean("Launcher Rear Note Sensor", isNoteInIndexer());
     }
 
     @Override

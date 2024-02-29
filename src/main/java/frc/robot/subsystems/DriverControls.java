@@ -7,7 +7,6 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
@@ -27,7 +26,6 @@ import frc.robot.game.Shot;
 import frc.robot.game.VisionShotLibrary;
 import frc.robot.util.PolarCoordinate;
 import frc.robot.util.rumbleutil.RumbleCommand;
-import frc.robot.util.rumbleutil.SineWave;
 import frc.robot.util.rumbleutil.SquareWave;
 
 public class DriverControls extends SubsystemBase{
@@ -90,7 +88,7 @@ public class DriverControls extends SubsystemBase{
 
         double[] rightJoyPolarCoordinate = PolarCoordinate.toPolarCoordinate(y,x);
     
-        double r = MathUtil.applyDeadband(rightJoyPolarCoordinate[0], Constants.kRightXboxJoystickDeadzone);
+        double r = rightJoyPolarCoordinate[0];
         double theta = Units.radiansToDegrees(rightJoyPolarCoordinate[1]);
 
         if(r < 0.8){
@@ -136,6 +134,10 @@ public class DriverControls extends SubsystemBase{
         return operatorController.getXButton();
     }
 
+    public boolean o_wantSubwooferShot(){
+        return operatorController.getLeftBumper();
+    }
+
     public boolean o_wantManualAnglerRotate(){
         return operatorController.getRightTriggerAxis() > 0;
     }
@@ -156,32 +158,42 @@ public class DriverControls extends SubsystemBase{
     }
 
     public boolean d_wantAnglerManual() {
-        return d_pivotAnglerManual() != 0;
+        return false;
+        //return d_pivotAnglerManual() != 0;
     }
 
     public boolean d_wantDashboardShot(){
         return debugController.getXButton();
     }
 
+    public boolean d_wantCloseShot(){
+        return debugController.getAButton();
+    }
+
+    public boolean d_wantYeet(){
+        return debugController.getYButton();
+    }
+
     public void registerTriggers(Swerve swerve, Reel intake, Angler angler, Vision vision, Launcher launcher, LED led, BoatHook boatHook, VisionShotLibrary shotLibrary){
         //Driver
         new Trigger(this::lockPods).onTrue(new LockPods(swerve));
         new Trigger(this::resetGyro).onTrue(new ResetGyro(swerve));
-        //new Trigger(this::intake).whileTrue(intake.setIntake(1));
-        new Trigger(this::intake).onTrue(new IntakeSequence());
+        new Trigger(this::intake).whileTrue(new IntakeSequence());
         //Operator
         new Trigger(this::o_wantExtendBoatHook).whileTrue(boatHook.extendBoatHook());
         new Trigger(this::o_wantRetractBoatHook).whileTrue(boatHook.retractBoatHook());
         new Trigger(this::o_wantStopBoatHook).whileTrue(boatHook.stopBoatHook());
         new Trigger(this::o_wantVisionShot).whileTrue(new VisionShotSequence(vision.CalculateShotAngle(), vision.CalculateShotSpeed()));
-        
+        new Trigger(this::o_wantSubwooferShot).whileTrue(new PresetShotLaunchSequence(Shot.SUBWOOFER));
 
         //Debug
         new Trigger(this::d_wantDashboardShot).whileTrue(new PresetShotLaunchSequence(new Shot(
             "Dashboard Shot",
-            SmartDashboard.getNumber("Angle", 0),
-            SmartDashboard.getNumber("Launcher Power", 0))));
+            SmartDashboard.getNumber("Angle", 300.0),
+            SmartDashboard.getNumber("Launcher Power", 3000.0))));
 
+        new Trigger(this::d_wantCloseShot).whileTrue(new PresetShotLaunchSequence(Shot.CLOSE));
+        new Trigger(this::d_wantYeet).whileTrue(new PresetShotLaunchSequence(Shot.YEET));
 
         //RUMBLE TRIGGERS
         new Trigger(() ->(DriverStation.isTeleopEnabled() && DriverStation.getMatchTime() < 20)).onTrue(addDriverRumbleCommand(new RumbleCommand(new SquareWave(0.3,0.3 ,0.5), RumbleType.kBothRumble, 2.0)));

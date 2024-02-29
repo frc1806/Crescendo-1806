@@ -28,7 +28,7 @@ public class LaunchNote extends Command {
   public void initialize() {
     mLauncher.setLauncher(mSpeed);
     mLauncher.sendNoteToFlywheel();
-    mTimer.start();
+    mTimer.restart();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -48,6 +48,6 @@ public class LaunchNote extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (mIsNoteLeaving && mLauncher.isLauncherAndIndexerEmpty()) || mTimer.hasElapsed(mTimeout);
+    return mTimer.hasElapsed(mTimeout);//(mIsNoteLeaving && mLauncher.isLauncherAndIndexerEmpty()) || mTimer.hasElapsed(mTimeout);
   }
 }

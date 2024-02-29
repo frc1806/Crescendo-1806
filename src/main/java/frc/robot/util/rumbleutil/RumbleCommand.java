@@ -5,7 +5,6 @@
 package frc.robot.util.rumbleutil;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
 /** Add your docs here. */

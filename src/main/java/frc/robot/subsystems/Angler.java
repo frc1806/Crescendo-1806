@@ -4,6 +4,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.FollowerType;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
@@ -44,8 +45,8 @@ public class Angler extends SubsystemBase {
         mAnglerMotorLeft.config_kP(0, Constants.kAnglerP);
         mAnglerMotorLeft.config_kI(0, Constants.kAnglerI);
         mAnglerMotorLeft.config_kD(0, Constants.kAnglerD);
-        mAnglerMotorLeft.configMotionCruiseVelocity((90.0 / 360.0) * 4096.0); //degrees per tenth of a second, scaled to encoder units.
-        mAnglerMotorLeft.configMotionAcceleration((90.0 / 360.0) * 4096.0); // degrees per tenth of a second squared scaled to encoder units.
+        mAnglerMotorLeft.configMotionCruiseVelocity(Constants.kAnglerCruiseVelocity); //degrees per tenth of a second, scaled to encoder units.
+        mAnglerMotorLeft.configMotionAcceleration(Constants.kAnglerMaxAcceleration); // degrees per tenth of a second squared scaled to encoder units.
         mAnglerMotorLeft.configMotionSCurveStrength(1);
         mAnglerMotorLeft.set(ControlMode.PercentOutput, 0.0);
         mAnglerMotorLeft.setNeutralMode(NeutralMode.Brake);
@@ -54,6 +55,7 @@ public class Angler extends SubsystemBase {
 
         //RIGHT MOTOR
         mAnglerMotorRight = new TalonSRX(RobotMap.AnglerRightMotorId);
+        /*
         mAnglerMotorRight.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition);
         mAnglerMotorRight.configFeedbackNotContinuous(false, 50);
         mAnglerMotorRight.setInverted(InvertType.InvertMotorOutput);
@@ -61,9 +63,14 @@ public class Angler extends SubsystemBase {
         mAnglerMotorRight.config_kP(0, Constants.kAnglerP);
         mAnglerMotorRight.config_kI(0, Constants.kAnglerI);
         mAnglerMotorRight.config_kD(0, Constants.kAnglerD);
-        mAnglerMotorRight.configMotionCruiseVelocity((90.0 / 360.0) * 4096.0); //degrees per tenth of a second, scaled to encoder units.
-        mAnglerMotorRight.configMotionAcceleration((90.0 / 360.0) * 4096.0); // degrees per tenth of a second squared scaled to encoder units.
+        mAnglerMotorRight.configMotionCruiseVelocity(Constants.kAnglerCruiseVelocity); //degrees per tenth of a second, scaled to encoder units.
+        mAnglerMotorRight.configMotionAcceleration(Constants.kAnglerMaxAcceleration); // degrees per tenth of a second squared scaled to encoder units.
         mAnglerMotorRight.configMotionSCurveStrength(1);
+        */
+        //FOLLOWER STYLE
+        mAnglerMotorRight.follow(mAnglerMotorLeft, FollowerType.PercentOutput);
+        mAnglerMotorRight.setInverted(InvertType.InvertMotorOutput);
+        //END FOLLOWER STYLE
         mAnglerMotorRight.set(ControlMode.PercentOutput, 0.0);
         mAnglerMotorRight.setNeutralMode(NeutralMode.Brake);
 
@@ -79,11 +86,23 @@ public class Angler extends SubsystemBase {
     }
 
     public void goToPosition(double wantedAngle){
+        if(wantedAngle < 250.0){
+            System.out.println("Tried to set a launcher angle of:" + wantedAngle);
+            wantedAngle = 250.0;
+        }
+        if(wantedAngle > 400.0){
+            System.out.println("Tried to set a launcher angle of:" + wantedAngle);
+            wantedAngle = 400.0;
+        }
         if(isAnglerEnabled)
         {
         double wantedSensorValue = convertAngleToSensorValue(wantedAngle);
         mAnglerMotorLeft.set(ControlMode.MotionMagic, wantedSensorValue);
-        mAnglerMotorRight.set(ControlMode.MotionMagic, wantedSensorValue);
+        //mAnglerMotorRight.set(ControlMode.MotionMagic, wantedSensorValue);
+        }
+        else{
+            mAnglerMotorLeft.set(ControlMode.PercentOutput, 0.0);
+            //mAnglerMotorRight.set(ControlMode.PercentOutput, 0.0);
         }
     }
 
@@ -119,7 +138,7 @@ public class Angler extends SubsystemBase {
         mLeftSensorAngle = convertSensorValueToAngle(mAnglerMotorLeft.getSelectedSensorPosition());
         mRightSensorAngle = convertSensorValueToAngle(mAnglerMotorRight.getSelectedSensorPosition());
         mTwistAngle = mLeftSensorAngle - mRightSensorAngle;
-        mCurrentAngle = (mLeftSensorAngle + mRightSensorAngle) / 2.0;
+        mCurrentAngle = (mLeftSensorAngle); //+ mRightSensorAngle) / 2.0;
     }
 
     private double convertAngleToSensorValue(double angle){
@@ -131,11 +150,12 @@ public class Angler extends SubsystemBase {
     }
 
     private boolean isTwistDetected(){
-        return Math.abs(mTwistAngle) > Constants.kAnglerTwistDetectionAngleDifference;
+        return false;
+        //return Math.abs(mTwistAngle) > Constants.kAnglerTwistDetectionAngleDifference;
     }
 
     private boolean isEitherSensorOutsideAcceptableRange(){
-        return (mLeftSensorAngle > 450.0 || mLeftSensorAngle < 200.0 || mRightSensorAngle > 450.0 || mRightSensorAngle < 200.0);
+        return (mLeftSensorAngle > 450.0 || mLeftSensorAngle < 200.0); //|| mRightSensorAngle > 450.0 || mRightSensorAngle < 200.0);
     }
 
     private boolean hasSomethingGoneHorriblyWrong(){

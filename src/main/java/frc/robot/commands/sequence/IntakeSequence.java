@@ -23,7 +23,8 @@ public class IntakeSequence extends SequentialCommandGroup {
     addCommands(
       new ParallelRaceGroup(
         new AnglerGoToAngle(Shot.HOME.getPivotAngle()),
-        new LauncherIntake()
+        new LauncherIntake(),
+        new SetIntake(0.0)
       ),
       new ParallelCommandGroup(
         new AnglerGoToAngle(Shot.HOME.getPivotAngle()),
