@@ -14,30 +14,38 @@ import frc.robot.RobotMap;
 
 public class Launcher extends SubsystemBase{
 
-    private CANSparkFlex mLauncherLeader;
-    private CANSparkFlex mLauncherFollower;
-    private SparkPIDController mSparkPIDController;
+    private CANSparkFlex mLauncherLeftMotor;
+    private CANSparkFlex mLauncherRightMotor;
+    private SparkPIDController mLeftLauncherPID, mRightLauncherPID;
     private CANSparkFlex mIndexLeader;
     private CANSparkFlex mIndexFollower;
     private SparkLimitSwitch mOuterLauncherPhotoEye;
     private SparkLimitSwitch mInnerLauncherPhotoEye;
     private SparkLimitSwitch mIndexerPhotoEye;
-    RelativeEncoder mSparkEncoder;
+    RelativeEncoder mLeftSparkEncoder;
+    RelativeEncoder mRightSparkEncoder;
 
     private double mLauncherTargetSpeed;
     public Launcher(){
-        mLauncherLeader = new CANSparkFlex(RobotMap.kLauncherLeaderId, CANSparkFlex.MotorType.kBrushless);
-        mOuterLauncherPhotoEye = mLauncherLeader.getForwardLimitSwitch(Type.kNormallyOpen); //TODO: Verify photosensor switch type
+        mLauncherLeftMotor = new CANSparkFlex(RobotMap.kLauncherLeaderId, CANSparkFlex.MotorType.kBrushless);
+        mLauncherLeftMotor.setInverted(true);
+        mOuterLauncherPhotoEye = mLauncherLeftMotor.getForwardLimitSwitch(Type.kNormallyOpen); 
         mOuterLauncherPhotoEye.enableLimitSwitch(false);
-        mInnerLauncherPhotoEye = mLauncherLeader.getReverseLimitSwitch(Type.kNormallyOpen);
+        mInnerLauncherPhotoEye = mLauncherLeftMotor.getReverseLimitSwitch(Type.kNormallyOpen);
         mInnerLauncherPhotoEye.enableLimitSwitch(false);
-        mLauncherFollower = new CANSparkFlex(RobotMap.kLauncherFollowerId, CANSparkFlex.MotorType.kBrushless);
-        mLauncherFollower.follow(mLauncherLeader, true);
-        mSparkPIDController = mLauncherLeader.getPIDController();
-        mSparkPIDController.setP(Constants.kLauncherkP);
-        mSparkPIDController.setI(Constants.kLauncherkI);
-        mSparkPIDController.setD(Constants.kLauncherkD);
-        mSparkPIDController.setFF(Constants.kLauncherkF);
+        mLauncherRightMotor = new CANSparkFlex(RobotMap.kLauncherFollowerId, CANSparkFlex.MotorType.kBrushless);
+        mLeftLauncherPID = mLauncherLeftMotor.getPIDController();
+        mRightLauncherPID = mLauncherRightMotor.getPIDController();
+        mLeftLauncherPID.setP(Constants.kLeftLauncherkP);
+        mLeftLauncherPID.setI(Constants.kLeftLauncherkI);
+        mLeftLauncherPID.setD(Constants.kLeftLauncherkD);
+        mLeftLauncherPID.setFF(Constants.kLeftLauncherkF);
+        
+        mRightLauncherPID.setP(Constants.kRightLauncherkP);
+        mRightLauncherPID.setI(Constants.kRightLauncherkI);
+        mRightLauncherPID.setD(Constants.kRightLauncherkD);
+        mRightLauncherPID.setFF(Constants.kRightLauncherkF);
+        
 
         mIndexLeader = new CANSparkFlex(RobotMap.kIndexerLeaderId, CANSparkFlex.MotorType.kBrushless);
         mIndexerPhotoEye = mIndexLeader.getReverseLimitSwitch(Type.kNormallyOpen);
@@ -45,7 +53,8 @@ public class Launcher extends SubsystemBase{
 
         mIndexFollower = new CANSparkFlex(RobotMap.kIndexerFollowerId, CANSparkFlex.MotorType.kBrushless);
         mIndexFollower.follow(mIndexLeader, true);
-        mSparkEncoder = mLauncherLeader.getEncoder();
+        mLeftSparkEncoder = mLauncherLeftMotor.getEncoder();
+        mRightSparkEncoder = mLauncherRightMotor.getEncoder();
 
 
         setLauncherMode(IdleMode.kBrake);
@@ -54,27 +63,34 @@ public class Launcher extends SubsystemBase{
 
     public void setLauncher(double speed){
         mLauncherTargetSpeed = speed;
-        mSparkPIDController.setReference(mLauncherTargetSpeed, ControlType.kVelocity);
+        mLeftLauncherPID.setReference(mLauncherTargetSpeed, ControlType.kVelocity);
+        mRightLauncherPID.setReference(mLauncherTargetSpeed, ControlType.kVelocity);
     }
 
     public boolean isLauncherAtSpeed(){
         return mLauncherTargetSpeed != 0 
-            && Math.abs(mSparkEncoder.getVelocity() - mLauncherTargetSpeed) < Constants.kLauncherAcceptableSpeedTolerance;
+            && Math.abs(mLeftSparkEncoder.getVelocity() - mLauncherTargetSpeed) < Constants.kLauncherAcceptableSpeedTolerance;
     }
 
     public void runMotorsForIntake(){
         mLauncherTargetSpeed = -3000.0;
         setLauncher(-3000.0);
-        mIndexLeader.set(-0.5);
+        mIndexLeader.setVoltage(-6.0);
+    }
+
+    public void runMotorsForOuttake(){
+        mLauncherTargetSpeed = 3000.0;
+        setLauncher(3000.0);
+        mIndexLeader.setVoltage(6.0);
     }
 
     public void sendNoteToFlywheel(){
-        mIndexLeader.set(1.0); //SEND IT
+        mIndexLeader.setVoltage(12.0); //SEND IT
     }
 
     private  void setLauncherMode(IdleMode mode){
-        mLauncherLeader.setIdleMode(mode);
-        mLauncherFollower.setIdleMode(mode);
+        mLauncherLeftMotor.setIdleMode(mode);
+        mLauncherRightMotor.setIdleMode(mode);
     }
 
     private  void setIndexerMode(IdleMode mode){
@@ -106,7 +122,8 @@ public class Launcher extends SubsystemBase{
     @Override
     public void periodic() {
         SmartDashboard.putData(this);
-        SmartDashboard.putNumber("Launcher Speed", mSparkEncoder.getVelocity());
+        SmartDashboard.putNumber("Left Launcher Speed", mLeftSparkEncoder.getVelocity());
+        SmartDashboard.putNumber("Right Launcher Speed", mRightSparkEncoder.getVelocity());
         SmartDashboard.putNumber("Launcher Target Speed", mLauncherTargetSpeed);
         SmartDashboard.putBoolean("Launcher Rear Note Sensor", isNoteInIndexer());
     }

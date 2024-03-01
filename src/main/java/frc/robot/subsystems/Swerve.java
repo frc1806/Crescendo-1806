@@ -17,6 +17,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -83,7 +84,10 @@ public class Swerve extends SubsystemBase {
 
     public Command autonDriveBackwards(double distance){
         return this.run(() -> {
-            drive(new Translation2d(0, distance), 0, true);
+            if (RobotContainer.S_DRIVERSTATIONCHECKER.getCurrentAlliance() == Alliance.Blue)
+                drive(new Translation2d(0, distance), 0, true);
+            else if (RobotContainer.S_DRIVERSTATIONCHECKER.getCurrentAlliance() == Alliance.Red)
+                drive(new Translation2d(0, -distance), 0, true);
         });
     }
 

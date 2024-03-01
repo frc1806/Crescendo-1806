@@ -23,6 +23,7 @@ public class IdleLauncher extends Command {
 
   @Override
   public void execute() {
+    /* TODO: Maybe someday?
     if(RobotContainer.S_DRIVERSTATIONCHECKER.isRealMatch()){
       if(mLauncher.isNoteInIndexer()){
         mLauncher.setLauncher(3750);
@@ -34,6 +35,9 @@ public class IdleLauncher extends Command {
     else{
         mLauncher.setLauncher(0);
     }
+    mLauncher.stopIndexer();
+    */
+    mLauncher.setLauncher(0);
     mLauncher.stopIndexer();
   }
 

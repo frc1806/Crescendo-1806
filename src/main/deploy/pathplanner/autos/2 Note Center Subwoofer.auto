@@ -1,0 +1,44 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "2 Center Subwoofer Part 1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "intakeMax"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2 Center Subwoofer Part 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PresetSubwooferShot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

@@ -20,6 +20,7 @@ import frc.robot.RobotContainer;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.commands.sequence.IntakeSequence;
+import frc.robot.commands.sequence.OuttakeSequence;
 import frc.robot.commands.sequence.PresetShotLaunchSequence;
 import frc.robot.commands.sequence.VisionShotSequence;
 import frc.robot.game.Shot;
@@ -112,6 +113,10 @@ public class DriverControls extends SubsystemBase{
         return driverController.getRightBumper();
     }
 
+    public boolean outtake(){
+        return driverController.getLeftBumper();
+    }
+
     public boolean lockPods(){
         return driverController.getXButton();
     }
@@ -135,7 +140,11 @@ public class DriverControls extends SubsystemBase{
     }
 
     public boolean o_wantSubwooferShot(){
-        return operatorController.getLeftBumper();
+        return operatorController.getYButton();
+    }
+
+    public boolean o_wantAmpShot(){
+        return operatorController.getAButton();
     }
 
     public boolean o_wantManualAnglerRotate(){
@@ -143,13 +152,13 @@ public class DriverControls extends SubsystemBase{
     }
 
     public boolean o_wantExtendBoatHook(){
-        return operatorController.getAButton();
+        return operatorController.getRightBumper();
     }
     public boolean o_wantRetractBoatHook(){
-        return operatorController.getBButton();
+        return operatorController.getRightTriggerAxis() > 0;
     }
     public boolean o_wantStopBoatHook(){
-        return operatorController.getYButton();
+        return operatorController.getLeftBumper();
     }
 
     // Debug Controls
@@ -179,13 +188,14 @@ public class DriverControls extends SubsystemBase{
         new Trigger(this::lockPods).onTrue(new LockPods(swerve));
         new Trigger(this::resetGyro).onTrue(new ResetGyro(swerve));
         new Trigger(this::intake).whileTrue(new IntakeSequence());
+        new Trigger(this::outtake).whileTrue(new OuttakeSequence());
         //Operator
         new Trigger(this::o_wantExtendBoatHook).whileTrue(boatHook.extendBoatHook());
         new Trigger(this::o_wantRetractBoatHook).whileTrue(boatHook.retractBoatHook());
         new Trigger(this::o_wantStopBoatHook).whileTrue(boatHook.stopBoatHook());
         new Trigger(this::o_wantVisionShot).whileTrue(new VisionShotSequence(vision.CalculateShotAngle(), vision.CalculateShotSpeed()));
         new Trigger(this::o_wantSubwooferShot).whileTrue(new PresetShotLaunchSequence(Shot.SUBWOOFER));
-
+        new Trigger(this::o_wantAmpShot).whileTrue(new PresetShotLaunchSequence(Shot.AMPLIFIER));
         //Debug
         new Trigger(this::d_wantDashboardShot).whileTrue(new PresetShotLaunchSequence(new Shot(
             "Dashboard Shot",

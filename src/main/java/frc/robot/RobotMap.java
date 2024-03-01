@@ -13,8 +13,8 @@ public class RobotMap {
     public static final int kBoatHookMotorFollowerId = 24;
 
     // Launcher
-    public static final int kLauncherLeaderId = 31;
-    public static final int kLauncherFollowerId = 32;
+    public static final int kLauncherLeaderId = 32;
+    public static final int kLauncherFollowerId = 31;
     public static final int kIndexerLeaderId = 35;
     public static final int kIndexerFollowerId = 36;
 
