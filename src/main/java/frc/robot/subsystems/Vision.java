@@ -103,7 +103,7 @@ public class Vision extends SubsystemBase {
         SmartDashboard.putNumber("Vision Angle", getEstimatedPose().getRotation().getDegrees());
         SmartDashboard.putNumber("Vision X", getEstimatedPose().getTranslation().getX());
         SmartDashboard.putNumber("Vision Y", getEstimatedPose().getTranslation().getY());
-
+/*
         if(mFrontLeftEstimator.update().isPresent()){
             mSwerveDrivePoseEstimator.addVisionMeasurement(mFrontLeftEstimator.update().get().estimatedPose.toPose2d(), mFrontLeftEstimator.update().get().timestampSeconds);
         }
@@ -116,7 +116,7 @@ public class Vision extends SubsystemBase {
         if(mBackRightEstimator.update().isPresent()){
             mSwerveDrivePoseEstimator.addVisionMeasurement(mBackRightEstimator.update().get().estimatedPose.toPose2d(), mBackRightEstimator.update().get().timestampSeconds);
         }
-
+*/
     }
 
     @Override

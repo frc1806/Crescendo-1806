@@ -85,7 +85,7 @@ public class DriverControls extends SubsystemBase{
     }
 
     public double snapRotation(){
-        DoubleSupplier x = () -> flipValueIfRed(driverController.getRightX());
+        DoubleSupplier x = () -> flipValueIfRed(-driverController.getRightX());
         DoubleSupplier y = () -> flipValueIfRed(-driverController.getRightY());
 
         double[] rightJoyPolarCoordinate = PolarCoordinate.toPolarCoordinate(y,x);
