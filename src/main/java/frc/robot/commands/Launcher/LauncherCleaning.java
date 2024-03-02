@@ -8,11 +8,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Launcher;
 
-public class LauncherOuttake extends Command {
-
-  Launcher mLauncher;
-  /** Creates a new LauncherOuttake. */
-  public LauncherOuttake() {
+public class LauncherCleaning extends Command {
+  private Launcher mLauncher;
+  /** Creates a new LauncherCleaning. */
+  public LauncherCleaning() {
     mLauncher = RobotContainer.S_LAUNCHER;
     addRequirements(mLauncher);
   }
@@ -20,13 +19,13 @@ public class LauncherOuttake extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    mLauncher.runMotorsForOuttake();
+    mLauncher.runMotorsForCleaning();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    mLauncher.runMotorsForOuttake();
+    mLauncher.runMotorsForCleaning();
   }
 
   // Called once the command ends or is interrupted.

@@ -43,7 +43,7 @@ public class Swerve extends SubsystemBase {
             throw new RuntimeException("Runtime error when creating a new swerve drive:\n" + exception);
         }
 
-        swerveDrive.setHeadingCorrection(false);
+        swerveDrive.setHeadingCorrection(true);
 
         AutoBuilder.configureHolonomic(
             this::getPose,

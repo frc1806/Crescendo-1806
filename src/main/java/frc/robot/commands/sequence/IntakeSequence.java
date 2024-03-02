@@ -33,7 +33,7 @@ public class IntakeSequence extends SequentialCommandGroup {
           new SetIntake(1.0)
         )
       ),
-      RobotContainer.S_DRIVERCONTROLS.addDriverRumbleCommand(new RumbleCommand(new SineWave(0.25, 0.3), RumbleType.kRightRumble, 1.0))
+      RobotContainer.S_DRIVERCONTROLS.addDriverRumbleCommand(new RumbleCommand(new SineWave(0.25, 0.75), RumbleType.kRightRumble, 1.0))
     );
   }
 }

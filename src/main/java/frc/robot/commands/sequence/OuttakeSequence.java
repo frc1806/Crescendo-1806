@@ -35,7 +35,7 @@ public class OuttakeSequence extends SequentialCommandGroup {
         new AnglerGoToAngle(Shot.HOME.getPivotAngle()),
         new ParallelRaceGroup(
           new LauncherOuttake(),
-          new SetIntake(1.0)
+          new SetIntake(-1.0)
         )
       ),
       RobotContainer.S_DRIVERCONTROLS.addDriverRumbleCommand(new RumbleCommand(new SineWave(0.25, 0.3), RumbleType.kRightRumble, 1.0))

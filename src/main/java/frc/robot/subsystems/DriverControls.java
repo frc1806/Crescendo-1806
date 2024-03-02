@@ -21,6 +21,7 @@ import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.commands.sequence.IntakeSequence;
 import frc.robot.commands.sequence.OuttakeSequence;
+import frc.robot.commands.sequence.ParallelCleaningGroup;
 import frc.robot.commands.sequence.PresetShotLaunchSequence;
 import frc.robot.commands.sequence.VisionShotSequence;
 import frc.robot.game.Shot;
@@ -84,7 +85,7 @@ public class DriverControls extends SubsystemBase{
     }
 
     public double snapRotation(){
-        DoubleSupplier x = () -> flipValueIfRed(-driverController.getRightX());
+        DoubleSupplier x = () -> flipValueIfRed(driverController.getRightX());
         DoubleSupplier y = () -> flipValueIfRed(-driverController.getRightY());
 
         double[] rightJoyPolarCoordinate = PolarCoordinate.toPolarCoordinate(y,x);
@@ -183,6 +184,10 @@ public class DriverControls extends SubsystemBase{
         return debugController.getYButton();
     }
 
+    public boolean d_wantCleaning(){
+        return debugController.getStartButton();
+    }
+
     public void registerTriggers(Swerve swerve, Reel intake, Angler angler, Vision vision, Launcher launcher, LED led, BoatHook boatHook, VisionShotLibrary shotLibrary){
         //Driver
         new Trigger(this::lockPods).onTrue(new LockPods(swerve));
@@ -204,6 +209,7 @@ public class DriverControls extends SubsystemBase{
 
         new Trigger(this::d_wantCloseShot).whileTrue(new PresetShotLaunchSequence(Shot.CLOSE));
         new Trigger(this::d_wantYeet).whileTrue(new PresetShotLaunchSequence(Shot.YEET));
+        new Trigger(this::d_wantCleaning).whileTrue(new ParallelCleaningGroup());
 
         //RUMBLE TRIGGERS
         new Trigger(() ->(DriverStation.isTeleopEnabled() && DriverStation.getMatchTime() < 20)).onTrue(addDriverRumbleCommand(new RumbleCommand(new SquareWave(0.3,0.3 ,0.5), RumbleType.kBothRumble, 2.0)));

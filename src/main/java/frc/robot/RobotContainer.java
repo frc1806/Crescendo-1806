@@ -68,7 +68,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("PresetSubwooferShot", new PresetShotLaunchSequence(Shot.SUBWOOFER));
     NamedCommands.registerCommand("PresetAmpShot", new PresetShotLaunchSequence(Shot.AMPLIFIER));
     
-    autoChooser = AutoBuilder.buildAutoChooser();
+    autoChooser = AutoBuilder.buildAutoChooser(); 
     SmartDashboard.putData("Auto Mode", autoChooser);
 
 

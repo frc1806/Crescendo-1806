@@ -73,15 +73,21 @@ public class Launcher extends SubsystemBase{
     }
 
     public void runMotorsForIntake(){
-        mLauncherTargetSpeed = -3000.0;
-        setLauncher(-3000.0);
-        mIndexLeader.setVoltage(-6.0);
+        mLauncherTargetSpeed = -4000.0;
+        setLauncher(mLauncherTargetSpeed);
+        mIndexLeader.setVoltage(-3.0);
     }
 
     public void runMotorsForOuttake(){
         mLauncherTargetSpeed = 3000.0;
-        setLauncher(3000.0);
+        setLauncher(mLauncherTargetSpeed);
         mIndexLeader.setVoltage(6.0);
+    }
+
+    public void runMotorsForCleaning(){
+        mLauncherTargetSpeed = -1000.0;
+        setLauncher(mLauncherTargetSpeed);
+        mIndexLeader.setVoltage(-4.0);
     }
 
     public void sendNoteToFlywheel(){
