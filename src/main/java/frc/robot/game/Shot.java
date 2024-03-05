@@ -22,6 +22,13 @@ public class Shot {
     public static Shot YEET = new Shot ("Yeet", 305, 4000.0);
 
 
+    public Shot getHigherShot(){
+        return new Shot(name + " Higher", pivotAngle + 2.0, launcherSpeed);
+    }
+
+    public Shot getLowerShot(){
+        return new Shot(name + " Lower", pivotAngle -2.0, launcherSpeed);
+    }
 
     public double getPivotAngle() {
         return pivotAngle;
