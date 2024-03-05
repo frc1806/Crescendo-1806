@@ -52,8 +52,11 @@ public class RobotContainer {
   public static final DriverStationChecker S_DRIVERSTATIONCHECKER = new DriverStationChecker();
 
   private static final VisionShotLibrary mVisionShotLibrary = new VisionShotLibrary() //these are estimates TODO: Tune
-    .withShotEntry(3, 250.0, 3800.0)
-    .withShotEntry(9, 225.0, 6000.0); 
+    .withShotEntry(1, 350.0, 3400.0)
+    .withShotEntry(2, 310.0, 4000.0)
+    .withShotEntry(3, 290.0, 5000.0)
+    .withShotEntry(4, 280.0, 6000.0);
+
 
 
   private final SendableChooser<Command> autoChooser;
