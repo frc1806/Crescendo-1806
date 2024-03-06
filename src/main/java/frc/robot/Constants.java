@@ -76,15 +76,15 @@ public class Constants {
     public static final double kBackRightCameraPitch = 0.0;
 
     // Launcher
-    public static final double kLeftLauncherkP = (1/2500);
+    public static final double kLeftLauncherkP = (1/1000);
     public static final double kLeftLauncherkI = 0.0;
     public static final double kLeftLauncherkD = 0.0;
-    public static final double kLeftLauncherkF = (1.20/6800);
-    public static final double kRightLauncherkP = (1/2500);
+    public static final double kLeftLauncherkF = (1.15/6000);
+    public static final double kRightLauncherkP = (1/1000);
     public static final double kRightLauncherkI = 0.0;
     public static final double kRightLauncherkD = 0.0;
-    public static final double kRightLauncherkF = (1.20/6800);
-    public static final double kLauncherAcceptableSpeedTolerance = 100; //RPM
+    public static final double kRightLauncherkF = (1.15/5600);
+    public static final double kLauncherAcceptableSpeedTolerance = 200; //RPM
 
     // LED
     public static final int kNumLED = 100; // TODO: placeholder

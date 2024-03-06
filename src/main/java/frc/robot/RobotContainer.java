@@ -79,12 +79,12 @@ public class RobotContainer {
     autoChooser = AutoBuilder.buildAutoChooser(); 
 
     //SUBWOOFER SINGLE SHOT MOBILITY AUTOS
-    autoChooser.addOption("TimedSubwooferShot+MobilityBlueCenter", new SubwooferShotTimedDrive(new Pose2d(1.34, 5.52, Rotation2d.fromDegrees(180)), Rotation2d.fromDegrees(180.0)));
-    autoChooser.addOption("TimedSubwooferShot+MobilityBlueDriversRight", new SubwooferShotTimedDrive(new Pose2d(0.73, 4.41, Rotation2d.fromDegrees(120)), Rotation2d.fromDegrees(180.0)));
-    autoChooser.addOption("TimedSubwoofer+MobilityBlueDriversLeft", new SubwooferShotTimedDrive(new Pose2d(0.73, 6.66, Rotation2d.fromDegrees(-120)), Rotation2d.fromDegrees(120.0)));
-    autoChooser.addOption("TimedSubwooferShot+MobilityRedCenter", new SubwooferShotTimedDrive(new Pose2d(15.19, 5.52, Rotation2d.fromDegrees(0)), Rotation2d.fromDegrees(180.0)));
-    autoChooser.addOption("TimedSubwooferShot+MobilityRedDriversRight", new SubwooferShotTimedDrive(new Pose2d(15.82, 6.66, Rotation2d.fromDegrees(-60)), Rotation2d.fromDegrees(-120.0)));
-    autoChooser.addOption("TimedSubwoofer+MobilityBlueDriversLeft", new SubwooferShotTimedDrive(new Pose2d(15.82, 4.41, Rotation2d.fromDegrees(60.0)), Rotation2d.fromDegrees(180.0)));
+    autoChooser.addOption("TimedSubwooferShot+MobilityBlueCenter", new SubwooferShotTimedDrive(new Pose2d(1.34, 5.52, Rotation2d.fromDegrees(180)), Rotation2d.fromDegrees(0.0)));
+    autoChooser.addOption("TimedSubwooferShot+MobilityBlueDriversRight", new SubwooferShotTimedDrive(new Pose2d(0.73, 4.41, Rotation2d.fromDegrees(120)), Rotation2d.fromDegrees(0.0)));
+    autoChooser.addOption("TimedSubwoofer+MobilityBlueDriversLeft", new SubwooferShotTimedDrive(new Pose2d(0.73, 6.66, Rotation2d.fromDegrees(-120)), Rotation2d.fromDegrees(120.0 + 180.0)));
+    autoChooser.addOption("TimedSubwooferShot+MobilityRedCenter", new SubwooferShotTimedDrive(new Pose2d(15.19, 5.52, Rotation2d.fromDegrees(0)), Rotation2d.fromDegrees(0.0)));
+    autoChooser.addOption("TimedSubwooferShot+MobilityRedDriversRight", new SubwooferShotTimedDrive(new Pose2d(15.82, 6.66, Rotation2d.fromDegrees(-60)), Rotation2d.fromDegrees(-120.0 + 180.0)));
+    autoChooser.addOption("TimedSubwoofer+MobilityRedDriversLeft", new SubwooferShotTimedDrive(new Pose2d(15.82, 4.41, Rotation2d.fromDegrees(60.0)), Rotation2d.fromDegrees(0.0)));
     SmartDashboard.putData("Auto Mode", autoChooser);
 
 
