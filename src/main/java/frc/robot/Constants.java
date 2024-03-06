@@ -35,7 +35,7 @@ public class Constants {
     public static final double kAnglerMaxAcceleration = (60.0 / 360.0) * 4096.0;
     public static final double kAcceptableAngleError = 6.0;
     public static final double kAnglerGearRatio = 1.0; //to find out //unused?
-    public static final double kSpeakerHeight = 9.0; //Meters
+    public static final double kSpeakerHeight = 1.828; //Meters
     public static final double kAnglerTwistDetectionAngleDifference = 5.0;
 
     // Vision
@@ -76,15 +76,15 @@ public class Constants {
     public static final double kBackRightCameraPitch = 0.0;
 
     // Launcher
-    public static final double kLeftLauncherkP = (1/2500);
+    public static final double kLeftLauncherkP = (1/1000);
     public static final double kLeftLauncherkI = 0.0;
     public static final double kLeftLauncherkD = 0.0;
-    public static final double kLeftLauncherkF = (1.20/6800);
-    public static final double kRightLauncherkP = (1/2500);
+    public static final double kLeftLauncherkF = (1.15/6000);
+    public static final double kRightLauncherkP = (1/1000);
     public static final double kRightLauncherkI = 0.0;
     public static final double kRightLauncherkD = 0.0;
-    public static final double kRightLauncherkF = (1.20/6800);
-    public static final double kLauncherAcceptableSpeedTolerance = 100; //RPM
+    public static final double kRightLauncherkF = (1.15/5600);
+    public static final double kLauncherAcceptableSpeedTolerance = 200; //RPM
 
     // LED
     public static final int kNumLED = 100; // TODO: placeholder

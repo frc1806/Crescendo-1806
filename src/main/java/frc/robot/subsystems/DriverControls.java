@@ -43,6 +43,8 @@ public class DriverControls extends SubsystemBase{
     private XboxController operatorController;
     private XboxController debugController;
 
+    private double lastSnapDegree;
+
     private Queue<RumbleCommand> driverRumbleQueue;
     private RumbleCommand currentDriverRumble;
     private Queue<RumbleCommand> operatorRumbleQueue;
@@ -59,6 +61,7 @@ public class DriverControls extends SubsystemBase{
         operatorRumbleQueue = new ArrayDeque<>();
         currentDriverRumble = null;
         currentOperatorRumble = null;
+        lastSnapDegree = RobotContainer.S_SWERVE.getSwerveDrive().getOdometryHeading().getDegrees();
     }
 
     public XboxController getDriverController(){
@@ -94,11 +97,12 @@ public class DriverControls extends SubsystemBase{
         double theta = Units.radiansToDegrees(rightJoyPolarCoordinate[1]);
 
         if(r < 0.8){
-            return RobotContainer.S_SWERVE.getSwerveDrive().getOdometryHeading().getDegrees();
+            return lastSnapDegree;
         }
 
         theta /= 45;
         theta = Math.round(theta) * 45;
+        lastSnapDegree = theta;
         return theta;
     }
     
@@ -162,6 +166,15 @@ public class DriverControls extends SubsystemBase{
         return operatorController.getLeftBumper();
     }
 
+    public boolean o_wantModifyShotHigher(){
+        //TODO: Make this work for other shots
+        return operatorController.getPOV() == 0 && o_wantSubwooferShot();
+    }
+
+    public boolean o_wantModifyShotLower(){
+        return operatorController.getPOV() == 180 && o_wantSubwooferShot();
+    }
+
     // Debug Controls
     public double d_pivotAnglerManual() {
         return debugController.getRightY();
@@ -199,7 +212,12 @@ public class DriverControls extends SubsystemBase{
         new Trigger(this::o_wantRetractBoatHook).whileTrue(boatHook.retractBoatHook());
         new Trigger(this::o_wantStopBoatHook).whileTrue(boatHook.stopBoatHook());
         new Trigger(this::o_wantVisionShot).whileTrue(new VisionShotSequence(vision.CalculateShotAngle(), vision.CalculateShotSpeed()));
+
         new Trigger(this::o_wantSubwooferShot).whileTrue(new PresetShotLaunchSequence(Shot.SUBWOOFER));
+        //TODO: Higher/Lower currently only work for subwoofer
+        new Trigger(this::o_wantModifyShotHigher).whileTrue(new PresetShotLaunchSequence(Shot.SUBWOOFER.getHigherShot()));
+        new Trigger(this::o_wantModifyShotLower).whileTrue(new PresetShotLaunchSequence(Shot.SUBWOOFER.getLowerShot()));
+
         new Trigger(this::o_wantAmpShot).whileTrue(new PresetShotLaunchSequence(Shot.AMPLIFIER));
         //Debug
         new Trigger(this::d_wantDashboardShot).whileTrue(new PresetShotLaunchSequence(new Shot(
