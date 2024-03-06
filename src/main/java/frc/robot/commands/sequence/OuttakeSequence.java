@@ -12,7 +12,6 @@ import frc.robot.RobotContainer;
 import frc.robot.commands.Angler.AnglerGoToAngle;
 import frc.robot.commands.Intake.SetIntake;
 import frc.robot.commands.Launcher.IdleLauncher;
-import frc.robot.commands.Launcher.LauncherIntake;
 import frc.robot.commands.Launcher.LauncherOuttake;
 import frc.robot.game.Shot;
 import frc.robot.util.rumbleutil.RumbleCommand;

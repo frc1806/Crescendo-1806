@@ -12,7 +12,7 @@ import frc.robot.subsystems.Launcher;
 public class LaunchNote extends Command {
   private Launcher mLauncher;
   private double mSpeed;
-  private boolean mIsNoteLeaving = false;
+  //private boolean mIsNoteLeaving;
   private static final double mTimeout = 5.0;
   private Timer mTimer = new Timer();
 
@@ -21,6 +21,7 @@ public class LaunchNote extends Command {
     mLauncher = RobotContainer.S_LAUNCHER;
     addRequirements(RobotContainer.S_LAUNCHER);
     mSpeed = wantedSpeed;
+    //mIsNoteLeaving = false;
   }
 
   // Called when the command is initially scheduled.
@@ -34,9 +35,10 @@ public class LaunchNote extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    /*
     if(mLauncher.isNoteAtEndOfLauncher()){
       mIsNoteLeaving = true;
-    }
+    }*/
   }
 
   // Called once the command ends or is interrupted.
