@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import javax.xml.datatype.DatatypeConstants.Field;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -22,6 +24,7 @@ import frc.robot.commands.Auto.SubwooferShotTimedDrive;
 import frc.robot.commands.Intake.SetIntake;
 import frc.robot.commands.Launcher.IdleLauncher;
 import frc.robot.commands.Swerve.FieldOrientedDrive;
+import frc.robot.commands.Swerve.FieldOrientedRadDrive;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.commands.Swerve.RobotOrientedTimedDrive;
@@ -91,7 +94,7 @@ public class RobotContainer {
   }
 
   private void setDefaultCommands(){
-    CommandScheduler.getInstance().setDefaultCommand(S_SWERVE, new FieldOrientedDrive(S_SWERVE, S_DRIVERCONTROLS));
+    CommandScheduler.getInstance().setDefaultCommand(S_SWERVE, new FieldOrientedDrive());
     CommandScheduler.getInstance().setDefaultCommand(S_INTAKE, new SetIntake(0.0));
     CommandScheduler.getInstance().setDefaultCommand(S_ANGLER, new AnglerGoToAngle(Shot.HOME.getPivotAngle()));
     CommandScheduler.getInstance().setDefaultCommand(S_LAUNCHER, new IdleLauncher());

@@ -162,14 +162,6 @@ public class Angler extends SubsystemBase {
         return isTwistDetected() || isEitherSensorOutsideAcceptableRange();
     }
 
-
-    public static boolean isBlueTeam(){
-        if(DriverStation.getAlliance().isPresent()){
-            return DriverStation.getAlliance().get() == Alliance.Blue;
-        }
-        return false;
-    }
-
     public void enableAngler(){
         isAnglerEnabled = true;
     }

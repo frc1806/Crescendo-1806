@@ -6,23 +6,26 @@ import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.game.Shot;
 import frc.robot.game.VisionShotLibrary;
+import frc.robot.util.PolarCoordinate;
+
 import java.util.function.DoubleSupplier;
 
 public class Vision extends SubsystemBase {
     
     private PhotonCamera mFrontLeftCam, mFrontRightCam, mBackLeftCam, mBackRightCam;
     private PhotonPoseEstimator mFrontLeftEstimator, mFrontRightEstimator, mBackLeftEstimator, mBackRightEstimator;
-    private SwerveDrivePoseEstimator mSwerveDrivePoseEstimator;
-    private double mDistancex, mDistancey, mTotalDistance;
     private Translation2d mBlueSpeakerPose;
     private Translation2d mRedSpeakerPose;
     private DoubleSupplier mVAngle;
@@ -52,72 +55,92 @@ public class Vision extends SubsystemBase {
         mBlueSpeakerPose = new Translation2d(0.02, 5.61);
         mRedSpeakerPose = new Translation2d(16.53, 5.61);
 
-
-
-
-        mSwerveDrivePoseEstimator = new SwerveDrivePoseEstimator(
-            SWERVE.getKinematics(),
-            SWERVE.getHeading(),
-            Constants.kSwerveModulePositions,
-            new Pose2d(),
-            Constants.kStateStds,
-            Constants.kVisionStds);
-
         mFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
     }
 
-    public Double toSpeakerPose(){
-        if(Angler.isBlueTeam() == true){
-        mDistancex =  getEstimatedPose().getTranslation().getX() - mBlueSpeakerPose.getX();
-        mDistancey =  getEstimatedPose().getTranslation().getY() - mBlueSpeakerPose.getY();
-        mTotalDistance = Math.sqrt(Math.pow(mDistancex, 2) + Math.pow(mDistancey, 2));
-        }
-        else
-        {
-        mDistancex =  getEstimatedPose().getTranslation().getX() - mRedSpeakerPose.getX();
-        mDistancey =  getEstimatedPose().getTranslation().getY() - mRedSpeakerPose.getY();
-        mTotalDistance = Math.sqrt(Math.pow(mDistancex, 2) + Math.pow(mDistancey, 2));
-        }
-        return mTotalDistance;
+    public Rotation2d getYawToSpeaker(){
+        Translation2d difference = getYAxisMovementCompensatedSpeakerPose().minus(RobotContainer.S_SWERVE.getPose().getTranslation());
+        return Rotation2d.fromRadians(PolarCoordinate.toPolarCoordinate(() -> difference.getX(), () -> difference.getY())[1]);
+    }
+
+    public Translation2d getYAxisMovementCompensatedSpeakerPose(){
+        return getSpeakerPose().plus(new Translation2d(0.0, -(RobotContainer.S_SWERVE.getFieldOrientedVelocity().vyMetersPerSecond * .3)));
+    }
+
+    public Translation2d getSpeakerPose(){
+        return RobotContainer.S_DRIVERSTATIONCHECKER.getCurrentAlliance() == Alliance.Blue?mBlueSpeakerPose:mRedSpeakerPose;
+    }
+
+    public Double getDistanceToSpeaker(){
+        return RobotContainer.S_SWERVE.getPose().getTranslation().getDistance(getSpeakerPose());
     }
 
     public DoubleSupplier CalculateShotAngle() {
-        visionShot = VisionShotLibrary.getShotForDistance(toSpeakerPose());
+        visionShot = VisionShotLibrary.getShotForDistance(getDistanceToSpeaker());
         mVAngle = visionShot::getPivotAngle;
         return mVAngle;
     }
 
     public DoubleSupplier CalculateShotSpeed() {
-        visionShot = VisionShotLibrary.getShotForDistance(toSpeakerPose());
+        visionShot = VisionShotLibrary.getShotForDistance(getDistanceToSpeaker());
         mVSpeed = visionShot::getLauncherSpeed;
         return mVSpeed;
-    }
-
-    public Pose2d getEstimatedPose(){
-        return mSwerveDrivePoseEstimator.getEstimatedPosition();
     }
 
     @Override
     public void periodic() {
         SmartDashboard.putData(this);
-        SmartDashboard.putNumber("Vision Angle", getEstimatedPose().getRotation().getDegrees());
-        SmartDashboard.putNumber("Vision X", getEstimatedPose().getTranslation().getX());
-        SmartDashboard.putNumber("Vision Y", getEstimatedPose().getTranslation().getY());
-/*
+
         if(mFrontLeftEstimator.update().isPresent()){
-            mSwerveDrivePoseEstimator.addVisionMeasurement(mFrontLeftEstimator.update().get().estimatedPose.toPose2d(), mFrontLeftEstimator.update().get().timestampSeconds);
+            RobotContainer.S_SWERVE.addVisionMeasurement(mFrontLeftEstimator.update().get().estimatedPose.toPose2d(), mFrontLeftEstimator.update().get().timestampSeconds);
         }
         if(mFrontRightEstimator.update().isPresent()){
-            mSwerveDrivePoseEstimator.addVisionMeasurement(mFrontRightEstimator.update().get().estimatedPose.toPose2d(), mFrontRightEstimator.update().get().timestampSeconds);
+            RobotContainer.S_SWERVE.addVisionMeasurement(mFrontRightEstimator.update().get().estimatedPose.toPose2d(), mFrontRightEstimator.update().get().timestampSeconds);
         }
         if(mBackLeftEstimator.update().isPresent()){
-            mSwerveDrivePoseEstimator.addVisionMeasurement(mBackLeftEstimator.update().get().estimatedPose.toPose2d(), mBackLeftEstimator.update().get().timestampSeconds);
+            RobotContainer.S_SWERVE.addVisionMeasurement(mBackLeftEstimator.update().get().estimatedPose.toPose2d(), mBackLeftEstimator.update().get().timestampSeconds);
         }
         if(mBackRightEstimator.update().isPresent()){
-            mSwerveDrivePoseEstimator.addVisionMeasurement(mBackRightEstimator.update().get().estimatedPose.toPose2d(), mBackRightEstimator.update().get().timestampSeconds);
+            RobotContainer.S_SWERVE.addVisionMeasurement(mBackRightEstimator.update().get().estimatedPose.toPose2d(), mBackRightEstimator.update().get().timestampSeconds);
         }
-*/
     }
+
+    public void resetRobotOdometryFromVision(){
+        boolean hasBeenReset = false;
+        if(mFrontLeftEstimator.update().isPresent()){
+            hasBeenReset= true;
+            RobotContainer.S_SWERVE.resetOdometry(mFrontLeftEstimator.update().get().estimatedPose.toPose2d());
+        }
+        if(mFrontRightEstimator.update().isPresent()){
+            if(hasBeenReset){
+                RobotContainer.S_SWERVE.addVisionMeasurement(mFrontRightEstimator.update().get().estimatedPose.toPose2d(), mFrontRightEstimator.update().get().timestampSeconds);
+            }
+            else{
+                hasBeenReset= true;
+                RobotContainer.S_SWERVE.resetOdometry(mFrontRightEstimator.update().get().estimatedPose.toPose2d());
+            }
+        }
+        if(mBackLeftEstimator.update().isPresent()){
+                        if(hasBeenReset){
+                RobotContainer.S_SWERVE.addVisionMeasurement(mBackLeftEstimator.update().get().estimatedPose.toPose2d(), mFrontRightEstimator.update().get().timestampSeconds);
+            }
+            else{
+                hasBeenReset= true;
+                RobotContainer.S_SWERVE.resetOdometry(mBackLeftEstimator.update().get().estimatedPose.toPose2d());
+            }
+        }
+        if(mBackRightEstimator.update().isPresent()){
+                        if(hasBeenReset){
+                RobotContainer.S_SWERVE.addVisionMeasurement(mBackRightEstimator.update().get().estimatedPose.toPose2d(), mFrontRightEstimator.update().get().timestampSeconds);
+            }
+            else{
+                hasBeenReset= true;
+                RobotContainer.S_SWERVE.resetOdometry(mBackRightEstimator.update().get().estimatedPose.toPose2d());
+            }
+        }
+    }
+
+
 
     @Override
     public void simulationPeriodic() {

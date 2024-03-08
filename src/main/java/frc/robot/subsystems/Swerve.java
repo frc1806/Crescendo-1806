@@ -16,6 +16,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -35,15 +36,16 @@ public class Swerve extends SubsystemBase {
     private File swerveJsonDirectory;
 
     public Swerve(){
-        maximumSpeed = Units.feetToMeters(14.5);
+        maximumSpeed = Units.feetToMeters(17.1);
         swerveJsonDirectory = new File(Filesystem.getDeployDirectory(), "swerve/practice");
         try{
             swerveDrive = new SwerveParser(swerveJsonDirectory).createSwerveDrive(maximumSpeed);
         } catch (Exception exception){
             throw new RuntimeException("Runtime error when creating a new swerve drive:\n" + exception);
         }
-
-        swerveDrive.setHeadingCorrection(true);
+        swerveDrive.setMaximumSpeed(maximumSpeed, true, 12.5);
+        swerveDrive.setCosineCompensator(!RobotBase.isSimulation());
+        swerveDrive.setHeadingCorrection(false);
 
         AutoBuilder.configureHolonomic(
             this::getPose,
@@ -172,13 +174,23 @@ public class Swerve extends SubsystemBase {
         return swerveDrive.getPitch();
     }
 
-    public void visionAlign(){
-        swerveDrive.drive(new Translation2d(), RobotContainer.S_VISION.getEstimatedPose().getRotation().getRadians(), true, false);
-    }
 
     //Test function for testing vision
     public void addFakeVisionReading(){
         swerveDrive.addVisionMeasurement(new Pose2d(3,3, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
+    }
+
+    public void addVisionMeasurement(Pose2d pose, double timestamp){
+        if(pose.getTranslation().getDistance(swerveDrive.getPose().getTranslation()) < 1.0 && pose.getRotation().minus(swerveDrive.getPose().getRotation()).getDegrees() < 30.0)
+        swerveDrive.addVisionMeasurement(pose, timestamp);
+    }
+
+    public void enableHeadingCorrection(){
+        swerveDrive.setHeadingCorrection(true);
+    }
+
+    public void disableHeadingCorrection(){
+        swerveDrive.setHeadingCorrection(false);
     }
 
     @Override
