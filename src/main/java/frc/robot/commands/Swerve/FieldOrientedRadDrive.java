@@ -34,7 +34,7 @@ public class FieldOrientedRadDrive extends Command {
 
         if(!mDriverControls.wantPreciseRotation())
         {
-                mSwerve.driveFieldOriented(mSwerve.getTargetSpeeds(
+                mSwerve.driveFieldOriented(mSwerve.getTargetSpeedsFromPreScaledInputs(
                     mDriverControls.getRadDriveTranslation().getX(),
                     mDriverControls.getRadDriveTranslation().getY(),
                     Rotation2d.fromDegrees(mDriverControls.snapRotation())));
@@ -43,7 +43,7 @@ public class FieldOrientedRadDrive extends Command {
         else{
             mPreciseRotationTarget += (mDriverControls.getPreciseRotationAxis() * (180.0 * mTimer.get()));
             
-            mSwerve.driveFieldOriented(mSwerve.getTargetSpeeds(
+            mSwerve.driveFieldOriented(mSwerve.getTargetSpeedsFromPreScaledInputs(
                 mDriverControls.getRadDriveTranslation().getX(),
                 mDriverControls.getRadDriveTranslation().getY(),
                 Rotation2d.fromDegrees(mPreciseRotationTarget)));

@@ -110,6 +110,7 @@ public class Swerve extends SubsystemBase {
         swerveDrive.resetOdometry(pose);
     }
 
+
     public Pose2d getPose(){
         return swerveDrive.getPose();
     }
@@ -137,17 +138,17 @@ public class Swerve extends SubsystemBase {
     public ChassisSpeeds getTargetSpeeds(double xInput, double yInput, double headingX, double headingY){
       xInput = Math.pow(xInput, 3);
       yInput = Math.pow(yInput, 3);
-      return swerveDrive.swerveController.getTargetSpeeds(xInput, yInput, headingX, headingY, getHeading().getRadians(), maximumSpeed);  
+      return swerveDrive.swerveController.getTargetSpeeds(xInput, yInput, headingX, headingY, getPose().getRotation().getRadians(), maximumSpeed);  
     }
 
     public ChassisSpeeds getTargetSpeeds(double xInput, double yInput, Rotation2d angle){
       xInput = Math.pow(xInput, 3);
       yInput = Math.pow(yInput, 3);
-      return swerveDrive.swerveController.getTargetSpeeds(xInput, yInput, angle.getRadians(), getHeading().getRadians(), maximumSpeed);
+      return swerveDrive.swerveController.getTargetSpeeds(xInput, yInput, angle.getRadians(), getPose().getRotation().getRadians(), maximumSpeed);
     }
   
     public ChassisSpeeds getTargetSpeedsFromPreScaledInputs(double xInput, double yInput, Rotation2d angle){
-      return swerveDrive.swerveController.getTargetSpeeds(xInput, yInput, angle.getRadians(), getHeading().getRadians(), maximumSpeed);
+      return swerveDrive.swerveController.getTargetSpeeds(xInput, yInput, angle.getRadians(), getPose().getRotation().getRadians(), maximumSpeed);
     }
 
     public ChassisSpeeds getFieldOrientedVelocity(){

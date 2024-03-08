@@ -4,30 +4,24 @@
 
 package frc.robot;
 
-import javax.xml.datatype.DatatypeConstants.Field;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.sequence.VisionShotSequence;
 import frc.robot.commands.Angler.AnglerGoToAngle;
 import frc.robot.commands.Auto.SubwooferShotTimedDrive;
 import frc.robot.commands.Intake.SetIntake;
 import frc.robot.commands.Launcher.IdleLauncher;
 import frc.robot.commands.Swerve.FieldOrientedDrive;
-import frc.robot.commands.Swerve.FieldOrientedRadDrive;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
-import frc.robot.commands.Swerve.RobotOrientedTimedDrive;
 import frc.robot.commands.sequence.IntakeSequence;
 import frc.robot.commands.sequence.PresetShotLaunchSequence;
 import frc.robot.game.Shot;
@@ -88,6 +82,8 @@ public class RobotContainer {
     autoChooser.addOption("TimedSubwooferShot+MobilityRedCenter", new SubwooferShotTimedDrive(new Pose2d(15.19, 5.52, Rotation2d.fromDegrees(0)), Rotation2d.fromDegrees(0.0)));
     autoChooser.addOption("TimedSubwooferShot+MobilityRedDriversRight", new SubwooferShotTimedDrive(new Pose2d(15.82, 6.66, Rotation2d.fromDegrees(-60)), Rotation2d.fromDegrees(-120.0 + 180.0)));
     autoChooser.addOption("TimedSubwoofer+MobilityRedDriversLeft", new SubwooferShotTimedDrive(new Pose2d(15.82, 4.41, Rotation2d.fromDegrees(60.0)), Rotation2d.fromDegrees(0.0)));
+
+    autoChooser.addOption("SandstormModeForTesting", new FieldOrientedDrive());
     SmartDashboard.putData("Auto Mode", autoChooser);
 
 

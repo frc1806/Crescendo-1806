@@ -31,7 +31,7 @@ public class FieldOrientedVisionAlignSpeaker extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    mSwerve.driveFieldOriented(mSwerve.getTargetSpeeds(
+    mSwerve.driveFieldOriented(mSwerve.getTargetSpeedsFromPreScaledInputs(
                     mDriverControls.translationX(),
                     mDriverControls.translationY(),
                     RobotContainer.S_VISION.getYawToSpeaker()));

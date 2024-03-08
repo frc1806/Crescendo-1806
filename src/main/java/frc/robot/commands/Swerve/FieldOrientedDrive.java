@@ -32,7 +32,7 @@ public class FieldOrientedDrive extends Command{
 
         if(!mDriverControls.wantPreciseRotation())
         {
-            mSwerve.driveFieldOriented(mSwerve.getTargetSpeeds(
+            mSwerve.driveFieldOriented(mSwerve.getTargetSpeedsFromPreScaledInputs(
                 mDriverControls.translationX(),
                 mDriverControls.translationY(),
                 Rotation2d.fromDegrees(mDriverControls.snapRotation())));
@@ -41,7 +41,7 @@ public class FieldOrientedDrive extends Command{
         else{
             mPreciseRotationTarget += (mDriverControls.getPreciseRotationAxis() * (180.0 * mTimer.get()));
             
-            mSwerve.driveFieldOriented(mSwerve.getTargetSpeeds(
+            mSwerve.driveFieldOriented(mSwerve.getTargetSpeedsFromPreScaledInputs(
                 mDriverControls.translationX(),
                 mDriverControls.translationY(),
                 Rotation2d.fromDegrees(mPreciseRotationTarget)));
