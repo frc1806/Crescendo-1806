@@ -100,8 +100,8 @@ public class DriverControls extends SubsystemBase{
             return lastSnapDegree;
         }
 
-        theta /= 45;
-        theta = Math.round(theta) * 45;
+        theta /= 30;
+        theta = Math.round(theta) * 30;
         lastSnapDegree = theta;
         return theta;
     }
