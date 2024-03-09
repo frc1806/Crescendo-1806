@@ -59,6 +59,11 @@
         "window": {
           "visible": true
         }
+      },
+      "/SmartDashboard/Swerve": {
+        "window": {
+          "visible": true
+        }
       }
     }
   },

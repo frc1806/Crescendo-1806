@@ -5,12 +5,15 @@
 package frc.robot.commands.sequence;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Angler.AnglerGoToAngle;
 import frc.robot.commands.Angler.AnglerGoToAngleFromSupplier;
 import frc.robot.commands.Launcher.LaunchNoteFromSupplier;
 import frc.robot.commands.Launcher.SetLauncher;
 import frc.robot.commands.Launcher.SetLauncherFromSupplier;
+import frc.robot.commands.Swerve.FieldOrientedDrive;
+import frc.robot.commands.Swerve.FieldOrientedVisionAlignSpeaker;
 import frc.robot.game.Shot;
 import java.util.function.DoubleSupplier;
 
@@ -22,17 +25,24 @@ public class VisionShotSequence extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands( 
-                new ParallelCommandGroup(
-                  new SetLauncherFromSupplier(speedSupplier), 
-                    new AnglerGoToAngleFromSupplier(angleSupplier)
+                new ParallelRaceGroup(
+                  new ParallelCommandGroup(
+                    new SetLauncherFromSupplier(speedSupplier), 
+                      new AnglerGoToAngleFromSupplier(angleSupplier)
+                  ),
+                  new FieldOrientedVisionAlignSpeaker()
                 ),
-                new ParallelCommandGroup(                 
-                   new LaunchNoteFromSupplier(speedSupplier), 
-                    new AnglerGoToAngleFromSupplier(angleSupplier)
+                new ParallelRaceGroup(
+                  new ParallelCommandGroup(                 
+                    new LaunchNoteFromSupplier(speedSupplier), 
+                      new AnglerGoToAngleFromSupplier(angleSupplier)
+                  ),
+                  new FieldOrientedVisionAlignSpeaker()
                 ),
-                new ParallelCommandGroup(
-                    new SetLauncher(0.0),
-                    new AnglerGoToAngle(Shot.HOME.getPivotAngle())
+                new ParallelRaceGroup(
+                  new SetLauncher(0),
+                  new AnglerGoToAngle(Shot.HOME.getPivotAngle()),
+                  new FieldOrientedDrive()
                 )
     );
   }
