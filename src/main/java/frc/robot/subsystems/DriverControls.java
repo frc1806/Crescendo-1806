@@ -173,10 +173,12 @@ public class DriverControls extends SubsystemBase{
         operatorController.setRumble(RumbleType.kBothRumble, speed);
     }
 
-    // OPERATOR CONTROLS
+  
     public boolean o_wantVisionShot(){
-        return operatorController.getXButton();
+        return driverController.getLeftTriggerAxis() > 0;
     }
+
+      // OPERATOR CONTROLS
 
     public boolean o_wantSubwooferShot(){
         return operatorController.getYButton();
