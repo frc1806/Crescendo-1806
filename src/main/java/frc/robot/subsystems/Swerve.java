@@ -3,16 +3,25 @@ package frc.robot.subsystems;
 import java.io.File;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathfindHolonomic;
+import com.pathplanner.lib.commands.PathfindLTV;
+import com.pathplanner.lib.commands.PathfindingCommand;
+import com.pathplanner.lib.controllers.PathFollowingController;
+import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.controller.HolonomicDriveController;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
@@ -24,6 +33,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.commands.Swerve.HoldPoseCommand;
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
 import swervelib.parser.SwerveDriveConfiguration;
@@ -66,6 +76,27 @@ public class Swerve extends SubsystemBase {
             this
         );
 
+    }
+
+    public Command getPathFindCommand(Pose2d targetPosition){
+        return new PathfindHolonomic(
+                targetPosition, 
+                new PathConstraints(maximumSpeed, maximumSpeed, 3.0, 3.0),
+                this::getPose,
+                this::getRobotOrientedVelocity,
+                this::setChassisSpeed,
+                new HolonomicPathFollowerConfig(
+                new PIDConstants(Constants.kSwerveAutoPIDP, Constants.kSwerveAutoPIDI, Constants.kSwerveAutoPIDD),
+                new PIDConstants(
+                    swerveDrive.swerveController.config.headingPIDF.p * 2,
+                    swerveDrive.swerveController.config.headingPIDF.i,
+                    swerveDrive.swerveController.config.headingPIDF.d),
+                Constants.kMaxModuleSpeed,
+                Units.feetToMeters(Constants.kDriveBaseRadius),
+                new ReplanningConfig()
+                ),
+                this)
+                .andThen(new HoldPoseCommand(targetPosition));
     }
 
     public SwerveDrive getSwerveDrive(){

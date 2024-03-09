@@ -4,6 +4,8 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.function.DoubleSupplier;
 
+import com.pathplanner.lib.commands.PathfindLTV;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -22,6 +24,7 @@ import frc.robot.RobotContainer;
 import frc.robot.commands.Swerve.FieldOrientedVisionAlignSpeaker;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
+import frc.robot.commands.Swerve.WrappedPathFollowingAmp;
 import frc.robot.commands.sequence.IntakeSequence;
 import frc.robot.commands.sequence.OuttakeSequence;
 import frc.robot.commands.sequence.ParallelCleaningGroup;
@@ -156,6 +159,10 @@ public class DriverControls extends SubsystemBase{
         return driverController.getAButton();
     }
 
+    public boolean wantVisionAlignAmp(){
+        return driverController.getBButton();
+    }
+
     public void setRumble(double speed){
         driverController.setRumble(RumbleType.kBothRumble, speed);
         operatorController.setRumble(RumbleType.kBothRumble, speed);
@@ -251,6 +258,8 @@ public class DriverControls extends SubsystemBase{
         new Trigger(this::d_wantCloseShot).whileTrue(new PresetShotLaunchSequence(Shot.CLOSE));
         new Trigger(this::d_wantYeet).whileTrue(new PresetShotLaunchSequence(Shot.YEET));
         new Trigger(this::d_wantCleaning).whileTrue(new ParallelCleaningGroup());
+
+        new Trigger(this::wantVisionAlignAmp).whileTrue(new WrappedPathFollowingAmp());
 
         //RUMBLE TRIGGERS
         new Trigger(() ->(DriverStation.isTeleopEnabled() && DriverStation.getMatchTime() < 20)).onTrue(addDriverRumbleCommand(new RumbleCommand(new SquareWave(0.3,0.3 ,0.5), RumbleType.kBothRumble, 2.0)));

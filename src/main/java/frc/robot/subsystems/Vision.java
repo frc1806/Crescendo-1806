@@ -19,15 +19,19 @@ import frc.robot.RobotContainer;
 import frc.robot.game.Shot;
 import frc.robot.game.VisionShotLibrary;
 import frc.robot.util.PolarCoordinate;
+import frc.robot.util.fieldmirroring.BlueAllianceFieldPoseCollection;
+import frc.robot.util.fieldmirroring.FlippableBlueAlliancePose;
 
+import java.util.ArrayList;
 import java.util.function.DoubleSupplier;
 
 public class Vision extends SubsystemBase {
     
     private PhotonCamera mFrontLeftCam, mFrontRightCam, mBackLeftCam, mBackRightCam;
     private PhotonPoseEstimator mFrontLeftEstimator, mFrontRightEstimator, mBackLeftEstimator, mBackRightEstimator;
-    private Translation2d mBlueSpeakerPose;
-    private Translation2d mRedSpeakerPose;
+    private FlippableBlueAlliancePose mBlueSpeakerPose;
+    private FlippableBlueAlliancePose mBlueAmpPose;
+    private BlueAllianceFieldPoseCollection mBlueAllianceTrapPoses;
     private DoubleSupplier mVAngle;
     private DoubleSupplier mVSpeed;
     private Shot visionShot;
@@ -52,8 +56,15 @@ public class Vision extends SubsystemBase {
         mBackLeftEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
         mBackRightEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
 
-        mBlueSpeakerPose = new Translation2d(0.02, 5.61);
-        mRedSpeakerPose = new Translation2d(16.53, 5.61);
+        mBlueSpeakerPose = new FlippableBlueAlliancePose(new Translation2d(0.02, 5.61), Rotation2d.fromDegrees(180));
+        mBlueAmpPose = new FlippableBlueAlliancePose(new Translation2d(1.84, 7.64), Rotation2d.fromDegrees(90.0));
+
+        ArrayList<FlippableBlueAlliancePose> blueTrapPoses= new ArrayList<>();
+        blueTrapPoses.add(new FlippableBlueAlliancePose(new Translation2d(4.36, 4.92), Rotation2d.fromDegrees(-60.0)));
+        blueTrapPoses.add(new FlippableBlueAlliancePose(new Translation2d(4.41, 3.33), Rotation2d.fromDegrees(60.0)));
+        blueTrapPoses.add(new FlippableBlueAlliancePose(new Translation2d(5.78, 4.41), Rotation2d.fromDegrees(180.0)));
+        
+        mBlueAllianceTrapPoses = new BlueAllianceFieldPoseCollection(blueTrapPoses);
 
         mFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
     }
@@ -63,16 +74,25 @@ public class Vision extends SubsystemBase {
         return Rotation2d.fromRadians(PolarCoordinate.toPolarCoordinate(() -> difference.getX(), () -> difference.getY())[1]);
     }
 
+
     public Translation2d getYAxisMovementCompensatedSpeakerPose(){
-        return getSpeakerPose().plus(new Translation2d(0.0, -(RobotContainer.S_SWERVE.getFieldOrientedVelocity().vyMetersPerSecond * .3)));
+        return getSpeakerTranslation().plus(new Translation2d(0.0, -(RobotContainer.S_SWERVE.getFieldOrientedVelocity().vyMetersPerSecond * .3)));
     }
 
-    public Translation2d getSpeakerPose(){
-        return RobotContainer.S_DRIVERSTATIONCHECKER.getCurrentAlliance() == Alliance.Blue?mBlueSpeakerPose:mRedSpeakerPose;
+    public Translation2d getSpeakerTranslation(){
+        return mBlueSpeakerPose.getTranslation(RobotContainer.S_DRIVERSTATIONCHECKER.getCurrentAlliance());
+    }
+
+    public Pose2d getAmpGoalPose2d(){
+        return mBlueAmpPose.getPose(RobotContainer.S_DRIVERSTATIONCHECKER.getCurrentAlliance());
+    }
+
+    public Pose2d getNearestTrapPose(){
+        return mBlueAllianceTrapPoses.getNearestPose(RobotContainer.S_DRIVERSTATIONCHECKER.getCurrentAlliance(), RobotContainer.S_SWERVE.getPose());
     }
 
     public Double getDistanceToSpeaker(){
-        return RobotContainer.S_SWERVE.getPose().getTranslation().getDistance(getSpeakerPose());
+        return RobotContainer.S_SWERVE.getPose().getTranslation().getDistance(getSpeakerTranslation());
     }
 
     public DoubleSupplier CalculateShotAngle() {
