@@ -189,17 +189,17 @@ public class DriverControls extends SubsystemBase{
     }
 
     public boolean o_wantManualAnglerRotate(){
-        return operatorController.getRightTriggerAxis() > 0;
+        return operatorController.getRightBumper();
     }
 
     public boolean o_wantExtendBoatHook(){
-        return operatorController.getRightBumper();
-    }
-    public boolean o_wantRetractBoatHook(){
         return operatorController.getRightTriggerAxis() > 0;
     }
+    public boolean o_wantRetractBoatHook(){
+        return operatorController.getLeftTriggerAxis() > 0;
+    }
     public boolean o_wantStopBoatHook(){
-        return operatorController.getLeftBumper();
+        return operatorController.getLeftTriggerAxis() == 0 && operatorController.getRightTriggerAxis() == 0;
     }
 
     public boolean o_wantModifyShotHigher(){
