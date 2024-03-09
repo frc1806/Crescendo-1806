@@ -82,13 +82,15 @@ public class RobotContainer {
     autoChooser.addOption("TimedSubwooferShot+MobilityRedCenter", new SubwooferShotTimedDrive(new Pose2d(15.19, 5.52, Rotation2d.fromDegrees(0)), Rotation2d.fromDegrees(0.0)));
     autoChooser.addOption("TimedSubwooferShot+MobilityRedDriversRight", new SubwooferShotTimedDrive(new Pose2d(15.82, 6.66, Rotation2d.fromDegrees(-60)), Rotation2d.fromDegrees(-120.0 + 180.0)));
     autoChooser.addOption("TimedSubwoofer+MobilityRedDriversLeft", new SubwooferShotTimedDrive(new Pose2d(15.82, 4.41, Rotation2d.fromDegrees(60.0)), Rotation2d.fromDegrees(0.0)));
+
+    autoChooser.addOption("SandstormModeForTesting", new FieldOrientedDrive());
     SmartDashboard.putData("Auto Mode", autoChooser);
 
 
   }
 
   private void setDefaultCommands(){
-    CommandScheduler.getInstance().setDefaultCommand(S_SWERVE, new FieldOrientedDrive(S_SWERVE, S_DRIVERCONTROLS));
+    CommandScheduler.getInstance().setDefaultCommand(S_SWERVE, new FieldOrientedDrive());
     CommandScheduler.getInstance().setDefaultCommand(S_INTAKE, new SetIntake(0.0));
     CommandScheduler.getInstance().setDefaultCommand(S_ANGLER, new AnglerGoToAngle(Shot.HOME.getPivotAngle()));
     CommandScheduler.getInstance().setDefaultCommand(S_LAUNCHER, new IdleLauncher());

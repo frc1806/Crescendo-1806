@@ -4,7 +4,11 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.function.DoubleSupplier;
 
+import com.pathplanner.lib.commands.PathfindLTV;
+
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.XboxController;
@@ -17,8 +21,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.commands.Swerve.FieldOrientedVisionAlignSpeaker;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
+import frc.robot.commands.Swerve.WrappedPathFollowingAmp;
+import frc.robot.commands.Swerve.WrappedPathFollowingNearestTrap;
 import frc.robot.commands.sequence.IntakeSequence;
 import frc.robot.commands.sequence.OuttakeSequence;
 import frc.robot.commands.sequence.ParallelCleaningGroup;
@@ -43,6 +50,8 @@ public class DriverControls extends SubsystemBase{
     private XboxController operatorController;
     private XboxController debugController;
 
+    private double lastTranslationAngle;
+
     private double lastSnapDegree;
 
     private Queue<RumbleCommand> driverRumbleQueue;
@@ -62,6 +71,7 @@ public class DriverControls extends SubsystemBase{
         currentDriverRumble = null;
         currentOperatorRumble = null;
         lastSnapDegree = RobotContainer.S_SWERVE.getSwerveDrive().getOdometryHeading().getDegrees();
+        lastTranslationAngle = 0;
     }
 
     public XboxController getDriverController(){
@@ -86,6 +96,22 @@ public class DriverControls extends SubsystemBase{
     public double translationX(){
         return flipValueIfRed(-MathUtil.applyDeadband(driverController.getLeftY(), Constants.kLeftXboxJoystickDeadzone));
     }
+    
+    public double getRadDriveThrottle(){
+        return 0;
+        //return MathUtil.applyDeadband(driverController.getRightTriggerAxis(), Constants.kTriggerXboxDeadzone);
+    }
+    public Translation2d getRadDriveTranslation(){
+        double[] translationCoord = PolarCoordinate.toPolarCoordinate(() ->translationX(), () ->translationY());
+        if(translationCoord[0] < 0.5){
+            return new Translation2d(getRadDriveThrottle(), Rotation2d.fromRadians(lastTranslationAngle));
+        }
+        else{
+            lastTranslationAngle = translationCoord[1];
+            return new Translation2d(getRadDriveThrottle(), Rotation2d.fromRadians(translationCoord[1]));
+        }
+        
+    }
 
     public double snapRotation(){
         DoubleSupplier x = () -> flipValueIfRed(-driverController.getRightX());
@@ -100,8 +126,8 @@ public class DriverControls extends SubsystemBase{
             return lastSnapDegree;
         }
 
-        theta /= 45;
-        theta = Math.round(theta) * 45;
+        theta /= 30;
+        theta = Math.round(theta) * 30;
         lastSnapDegree = theta;
         return theta;
     }
@@ -132,6 +158,14 @@ public class DriverControls extends SubsystemBase{
 
     public boolean wantVisionAlign(){
         return driverController.getAButton();
+    }
+
+    public boolean wantVisionAlignAmp(){
+        return driverController.getBButton();
+    }
+    
+    public boolean wantVisionAlignNearestTrap(){
+        return driverController.getStartButton();
     }
 
     public void setRumble(double speed){
@@ -207,6 +241,9 @@ public class DriverControls extends SubsystemBase{
         new Trigger(this::resetGyro).onTrue(new ResetGyro(swerve));
         new Trigger(this::intake).whileTrue(new IntakeSequence());
         new Trigger(this::outtake).whileTrue(new OuttakeSequence());
+        new Trigger(this::wantVisionAlign).whileTrue(new FieldOrientedVisionAlignSpeaker());
+        new Trigger(this::wantVisionAlignAmp).whileTrue(new WrappedPathFollowingAmp());
+        new Trigger(this::wantVisionAlignNearestTrap).whileTrue(new WrappedPathFollowingNearestTrap());
         //Operator
         new Trigger(this::o_wantExtendBoatHook).whileTrue(boatHook.extendBoatHook());
         new Trigger(this::o_wantRetractBoatHook).whileTrue(boatHook.retractBoatHook());
@@ -228,6 +265,8 @@ public class DriverControls extends SubsystemBase{
         new Trigger(this::d_wantCloseShot).whileTrue(new PresetShotLaunchSequence(Shot.CLOSE));
         new Trigger(this::d_wantYeet).whileTrue(new PresetShotLaunchSequence(Shot.YEET));
         new Trigger(this::d_wantCleaning).whileTrue(new ParallelCleaningGroup());
+
+        
 
         //RUMBLE TRIGGERS
         new Trigger(() ->(DriverStation.isTeleopEnabled() && DriverStation.getMatchTime() < 20)).onTrue(addDriverRumbleCommand(new RumbleCommand(new SquareWave(0.3,0.3 ,0.5), RumbleType.kBothRumble, 2.0)));

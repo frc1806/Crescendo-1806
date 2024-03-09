@@ -18,9 +18,10 @@ public class Constants {
     public static final double kAcceptableRotationStickError = 1.0/32.0;
     public static final double kRightXboxJoystickDeadzone = 0.1;
     public static final double kLeftXboxJoystickDeadzone = 0.07;
+    public static final double kTriggerXboxDeadzone = 0.05;
 
     // Swerve
-    public static final double kMaxModuleSpeed = 4.0;
+    public static final double kMaxModuleSpeed = 5.1;
     public static final double kDriveBaseRadius = 6.8125;
     // Translation PID
     public static final double kSwerveAutoPIDP = 2.5;
@@ -62,18 +63,6 @@ public class Constants {
     public static final SwerveModulePosition[] kSwerveModulePositions = {};
     public static final Vector<N3> kStateStds = VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5));
     public static final Vector<N3> kVisionStds = VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(10));
-
-    //  Camera Heights
-    public static final double kFrontLeftCameraHeight = 0.0;
-    public static final double kFrontRightCameraHeight = 0.0;
-    public static final double kBackLeftCameraHeight = 0.0;
-    public static final double kBackRightCameraHeight = 0.0;
-
-    //  Camera Pitch
-    public static final double kFrontLeftCameraPitch = 0.0;
-    public static final double kFrontRightCameraPitch = 0.0;
-    public static final double kBackLeftCameraPitch = 0.0;
-    public static final double kBackRightCameraPitch = 0.0;
 
     // Launcher
     public static final double kLeftLauncherkP = (1/1000);
