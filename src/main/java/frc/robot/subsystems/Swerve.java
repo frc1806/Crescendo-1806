@@ -33,6 +33,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.commands.Swerve.GetToPoseCommand;
 import frc.robot.commands.Swerve.HoldPoseCommand;
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
@@ -96,7 +97,7 @@ public class Swerve extends SubsystemBase {
                 new ReplanningConfig()
                 ),
                 this)
-                .andThen(new HoldPoseCommand(targetPosition));
+                .andThen(new GetToPoseCommand(targetPosition));
     }
 
     public SwerveDrive getSwerveDrive(){

@@ -25,6 +25,7 @@ import frc.robot.commands.Swerve.FieldOrientedVisionAlignSpeaker;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.commands.Swerve.WrappedPathFollowingAmp;
+import frc.robot.commands.Swerve.WrappedPathFollowingNearestTrap;
 import frc.robot.commands.sequence.IntakeSequence;
 import frc.robot.commands.sequence.OuttakeSequence;
 import frc.robot.commands.sequence.ParallelCleaningGroup;
@@ -125,8 +126,8 @@ public class DriverControls extends SubsystemBase{
             return lastSnapDegree;
         }
 
-        theta /= 45;
-        theta = Math.round(theta) * 45;
+        theta /= 30;
+        theta = Math.round(theta) * 30;
         lastSnapDegree = theta;
         return theta;
     }
@@ -161,6 +162,10 @@ public class DriverControls extends SubsystemBase{
 
     public boolean wantVisionAlignAmp(){
         return driverController.getBButton();
+    }
+    
+    public boolean wantVisionAlignNearestTrap(){
+        return driverController.getStartButton();
     }
 
     public void setRumble(double speed){
@@ -237,6 +242,8 @@ public class DriverControls extends SubsystemBase{
         new Trigger(this::intake).whileTrue(new IntakeSequence());
         new Trigger(this::outtake).whileTrue(new OuttakeSequence());
         new Trigger(this::wantVisionAlign).whileTrue(new FieldOrientedVisionAlignSpeaker());
+        new Trigger(this::wantVisionAlignAmp).whileTrue(new WrappedPathFollowingAmp());
+        new Trigger(this::wantVisionAlignNearestTrap).whileTrue(new WrappedPathFollowingNearestTrap());
         //Operator
         new Trigger(this::o_wantExtendBoatHook).whileTrue(boatHook.extendBoatHook());
         new Trigger(this::o_wantRetractBoatHook).whileTrue(boatHook.retractBoatHook());
@@ -259,7 +266,7 @@ public class DriverControls extends SubsystemBase{
         new Trigger(this::d_wantYeet).whileTrue(new PresetShotLaunchSequence(Shot.YEET));
         new Trigger(this::d_wantCleaning).whileTrue(new ParallelCleaningGroup());
 
-        new Trigger(this::wantVisionAlignAmp).whileTrue(new WrappedPathFollowingAmp());
+        
 
         //RUMBLE TRIGGERS
         new Trigger(() ->(DriverStation.isTeleopEnabled() && DriverStation.getMatchTime() < 20)).onTrue(addDriverRumbleCommand(new RumbleCommand(new SquareWave(0.3,0.3 ,0.5), RumbleType.kBothRumble, 2.0)));

@@ -62,7 +62,7 @@ public class Vision extends SubsystemBase {
         ArrayList<FlippableBlueAlliancePose> blueTrapPoses= new ArrayList<>();
         blueTrapPoses.add(new FlippableBlueAlliancePose(new Translation2d(4.36, 4.92), Rotation2d.fromDegrees(-60.0)));
         blueTrapPoses.add(new FlippableBlueAlliancePose(new Translation2d(4.41, 3.33), Rotation2d.fromDegrees(60.0)));
-        blueTrapPoses.add(new FlippableBlueAlliancePose(new Translation2d(5.78, 4.41), Rotation2d.fromDegrees(180.0)));
+        blueTrapPoses.add(new FlippableBlueAlliancePose(new Translation2d(5.78, 4.1), Rotation2d.fromDegrees(180.0)));
         
         mBlueAllianceTrapPoses = new BlueAllianceFieldPoseCollection(blueTrapPoses);
 

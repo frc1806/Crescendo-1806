@@ -14,8 +14,8 @@ import frc.robot.subsystems.Swerve;
 
 public class HoldPoseCommand extends Command {
  
-  private Pose2d mPoseToHold;
-  private Swerve mSwerve;
+  protected Pose2d mPoseToHold;
+  protected Swerve mSwerve;
 
 
   public HoldPoseCommand(Pose2d pose) {
