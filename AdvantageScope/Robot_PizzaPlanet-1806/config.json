@@ -1,0 +1,9 @@
+{
+  "name": "Pizza Planet",
+  "sourceUrl": "https://cad.onshape.com/documents/241f2253507606c76021332d/w/af9b88b7a8fe9387e4a7ba96/e/80fa14572036ccda0bb56de5",
+  "rotations": [
+    { "axis": "x", "degrees": 90 },
+    { "axis": "z", "degrees": 90}
+  ],
+  "position": [0, 0, -0.32]
+}

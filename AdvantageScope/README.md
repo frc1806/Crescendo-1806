@@ -1,0 +1,3 @@
+## Advantage Scope Robot Model
+Inside `Robot_PizzaPlanet-1806` is a 3d model to be used with AdvantageScope and a config file inside it. The folder name is important so please do not remove the
+`Robot_` part of the folder name otherwise it won't work. `model.glb` has to be named that for AdvantageScope to use that model and `config.json` needs to be called that so AdvantageScope knows to look in there for proper config.

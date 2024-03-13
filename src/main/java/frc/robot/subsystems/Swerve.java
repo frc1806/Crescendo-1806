@@ -16,6 +16,7 @@ import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -23,6 +24,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -45,6 +48,7 @@ public class Swerve extends SubsystemBase {
     private double maximumSpeed;
     private SwerveDrive swerveDrive;
     private File swerveJsonDirectory;
+    private StructPublisher<Pose3d> pose3dPublisher;
 
     public Swerve(){
         maximumSpeed = Units.feetToMeters(17.1);
@@ -76,6 +80,8 @@ public class Swerve extends SubsystemBase {
             this::shouldPathFlip,
             this
         );
+
+        pose3dPublisher = NetworkTableInstance.getDefault().getStructTopic("Robot Pose 3D", Pose3d.struct).publish();
 
     }
 
