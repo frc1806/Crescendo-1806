@@ -27,7 +27,10 @@ public class Robot extends TimedRobot {
   public void disabledInit() {}
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    RobotContainer.S_VISION.resetRobotOdometryFromVision();
+    RobotContainer.S_DRIVERCONTROLS.setLastSnapDegree(RobotContainer.S_SWERVE.getPose().getRotation().getDegrees());
+  }
 
   @Override
   public void disabledExit() {}

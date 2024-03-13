@@ -23,6 +23,7 @@ import frc.robot.commands.Swerve.FieldOrientedDrive;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.commands.sequence.IntakeSequence;
+import frc.robot.commands.sequence.PreparePresetLaunchSequence;
 import frc.robot.commands.sequence.PresetShotLaunchSequence;
 import frc.robot.game.Shot;
 import frc.robot.game.VisionShotLibrary;
@@ -71,7 +72,9 @@ public class RobotContainer {
     NamedCommands.registerCommand("visionShot", new VisionShotSequence(S_VISION.CalculateShotAngle(), S_VISION.CalculateShotSpeed()));
     NamedCommands.registerCommand("IntakeSequence", new IntakeSequence());
     NamedCommands.registerCommand("PresetSubwooferShot", new PresetShotLaunchSequence(Shot.SUBWOOFER));
+    NamedCommands.registerCommand("PreparePresetSubwooferShot", new PreparePresetLaunchSequence(Shot.SUBWOOFER));
     NamedCommands.registerCommand("PresetAmpShot", new PresetShotLaunchSequence(Shot.AMPLIFIER));
+
     
     autoChooser = AutoBuilder.buildAutoChooser(); 
 
