@@ -174,8 +174,8 @@ public class DriverControls extends SubsystemBase{
     }
 
   
-    public boolean o_wantVisionShot(){
-        return operatorController.getLeftTriggerAxis() > 0;
+    public boolean wantVisionShot(){
+        return driverController.getLeftTriggerAxis() > 0;
     }
 
       // OPERATOR CONTROLS
@@ -250,7 +250,7 @@ public class DriverControls extends SubsystemBase{
         new Trigger(this::o_wantExtendBoatHook).whileTrue(boatHook.extendBoatHook());
         new Trigger(this::o_wantRetractBoatHook).whileTrue(boatHook.retractBoatHook());
         new Trigger(this::o_wantStopBoatHook).whileTrue(boatHook.stopBoatHook());
-        new Trigger(this::o_wantVisionShot).whileTrue(new VisionShotSequence(vision.CalculateShotAngle(), vision.CalculateShotSpeed()));
+        new Trigger(this::wantVisionShot).whileTrue(new VisionShotSequence(vision.CalculateShotAngle(), vision.CalculateShotSpeed()));
 
         new Trigger(this::o_wantSubwooferShot).whileTrue(new PresetShotLaunchSequence(Shot.SUBWOOFER));
         //TODO: Higher/Lower currently only work for subwoofer
