@@ -4,7 +4,8 @@
   "holonomicMode": true,
   "pathFolders": [
     "2 Note Paths",
-    "3 Note Paths"
+    "3 Note Paths",
+    "4 Note Paths Forward"
   ],
   "autoFolders": [],
   "defaultMaxVel": 4.5,
