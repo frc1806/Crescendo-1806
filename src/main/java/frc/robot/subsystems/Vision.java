@@ -1,17 +1,15 @@
 package frc.robot.subsystems;
 
+import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.math.estimator.PoseEstimator;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -23,6 +21,7 @@ import frc.robot.util.fieldmirroring.BlueAllianceFieldPoseCollection;
 import frc.robot.util.fieldmirroring.FlippableBlueAlliancePose;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.function.DoubleSupplier;
 
 public class Vision extends SubsystemBase {
@@ -41,10 +40,10 @@ public class Vision extends SubsystemBase {
     private static final Swerve SWERVE = RobotContainer.S_SWERVE;
 
     public Vision(){
-        mFrontLeftCam = new PhotonCamera("FrontLeft");
-        mFrontRightCam = new PhotonCamera("FrontRight");
-        mBackLeftCam = new PhotonCamera("BackLeft");
-        mBackRightCam = new PhotonCamera("BackRight");
+        mFrontLeftCam = new PhotonCamera("LeftFront");
+        mFrontRightCam = new PhotonCamera("RightFront");
+        mBackLeftCam = new PhotonCamera("LeftRear");
+        mBackRightCam = new PhotonCamera("RightRear");
 
         mFrontLeftEstimator = new PhotonPoseEstimator(mFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, mFrontLeftCam, Constants.kFrontLeftCamToCenter);
         mFrontRightEstimator = new PhotonPoseEstimator(mFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, mFrontRightCam, Constants.kFrontRightCamToCenter);
@@ -67,6 +66,11 @@ public class Vision extends SubsystemBase {
         mBlueAllianceTrapPoses = new BlueAllianceFieldPoseCollection(blueTrapPoses);
 
         mFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
+
+        mFrontLeftEstimator.setFieldTags(mFieldLayout);
+        mFrontRightEstimator.setFieldTags(mFieldLayout);
+        mBackLeftEstimator.setFieldTags(mFieldLayout);
+        mBackRightEstimator.setFieldTags(mFieldLayout);
     }
 
     public Rotation2d getYawToSpeaker(){
@@ -111,52 +115,91 @@ public class Vision extends SubsystemBase {
     public void periodic() {
         SmartDashboard.putData(this);
 
-        if(mFrontLeftEstimator.update().isPresent()){
-            RobotContainer.S_SWERVE.addVisionMeasurement(mFrontLeftEstimator.update().get().estimatedPose.toPose2d(), mFrontLeftEstimator.update().get().timestampSeconds);
+        try{
+            if(mFrontLeftEstimator.update().isPresent()){
+                EstimatedRobotPose update = mFrontLeftEstimator.update().orElseThrow();
+                if(update != null){
+                    RobotContainer.S_SWERVE.addVisionMeasurement(update.estimatedPose.toPose2d(), update.timestampSeconds);
+                }
+            }
         }
-        if(mFrontRightEstimator.update().isPresent()){
-            RobotContainer.S_SWERVE.addVisionMeasurement(mFrontRightEstimator.update().get().estimatedPose.toPose2d(), mFrontRightEstimator.update().get().timestampSeconds);
+        catch(NoSuchElementException e){
+            //System.out.println("Vision.java: Front left estimator had no update to get");
         }
-        if(mBackLeftEstimator.update().isPresent()){
-            RobotContainer.S_SWERVE.addVisionMeasurement(mBackLeftEstimator.update().get().estimatedPose.toPose2d(), mBackLeftEstimator.update().get().timestampSeconds);
+
+        try{
+            if(mFrontRightEstimator.update().isPresent()){
+                EstimatedRobotPose update = mFrontRightEstimator.update().orElseThrow();
+                if(update != null){
+                    RobotContainer.S_SWERVE.addVisionMeasurement(update.estimatedPose.toPose2d(), update.timestampSeconds);
+                }
+            }
         }
-        if(mBackRightEstimator.update().isPresent()){
-            RobotContainer.S_SWERVE.addVisionMeasurement(mBackRightEstimator.update().get().estimatedPose.toPose2d(), mBackRightEstimator.update().get().timestampSeconds);
+        catch(NoSuchElementException e){
+            //System.out.println("Vision.java: Front right estimator had no update to get");
+        }
+        
+         try{
+            if(mBackLeftEstimator.update().isPresent()){
+                EstimatedRobotPose update = mBackLeftEstimator.update().orElseThrow();
+                if(update != null){
+                    RobotContainer.S_SWERVE.addVisionMeasurement(update.estimatedPose.toPose2d(), update.timestampSeconds);
+                }
+            }
+        }
+        catch(NoSuchElementException e){
+            //System.out.println("Vision.java: Back left estimator had no update to get");
+        }
+         try{
+            if(mBackRightEstimator.update().isPresent()){
+                EstimatedRobotPose update = mBackRightEstimator.update().orElseThrow();
+                if(update != null){
+                    RobotContainer.S_SWERVE.addVisionMeasurement(update.estimatedPose.toPose2d(), update.timestampSeconds);
+                }
+            }
+        }
+        catch(NoSuchElementException e){
+            //System.out.println("Vision.java: Back right estimator had no update to get");
         }
     }
 
     public void resetRobotOdometryFromVision(){
         boolean hasBeenReset = false;
-        if(mFrontLeftEstimator.update().isPresent()){
-            hasBeenReset= true;
-            RobotContainer.S_SWERVE.resetOdometry(mFrontLeftEstimator.update().get().estimatedPose.toPose2d());
-        }
-        if(mFrontRightEstimator.update().isPresent()){
-            if(hasBeenReset){
-                RobotContainer.S_SWERVE.addVisionMeasurement(mFrontRightEstimator.update().get().estimatedPose.toPose2d(), mFrontRightEstimator.update().get().timestampSeconds);
+        try{
+            if(mFrontLeftEstimator.update().isPresent()){
+                hasBeenReset= true;
+                RobotContainer.S_SWERVE.resetOdometry(mFrontLeftEstimator.update().get().estimatedPose.toPose2d());
             }
-            else{
+        }
+        catch(NoSuchElementException e){
+            //ignore
+        }
+         try{
+            if(mFrontRightEstimator.update().isPresent()){
                 hasBeenReset= true;
                 RobotContainer.S_SWERVE.resetOdometry(mFrontRightEstimator.update().get().estimatedPose.toPose2d());
             }
         }
-        if(mBackLeftEstimator.update().isPresent()){
-                        if(hasBeenReset){
-                RobotContainer.S_SWERVE.addVisionMeasurement(mBackLeftEstimator.update().get().estimatedPose.toPose2d(), mFrontRightEstimator.update().get().timestampSeconds);
-            }
-            else{
+        catch(NoSuchElementException e){
+            //ignore
+        }
+        try{
+            if(mBackLeftEstimator.update().isPresent()){
                 hasBeenReset= true;
                 RobotContainer.S_SWERVE.resetOdometry(mBackLeftEstimator.update().get().estimatedPose.toPose2d());
             }
         }
-        if(mBackRightEstimator.update().isPresent()){
-                        if(hasBeenReset){
-                RobotContainer.S_SWERVE.addVisionMeasurement(mBackRightEstimator.update().get().estimatedPose.toPose2d(), mFrontRightEstimator.update().get().timestampSeconds);
-            }
-            else{
+        catch(NoSuchElementException e){
+            //ignore
+        }
+         try{
+            if(mBackRightEstimator.update().isPresent()){
                 hasBeenReset= true;
                 RobotContainer.S_SWERVE.resetOdometry(mBackRightEstimator.update().get().estimatedPose.toPose2d());
             }
+        }
+        catch(NoSuchElementException e){
+            //ignore
         }
     }
 
