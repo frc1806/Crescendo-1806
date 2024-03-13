@@ -30,10 +30,6 @@ public class PresetShotLaunchSequence extends SequentialCommandGroup {
                    new LaunchNote(wantedShot.getLauncherSpeed()), 
                     new AnglerGoToAngle(wantedShot.getPivotAngle()
                     )
-                ),
-                new ParallelRaceGroup(
-                    new SetLauncher(0.0),
-                    new AnglerGoToAngle(Shot.HOME.getPivotAngle())
                 )
     );
   }
