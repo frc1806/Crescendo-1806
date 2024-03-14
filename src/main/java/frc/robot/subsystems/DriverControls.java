@@ -185,7 +185,7 @@ public class DriverControls extends SubsystemBase{
 
   
     public boolean o_wantVisionShot(){
-        return operatorController.getLeftTriggerAxis() > 0;
+        return driverController.getLeftTriggerAxis() > 0;
     }
 
       // OPERATOR CONTROLS

@@ -44,19 +44,19 @@ public class Constants {
     // Pose Estimator Constants
     public static final Transform3d kFrontLeftCamToCenter = new Transform3d(
         new Translation3d(Units.inchesToMeters(14-1.25), Units.inchesToMeters(4), Units.inchesToMeters(7.5+1.75)),
-        new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(20), Units.degreesToRadians(20))
+        new Rotation3d(Units.degreesToRadians(-5), Units.degreesToRadians(-20), Units.degreesToRadians(20))
     );
     public static final Transform3d kFrontRightCamToCenter = new Transform3d(
         new Translation3d(Units.inchesToMeters(14-1.25), Units.inchesToMeters(-4), Units.inchesToMeters(7.5+1.75)),
-        new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(20), Units.degreesToRadians(-20))
+        new Rotation3d(Units.degreesToRadians(5), Units.degreesToRadians(-20), Units.degreesToRadians(-20))
     );
     public static final Transform3d kBackLeftCamToCenter = new Transform3d(
         new Translation3d(Units.inchesToMeters(0), Units.inchesToMeters(11), Units.inchesToMeters(7.5+5.5)),
-        new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(20), Units.degreesToRadians(160))
+        new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(-20), Units.degreesToRadians(160))
     );
     public static final Transform3d kBackRightCamToCenter = new Transform3d(
         new Translation3d(Units.inchesToMeters(0), Units.inchesToMeters(11), Units.inchesToMeters(7.5+5.5)),
-        new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(20), Units.degreesToRadians(-160))
+        new Rotation3d(Units.degreesToRadians(0), Units.degreesToRadians(-20), Units.degreesToRadians(-160))
     );
 
     // Swerve Drive Pose Estimator Constants
