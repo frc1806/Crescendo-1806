@@ -16,8 +16,6 @@ import frc.robot.RobotMap;
 import frc.robot.game.Shot;
 import frc.robot.util.rumbleutil.RumbleCommand;
 import frc.robot.util.rumbleutil.SquareWave;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
