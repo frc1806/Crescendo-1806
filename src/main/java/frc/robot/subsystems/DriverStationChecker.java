@@ -34,7 +34,7 @@ public class DriverStationChecker extends SubsystemBase {
       updateCurrentAlliance();
       updateIsRealMatch();
     }
-    SmartDashboard.putData(this);
+    //SmartDashboard.putData(this);
   }
 
   public Alliance getCurrentAlliance(){

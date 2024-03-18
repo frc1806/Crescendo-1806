@@ -35,7 +35,6 @@ public class FieldOrientedVisionAlignSpeaker extends Command {
                     mDriverControls.translationX(),
                     mDriverControls.translationY(),
                     RobotContainer.S_VISION.getYawToSpeaker()));
-    System.out.println(RobotContainer.S_VISION.getYawToSpeaker().getDegrees());
   }
 
   // Called once the command ends or is interrupted.

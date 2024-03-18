@@ -4,8 +4,6 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.function.DoubleSupplier;
 
-import com.pathplanner.lib.commands.PathfindLTV;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -183,7 +181,7 @@ public class DriverControls extends SubsystemBase{
         operatorController.setRumble(RumbleType.kBothRumble, speed);
     }
 
-  
+
     public boolean wantVisionShot(){
         return driverController.getLeftTriggerAxis() > 0;
     }

@@ -175,21 +175,21 @@ public class Angler extends SubsystemBase {
         SmartDashboard.putData(this);
         SmartDashboard.putNumber("Angler Angle", mCurrentAngle);
         SmartDashboard.putNumber("Angler Left Sensor Angle", mLeftSensorAngle);
-        SmartDashboard.putNumber("Angler Right Sensor Angle", mRightSensorAngle);
-        SmartDashboard.putNumber("Angler Twist Angle", mTwistAngle);
+        //SmartDashboard.putNumber("Angler Right Sensor Angle", mRightSensorAngle);
+        //SmartDashboard.putNumber("Angler Twist Angle", mTwistAngle);
         
-        SmartDashboard.putNumber("Angler Left Sensor Value", mAnglerMotorLeft.getSelectedSensorPosition());
-        SmartDashboard.putNumber("Angler Right Sensor Value", mAnglerMotorRight.getSelectedSensorPosition());
+        //SmartDashboard.putNumber("Angler Left Sensor Value", mAnglerMotorLeft.getSelectedSensorPosition());
+        //SmartDashboard.putNumber("Angler Right Sensor Value", mAnglerMotorRight.getSelectedSensorPosition());
         
-        SmartDashboard.putNumber("Angler Left Motor Output", mAnglerMotorLeft.getMotorOutputPercent());
-        SmartDashboard.putNumber("Angler Right Motor Output", mAnglerMotorRight.getMotorOutputPercent());
+        //SmartDashboard.putNumber("Angler Left Motor Output", mAnglerMotorLeft.getMotorOutputPercent());
+        //SmartDashboard.putNumber("Angler Right Motor Output", mAnglerMotorRight.getMotorOutputPercent());
 
         SmartDashboard.putBoolean("Angler Enabled", isAnglerEnabled);
 
         SmartDashboard.putNumber("Angler Wanted Angle", mCurrentDesiredAngle);
-        SmartDashboard.putNumber("Angler Wanted Sensor Angle:", convertAngleToSensorValue(mCurrentDesiredAngle));
+        //SmartDashboard.putNumber("Angler Wanted Sensor Angle:", convertAngleToSensorValue(mCurrentDesiredAngle));
 
-        SmartDashboard.putNumber("Angler Wanted Manual Power", mWantedManualPower);
+        //SmartDashboard.putNumber("Angler Wanted Manual Power", mWantedManualPower);
         //Read encoders
         updateAnglesFromSensors();
 

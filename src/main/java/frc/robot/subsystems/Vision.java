@@ -4,12 +4,14 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -34,6 +36,7 @@ public class Vision extends SubsystemBase {
     private DoubleSupplier mVAngle;
     private DoubleSupplier mVSpeed;
     private Shot visionShot;
+    private static Translation3d ORIGINTRANSLATION = new Translation3d();
     
     private AprilTagFieldLayout mFieldLayout;
 
@@ -55,7 +58,7 @@ public class Vision extends SubsystemBase {
         mBackLeftEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
         mBackRightEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
 
-        mBlueSpeakerPose = new FlippableBlueAlliancePose(new Translation2d(0.02, 5.61), Rotation2d.fromDegrees(180));
+        mBlueSpeakerPose = new FlippableBlueAlliancePose(new Translation2d(0.2, 5.55), Rotation2d.fromDegrees(180));
         mBlueAmpPose = new FlippableBlueAlliancePose(new Translation2d(1.84, 7.64), Rotation2d.fromDegrees(90.0));
 
         ArrayList<FlippableBlueAlliancePose> blueTrapPoses= new ArrayList<>();
@@ -116,7 +119,7 @@ public class Vision extends SubsystemBase {
         SmartDashboard.putData(this);
 
         try{
-            if(mFrontLeftEstimator.update().isPresent()){
+            if(mFrontLeftEstimator.update().isPresent() && updateIsValid(mFrontLeftEstimator.update().get())){
                 EstimatedRobotPose update = mFrontLeftEstimator.update().orElseThrow();
                 if(update != null){
                     RobotContainer.S_SWERVE.addVisionMeasurement(update.estimatedPose.toPose2d(), update.timestampSeconds);
@@ -128,7 +131,7 @@ public class Vision extends SubsystemBase {
         }
 
         try{
-            if(mFrontRightEstimator.update().isPresent()){
+            if(mFrontRightEstimator.update().isPresent() && updateIsValid(mFrontRightEstimator.update().get())){
                 EstimatedRobotPose update = mFrontRightEstimator.update().orElseThrow();
                 if(update != null){
                     RobotContainer.S_SWERVE.addVisionMeasurement(update.estimatedPose.toPose2d(), update.timestampSeconds);
@@ -140,7 +143,7 @@ public class Vision extends SubsystemBase {
         }
         
          try{
-            if(mBackLeftEstimator.update().isPresent()){
+            if(mBackLeftEstimator.update().isPresent() && updateIsValid(mBackLeftEstimator.update().get())){
                 EstimatedRobotPose update = mBackLeftEstimator.update().orElseThrow();
                 if(update != null){
                     RobotContainer.S_SWERVE.addVisionMeasurement(update.estimatedPose.toPose2d(), update.timestampSeconds);
@@ -151,7 +154,7 @@ public class Vision extends SubsystemBase {
             //System.out.println("Vision.java: Back left estimator had no update to get");
         }
          try{
-            if(mBackRightEstimator.update().isPresent()){
+            if(mBackRightEstimator.update().isPresent() && updateIsValid(mBackRightEstimator.update().get())){
                 EstimatedRobotPose update = mBackRightEstimator.update().orElseThrow();
                 if(update != null){
                     RobotContainer.S_SWERVE.addVisionMeasurement(update.estimatedPose.toPose2d(), update.timestampSeconds);
@@ -166,8 +169,9 @@ public class Vision extends SubsystemBase {
     public void resetRobotOdometryFromVision(){
         boolean hasBeenReset = false;
         try{
-            if(mFrontLeftEstimator.update().isPresent()){
+            if(mFrontLeftEstimator.update().isPresent()  && updateIsValid(mFrontLeftEstimator.update().get())){
                 hasBeenReset= true;
+
                 RobotContainer.S_SWERVE.resetOdometry(mFrontLeftEstimator.update().get().estimatedPose.toPose2d());
             }
         }
@@ -175,7 +179,7 @@ public class Vision extends SubsystemBase {
             //ignore
         }
          try{
-            if(mFrontRightEstimator.update().isPresent()){
+            if(mFrontRightEstimator.update().isPresent() && updateIsValid(mFrontLeftEstimator.update().get())){
                 hasBeenReset= true;
                 RobotContainer.S_SWERVE.resetOdometry(mFrontRightEstimator.update().get().estimatedPose.toPose2d());
             }
@@ -184,7 +188,7 @@ public class Vision extends SubsystemBase {
             //ignore
         }
         try{
-            if(mBackLeftEstimator.update().isPresent()){
+            if(mBackLeftEstimator.update().isPresent() && updateIsValid(mBackLeftEstimator.update().get())){
                 hasBeenReset= true;
                 RobotContainer.S_SWERVE.resetOdometry(mBackLeftEstimator.update().get().estimatedPose.toPose2d());
             }
@@ -193,7 +197,7 @@ public class Vision extends SubsystemBase {
             //ignore
         }
          try{
-            if(mBackRightEstimator.update().isPresent()){
+            if(mBackRightEstimator.update().isPresent() &&updateIsValid(mBackRightEstimator.update().get())){
                 hasBeenReset= true;
                 RobotContainer.S_SWERVE.resetOdometry(mBackRightEstimator.update().get().estimatedPose.toPose2d());
             }
@@ -203,6 +207,24 @@ public class Vision extends SubsystemBase {
         }
     }
 
+    private boolean updateIsValid(EstimatedRobotPose estimatedRobotPose){
+        return updateHasMultipleTargets(estimatedRobotPose) && updateHasAllNearTargets(estimatedRobotPose);
+    }
+
+    private boolean updateHasMultipleTargets(EstimatedRobotPose estimatedRobotPose){
+        return estimatedRobotPose.targetsUsed.size() > 1.0;
+    }
+
+    private boolean updateHasAllNearTargets(EstimatedRobotPose estimatedRobotPose){
+        for(PhotonTrackedTarget target: estimatedRobotPose.targetsUsed){
+            double distanceToTag = target.getBestCameraToTarget().getTranslation().getDistance(ORIGINTRANSLATION); 
+            if(distanceToTag > 6.0){
+                return false;
+            }
+        }
+        return true;
+        
+    }
 
 
     @Override
