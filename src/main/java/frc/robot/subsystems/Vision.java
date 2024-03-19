@@ -24,7 +24,10 @@ import frc.robot.util.fieldmirroring.FlippableBlueAlliancePose;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.function.DoubleSupplier;
+
+import javax.swing.text.html.Option;
 
 public class Vision extends SubsystemBase {
     
@@ -37,6 +40,7 @@ public class Vision extends SubsystemBase {
     private DoubleSupplier mVSpeed;
     private Shot visionShot;
     private static Translation3d ORIGINTRANSLATION = new Translation3d();
+    Optional<EstimatedRobotPose> mFrontLeftUpdate, mFrontRightUpdate, mRearLeftUpdate, mRearRightUpdate;
     
     private AprilTagFieldLayout mFieldLayout;
 
@@ -45,6 +49,11 @@ public class Vision extends SubsystemBase {
         mFrontRightCam = new PhotonCamera("RightFront");
         mBackLeftCam = new PhotonCamera("LeftRear");
         mBackRightCam = new PhotonCamera("RightRear");
+
+        mFrontLeftUpdate = Optional.empty();
+        mFrontRightUpdate = Optional.empty();
+        mRearLeftUpdate = Optional.empty();
+        mRearRightUpdate = Optional.empty();
 
         mFrontLeftEstimator = new PhotonPoseEstimator(mFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, mFrontLeftCam, Constants.kFrontLeftCamToCenter);
         mFrontRightEstimator = new PhotonPoseEstimator(mFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, mFrontRightCam, Constants.kFrontRightCamToCenter);
@@ -139,14 +148,15 @@ public class Vision extends SubsystemBase {
 
     @Override
     public void periodic() {
+        mFrontLeftUpdate = mFrontLeftEstimator.update();
+        mFrontRightUpdate = mFrontRightEstimator.update();
+        mRearLeftUpdate = mBackLeftEstimator.update();
+        mRearRightUpdate = mBackRightEstimator.update();
         SmartDashboard.putData(this);
 
         try{
-            if(mFrontLeftEstimator.update().isPresent() && updateIsValid(mFrontLeftEstimator.update().get())){
-                EstimatedRobotPose update = mFrontLeftEstimator.update().orElseThrow();
-                if(update != null){
-                    RobotContainer.S_SWERVE.addVisionMeasurement(update.estimatedPose.toPose2d(), update.timestampSeconds);
-                }
+            if(mFrontLeftUpdate.isPresent() && updateIsValid(mFrontLeftUpdate.get())){
+                RobotContainer.S_SWERVE.addVisionMeasurement(mFrontLeftUpdate.get().estimatedPose.toPose2d(), mFrontLeftUpdate.get().timestampSeconds);
             }
         }
         catch(NoSuchElementException e){
@@ -154,11 +164,8 @@ public class Vision extends SubsystemBase {
         }
 
         try{
-            if(mFrontRightEstimator.update().isPresent() && updateIsValid(mFrontRightEstimator.update().get())){
-                EstimatedRobotPose update = mFrontRightEstimator.update().orElseThrow();
-                if(update != null){
-                    RobotContainer.S_SWERVE.addVisionMeasurement(update.estimatedPose.toPose2d(), update.timestampSeconds);
-                }
+            if(mFrontRightUpdate.isPresent() && updateIsValid(mFrontRightUpdate.get())){
+                RobotContainer.S_SWERVE.addVisionMeasurement(mFrontRightUpdate.get().estimatedPose.toPose2d(), mFrontRightUpdate.get().timestampSeconds);
             }
         }
         catch(NoSuchElementException e){
@@ -166,22 +173,16 @@ public class Vision extends SubsystemBase {
         }
         
          try{
-            if(mBackLeftEstimator.update().isPresent() && updateIsValid(mBackLeftEstimator.update().get())){
-                EstimatedRobotPose update = mBackLeftEstimator.update().orElseThrow();
-                if(update != null){
-                    RobotContainer.S_SWERVE.addVisionMeasurement(update.estimatedPose.toPose2d(), update.timestampSeconds);
-                }
+            if(mRearLeftUpdate.isPresent() && updateIsValid(mRearLeftUpdate.get())){
+                RobotContainer.S_SWERVE.addVisionMeasurement(mRearLeftUpdate.get().estimatedPose.toPose2d(), mRearLeftUpdate.get().timestampSeconds);
             }
         }
         catch(NoSuchElementException e){
             //System.out.println("Vision.java: Back left estimator had no update to get");
         }
          try{
-            if(mBackRightEstimator.update().isPresent() && updateIsValid(mBackRightEstimator.update().get())){
-                EstimatedRobotPose update = mBackRightEstimator.update().orElseThrow();
-                if(update != null){
-                    RobotContainer.S_SWERVE.addVisionMeasurement(update.estimatedPose.toPose2d(), update.timestampSeconds);
-                }
+            if(mRearRightUpdate.isPresent() && updateIsValid(mRearRightUpdate.get())){
+                RobotContainer.S_SWERVE.addVisionMeasurement(mRearRightUpdate.get().estimatedPose.toPose2d(), mRearRightUpdate.get().timestampSeconds);
             }
         }
         catch(NoSuchElementException e){
@@ -192,37 +193,55 @@ public class Vision extends SubsystemBase {
     public void resetRobotOdometryFromVision(){
         boolean hasBeenReset = false;
         try{
-            if(mFrontLeftEstimator.update().isPresent()  && updateIsValid(mFrontLeftEstimator.update().get())){
+            if(mFrontLeftUpdate.isPresent()  && updateIsValid(mFrontLeftUpdate.get())){
                 hasBeenReset= true;
 
-                RobotContainer.S_SWERVE.resetOdometry(mFrontLeftEstimator.update().get().estimatedPose.toPose2d());
+                RobotContainer.S_SWERVE.resetOdometry(mFrontLeftUpdate.get().estimatedPose.toPose2d());
             }
         }
         catch(NoSuchElementException e){
             //ignore
         }
          try{
-            if(mFrontRightEstimator.update().isPresent() && updateIsValid(mFrontLeftEstimator.update().get())){
-                hasBeenReset= true;
-                RobotContainer.S_SWERVE.resetOdometry(mFrontRightEstimator.update().get().estimatedPose.toPose2d());
+            if(mFrontRightUpdate.isPresent()  && updateIsValid(mFrontRightUpdate.get())){
+                if(!hasBeenReset){
+                    hasBeenReset= true;
+                    RobotContainer.S_SWERVE.resetOdometry(mFrontRightUpdate.get().estimatedPose.toPose2d());
+                }
+                else{
+                    RobotContainer.S_SWERVE.addVisionMeasurement(mFrontRightUpdate.get().estimatedPose.toPose2d(), mFrontRightUpdate.get().timestampSeconds);
+                }
+
             }
         }
         catch(NoSuchElementException e){
             //ignore
         }
         try{
-            if(mBackLeftEstimator.update().isPresent() && updateIsValid(mBackLeftEstimator.update().get())){
-                hasBeenReset= true;
-                RobotContainer.S_SWERVE.resetOdometry(mBackLeftEstimator.update().get().estimatedPose.toPose2d());
+            if(mRearLeftUpdate.isPresent() && updateIsValid(mRearLeftUpdate.get())){
+                if(!hasBeenReset){
+                    hasBeenReset= true;
+                    RobotContainer.S_SWERVE.resetOdometry(mRearLeftUpdate.get().estimatedPose.toPose2d());
+                }
+                else{
+                    RobotContainer.S_SWERVE.addVisionMeasurement(mRearLeftUpdate.get().estimatedPose.toPose2d(), mRearLeftUpdate.get().timestampSeconds);
+                }
+ 
             }
         }
         catch(NoSuchElementException e){
             //ignore
         }
          try{
-            if(mBackRightEstimator.update().isPresent() &&updateIsValid(mBackRightEstimator.update().get())){
-                hasBeenReset= true;
-                RobotContainer.S_SWERVE.resetOdometry(mBackRightEstimator.update().get().estimatedPose.toPose2d());
+            if(mRearRightUpdate.isPresent() &&updateIsValid(mRearRightUpdate.get())){
+                if(!hasBeenReset){
+                    hasBeenReset= true;
+                    RobotContainer.S_SWERVE.resetOdometry(mRearRightUpdate.get().estimatedPose.toPose2d());
+                }
+                else{
+                    RobotContainer.S_SWERVE.addVisionMeasurement(mRearRightUpdate.get().estimatedPose.toPose2d(), mRearRightUpdate.get().timestampSeconds);
+                }
+
             }
         }
         catch(NoSuchElementException e){
@@ -231,7 +250,8 @@ public class Vision extends SubsystemBase {
     }
 
     private boolean updateIsValid(EstimatedRobotPose estimatedRobotPose){
-        return updateHasMultipleTargets(estimatedRobotPose) && updateHasAllNearTargets(estimatedRobotPose);
+        return updateHasAllNearTargets(estimatedRobotPose);
+        //return updateHasMultipleTargets(estimatedRobotPose) && updateHasAllNearTargets(estimatedRobotPose);
     }
 
     private boolean updateHasMultipleTargets(EstimatedRobotPose estimatedRobotPose){
@@ -241,7 +261,7 @@ public class Vision extends SubsystemBase {
     private boolean updateHasAllNearTargets(EstimatedRobotPose estimatedRobotPose){
         for(PhotonTrackedTarget target: estimatedRobotPose.targetsUsed){
             double distanceToTag = target.getBestCameraToTarget().getTranslation().getDistance(ORIGINTRANSLATION); 
-            if(distanceToTag > 6.0){
+            if(distanceToTag > 8.0){
                 return false;
             }
         }
