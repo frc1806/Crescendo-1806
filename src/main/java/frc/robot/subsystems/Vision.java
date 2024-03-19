@@ -40,8 +40,6 @@ public class Vision extends SubsystemBase {
     
     private AprilTagFieldLayout mFieldLayout;
 
-    private static final Swerve SWERVE = RobotContainer.S_SWERVE;
-
     public Vision(){
         mFrontLeftCam = new PhotonCamera("LeftFront");
         mFrontRightCam = new PhotonCamera("RightFront");
