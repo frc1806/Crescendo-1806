@@ -95,8 +95,8 @@ public class Swerve extends SubsystemBase {
                 new HolonomicPathFollowerConfig(
                 new PIDConstants(Constants.kSwerveAutoPIDP, Constants.kSwerveAutoPIDI, Constants.kSwerveAutoPIDD),
                 new PIDConstants(
-                    swerveDrive.swerveController.config.headingPIDF.p * 2,
-                    swerveDrive.swerveController.config.headingPIDF.i,
+                    swerveDrive.swerveController.config.headingPIDF.p * (365 / (2 * Math.PI)),
+                    swerveDrive.swerveController.config.headingPIDF.i* (365 / (2 * Math.PI)),
                     swerveDrive.swerveController.config.headingPIDF.d),
                 Constants.kMaxModuleSpeed,
                 Units.feetToMeters(Constants.kDriveBaseRadius),

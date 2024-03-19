@@ -17,6 +17,6 @@ public class GetToPoseCommand extends HoldPoseCommand {
   public boolean isFinished() {
     return Math.abs(mPoseToHold.getX() - mSwerve.getPose().getX()) < 0.01 && 
             Math.abs(mPoseToHold.getY() - mSwerve.getPose().getY()) < 0.01 &&
-            Math.abs(mSwerve.getPose().getRotation().getDegrees() - mPoseToHold.getRotation().getDegrees()) < 1.0;
+            Math.abs(mSwerve.getPose().getRotation().minus(mPoseToHold.getRotation()).getDegrees()) < 1.0;
   }
 }

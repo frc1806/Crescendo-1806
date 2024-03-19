@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Swerve;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,24 +17,30 @@ public class HoldPoseCommand extends Command {
  
   protected Pose2d mPoseToHold;
   protected Swerve mSwerve;
+  private PIDController xPid;
+  private PIDController yPid;
 
 
   public HoldPoseCommand(Pose2d pose) {
     mSwerve = RobotContainer.S_SWERVE;
     addRequirements(RobotContainer.S_SWERVE);
+    xPid = new PIDController(Constants.kSwerveAutoPIDP, Constants.kSwerveAutoPIDI, Constants.kSwerveAutoPIDD);
+    yPid = new PIDController(Constants.kSwerveAutoPIDP, Constants.kSwerveAutoPIDI, Constants.kSwerveAutoPIDD);
     mPoseToHold = pose;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    RobotContainer.S_DRIVERCONTROLS.setLastSnapDegree(mPoseToHold.getRotation().getDegrees());
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     mSwerve.driveFieldOriented(mSwerve.getTargetSpeedsFromPreScaledInputs(
-                (mPoseToHold.getX() - mSwerve.getPose().getX()) * Constants.kSwerveAutoPIDP,
-                (mPoseToHold.getY() - mSwerve.getPose().getY()) * Constants.kSwerveAutoPIDP,
+                xPid.calculate(mSwerve.getPose().getX(), mPoseToHold.getX()),
+                yPid.calculate(mSwerve.getPose().getY(), mPoseToHold.getY()),
                 mPoseToHold.getRotation()));
   }
 

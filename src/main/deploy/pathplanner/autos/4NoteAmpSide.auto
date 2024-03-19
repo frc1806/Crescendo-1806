@@ -137,6 +137,25 @@
           "data": {
             "name": "PresetSubwooferShot"
           }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "4Note 4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "IntakeSequence"
+                }
+              }
+            ]
+          }
         }
       ]
     }

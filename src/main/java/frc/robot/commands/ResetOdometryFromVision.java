@@ -35,4 +35,9 @@ public class ResetOdometryFromVision extends Command {
   public boolean isFinished() {
     return false;
   }
+
+  @Override
+  public boolean runsWhenDisabled(){
+    return true;
+  }
 }

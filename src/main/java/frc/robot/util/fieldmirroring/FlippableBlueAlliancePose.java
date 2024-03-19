@@ -13,6 +13,9 @@ import frc.robot.util.PolarCoordinate;
 /** Add your docs here. */
 public class FlippableBlueAlliancePose extends Pose2d{
 
+    public FlippableBlueAlliancePose(Pose2d pose){
+        super(pose.getTranslation(), pose.getRotation());
+    }
     
     public FlippableBlueAlliancePose(Translation2d translation2d, Rotation2d fromDegrees) {
         super(translation2d, fromDegrees);

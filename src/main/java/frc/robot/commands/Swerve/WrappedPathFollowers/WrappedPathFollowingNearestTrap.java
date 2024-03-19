@@ -2,29 +2,23 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Swerve;
+package frc.robot.commands.Swerve.WrappedPathFollowers;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
-//THIS IS AWFUL,
-// IF PATHPLANNER DEVS ARE LOOKING AT THIS HACK JOB, PLEASE ALLOW FOR TARGET POSE SUPPLIERS
-//MY SINCEREST APOLOGIES TO ANYONE WHO HAS TO LOOK AT THIS, WOOLLY.
-//Yes, I am in fact too lazy to just make individual path finding commands for each pose we may path find to.
+//DO NOT DO THIS
 
-public class WrappedPathFollowingAmp extends Command {
+public class WrappedPathFollowingNearestTrap extends Command {
   Command mCommand;
-
-  /** Creates a new WrappedPathFollowingAmp. */
-  public WrappedPathFollowingAmp() {
+  public WrappedPathFollowingNearestTrap() {
 
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    mCommand = RobotContainer.S_SWERVE.getPathFindCommand(RobotContainer.S_VISION.getAmpGoalPose2d());
+    mCommand = RobotContainer.S_SWERVE.getPathFindCommand(RobotContainer.S_VISION.getNearestTrapPose());
     mCommand.schedule(); //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
     //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
     //I HATE IT
@@ -66,6 +60,7 @@ public class WrappedPathFollowingAmp extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if(mCommand == null) return false;
+    return mCommand.isFinished();
   }
 }

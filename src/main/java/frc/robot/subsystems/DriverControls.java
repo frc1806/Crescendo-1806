@@ -17,16 +17,24 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.commands.ResetOdometryFromVision;
+import frc.robot.commands.Swerve.FieldOrientedDrive;
 import frc.robot.commands.Swerve.FieldOrientedVisionAlignSpeaker;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
-import frc.robot.commands.Swerve.WrappedPathFollowingAmp;
-import frc.robot.commands.Swerve.WrappedPathFollowingNearestTrap;
+import frc.robot.commands.Swerve.WrappedPathFollowers.WrappedPathFollowingAmp;
+import frc.robot.commands.Swerve.WrappedPathFollowers.WrappedPathFollowingDriveThru;
+import frc.robot.commands.Swerve.WrappedPathFollowers.WrappedPathFollowingNearestTrap;
+import frc.robot.commands.Swerve.WrappedPathFollowers.WrappedPathFollowingPreDriveThru;
+import frc.robot.commands.Swerve.WrappedPathFollowers.WrappedPathFollowingToSuppliedPose;
 import frc.robot.commands.sequence.FancyAmpSequence;
 import frc.robot.commands.sequence.IntakeSequence;
 import frc.robot.commands.sequence.OuttakeSequence;
@@ -166,6 +174,22 @@ public class DriverControls extends SubsystemBase{
         return driverController.getPOV() == 0;
     }
 
+    public boolean wantToGoAmpSubwoofer(){
+        return driverController.getPOV() ==(RobotContainer.S_DRIVERSTATIONCHECKER.getCurrentAlliance() == Alliance.Blue?270:90); 
+    }
+
+    public boolean wantToGoCenterSubwoofer(){
+        return driverController.getPOV() == 180;
+    }
+
+    public boolean wantToGoAntiAmpSubwoofer(){
+        return driverController.getPOV() ==(RobotContainer.S_DRIVERSTATIONCHECKER.getCurrentAlliance() == Alliance.Blue?90:270); 
+    }
+
+    public boolean wantFeederDriveThru(){
+        return driverController.getBackButton();
+    }
+
     public boolean wantVisionAlign(){
         return driverController.getAButton();
     }
@@ -254,9 +278,13 @@ public class DriverControls extends SubsystemBase{
         new Trigger(this::intake).whileTrue(new IntakeSequence());
         new Trigger(this::outtake).whileTrue(new OuttakeSequence());
         new Trigger(this::wantVisionAlign).whileTrue(new FieldOrientedVisionAlignSpeaker());
-        new Trigger(this::wantVisionAlignAmp).whileTrue(new WrappedPathFollowingAmp());
-        new Trigger(this::wantVisionAlignNearestTrap).whileTrue(new WrappedPathFollowingNearestTrap());
+        new Trigger(this::wantVisionAlignAmp).whileTrue(new WrappedPathFollowingToSuppliedPose(RobotContainer.S_VISION::getAmpGoalPose2d));
+        new Trigger(this::wantVisionAlignNearestTrap).whileTrue(new WrappedPathFollowingToSuppliedPose(RobotContainer.S_VISION::getNearestTrapPose));
+        new Trigger(this::wantToGoAmpSubwoofer).whileTrue(new WrappedPathFollowingToSuppliedPose(RobotContainer.S_VISION::getAmpSideSubwoofer));
+        new Trigger(this::wantToGoCenterSubwoofer).whileTrue(new WrappedPathFollowingToSuppliedPose(RobotContainer.S_VISION::getCenterSubwoofer));
+        new Trigger(this::wantToGoAntiAmpSubwoofer).whileTrue(new WrappedPathFollowingToSuppliedPose(RobotContainer.S_VISION::getAntiAmpSubwoofer));
         new Trigger(this::wantResetRobotOdometryFromVision).whileTrue(new ResetOdometryFromVision());
+        //new Trigger(this::wantFeederDriveThru).whileTrue(new SequentialCommandGroup(new WrappedPathFollowingToSuppliedPose(RobotContainer.S_VISION::getPreDriveThruFeeder), new WaitCommand(0.030), new ParallelCommandGroup(new WrappedPathFollowingToSuppliedPose(RobotContainer.S_VISION::getDriveThruFeeder), new IntakeSequence())));
         //Operator
         new Trigger(this::o_wantExtendBoatHook).whileTrue(boatHook.extendBoatHook());
         new Trigger(this::o_wantRetractBoatHook).whileTrue(boatHook.retractBoatHook());
@@ -294,6 +322,9 @@ public class DriverControls extends SubsystemBase{
         SmartDashboard.putNumber("TIMER", DriverStation.getMatchTime());
         updateDriverRumble();
         updateOperatorRumble();
+        if(driverController.getRightStickButtonPressed()){
+            setLastSnapDegree(RobotContainer.S_VISION.getDriveThruFeeder().getRotation().getDegrees());
+        }
     }
 
     public Command addDriverRumbleCommand(RumbleCommand command){

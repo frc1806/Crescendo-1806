@@ -30,7 +30,7 @@ public class Vision extends SubsystemBase {
     
     private PhotonCamera mFrontLeftCam, mFrontRightCam, mBackLeftCam, mBackRightCam;
     private PhotonPoseEstimator mFrontLeftEstimator, mFrontRightEstimator, mBackLeftEstimator, mBackRightEstimator;
-    private FlippableBlueAlliancePose mBlueSpeakerPose;
+    private FlippableBlueAlliancePose mBlueSpeakerPose, mBlueSubwooferAmp, mBlueSubwooferCenter, mBlueSubwooferAntiAmp, mBlueDriveThruFeeder, mBluePreDriveThruFeeder;
     private FlippableBlueAlliancePose mBlueAmpPose;
     private BlueAllianceFieldPoseCollection mBlueAllianceTrapPoses;
     private DoubleSupplier mVAngle;
@@ -59,6 +59,11 @@ public class Vision extends SubsystemBase {
         mBackRightEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
 
         mBlueSpeakerPose = new FlippableBlueAlliancePose(new Translation2d(0.2, 5.55), Rotation2d.fromDegrees(180));
+        mBlueSubwooferCenter = new FlippableBlueAlliancePose(new Pose2d(1.36, 5.52, Rotation2d.fromDegrees(180)));
+        mBlueSubwooferAntiAmp = new FlippableBlueAlliancePose(new Pose2d(0.76, 4.41, Rotation2d.fromDegrees(120)));
+        mBlueSubwooferAmp= new FlippableBlueAlliancePose(new Pose2d(0.76, 6.66, Rotation2d.fromDegrees(-120)));
+        mBluePreDriveThruFeeder = new FlippableBlueAlliancePose(new Pose2d(15.94, 2.27, Rotation2d.fromDegrees(-150.0)));
+        mBlueDriveThruFeeder = new FlippableBlueAlliancePose(new Pose2d(14.85, 0.74, Rotation2d.fromDegrees(-150.0)));
         mBlueAmpPose = new FlippableBlueAlliancePose(new Translation2d(1.84, 7.64), Rotation2d.fromDegrees(90.0));
 
         ArrayList<FlippableBlueAlliancePose> blueTrapPoses= new ArrayList<>();
@@ -100,6 +105,26 @@ public class Vision extends SubsystemBase {
 
     public Double getDistanceToSpeaker(){
         return RobotContainer.S_SWERVE.getPose().getTranslation().getDistance(getSpeakerTranslation());
+    }
+
+    public Pose2d getAmpSideSubwoofer(){
+        return mBlueSubwooferAmp.getPose(RobotContainer.S_DRIVERSTATIONCHECKER.getCurrentAlliance());
+    }
+
+    public Pose2d getCenterSubwoofer(){
+        return mBlueSubwooferCenter.getPose(RobotContainer.S_DRIVERSTATIONCHECKER.getCurrentAlliance());
+    }
+
+    public Pose2d getAntiAmpSubwoofer(){
+        return mBlueSubwooferAntiAmp.getPose(RobotContainer.S_DRIVERSTATIONCHECKER.getCurrentAlliance());
+    }
+
+    public Pose2d getPreDriveThruFeeder(){
+        return mBluePreDriveThruFeeder.getPose(RobotContainer.S_DRIVERSTATIONCHECKER.getCurrentAlliance());
+    }
+
+    public Pose2d getDriveThruFeeder(){
+        return mBlueDriveThruFeeder.getPose(RobotContainer.S_DRIVERSTATIONCHECKER.getCurrentAlliance());
     }
 
     public DoubleSupplier CalculateShotAngle() {

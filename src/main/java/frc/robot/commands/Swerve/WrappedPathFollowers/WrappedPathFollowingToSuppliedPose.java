@@ -2,24 +2,31 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Swerve;
+package frc.robot.commands.Swerve.WrappedPathFollowers;
 
+import java.util.function.Supplier;
+
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 
 //DO NOT DO THIS
 
-public class WrappedPathFollowingNearestTrap extends Command {
+public class WrappedPathFollowingToSuppliedPose extends Command {
   Command mCommand;
-  public WrappedPathFollowingNearestTrap() {
-
+  boolean mHasScheduled = false;
+  Supplier<Pose2d> poseSupplier;
+  public WrappedPathFollowingToSuppliedPose(Supplier<Pose2d> poseSupplier) {
+    this.poseSupplier = poseSupplier;
+    mHasScheduled = false;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    mCommand = RobotContainer.S_SWERVE.getPathFindCommand(RobotContainer.S_VISION.getNearestTrapPose());
-    mCommand.schedule(); //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    mCommand = RobotContainer.S_SWERVE.getPathFindCommand(poseSupplier.get());
+    mCommand.schedule();
+    mHasScheduled= true; //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
     //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
     //I HATE IT
     /*AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -43,12 +50,14 @@ public class WrappedPathFollowingNearestTrap extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println("Calling execute");
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    mCommand.cancel(); //OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+    mCommand.cancel();
+    //OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
     //WHY?
     //WHY?
     //WHY?
@@ -60,6 +69,10 @@ public class WrappedPathFollowingNearestTrap extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    System.out.println("Calling isFinished");
+    if(mHasScheduled && (mCommand.isFinished() || !mCommand.isScheduled())){ //Hackity Hack
+      return true;
+    }
     return false;
   }
 }
