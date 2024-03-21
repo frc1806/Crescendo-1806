@@ -23,7 +23,7 @@ public class Shot {
     public static Shot CLOSE = new Shot("Close", 350.0, 4000.0);
     public static Shot YEET = new Shot ("Yeet", 305, 4000.0);
     public static Shot TestShot = new Shot("Test", 316.75, 5500);
-    //passing notes 295 degree
+    public static Shot PassShot = new Shot("Pass", 295, 5500);
 
 
     public Shot getHigherShot(){

@@ -188,10 +188,6 @@ public class DriverControls extends SubsystemBase{
         return driverController.getBackButton();
     }
 
-    public boolean wantVisionAlign(){
-        return driverController.getAButton();
-    }
-
     public boolean wantVisionAlignAmp(){
         return driverController.getBButton();
     }
@@ -208,6 +204,10 @@ public class DriverControls extends SubsystemBase{
 
     public boolean wantVisionShot(){
         return driverController.getLeftTriggerAxis() > 0;
+    }
+
+    public boolean wantPassShot(){
+        return driverController.getAButton();
     }
 
       // OPERATOR CONTROLS
@@ -275,7 +275,7 @@ public class DriverControls extends SubsystemBase{
         new Trigger(this::resetGyro).onTrue(new ResetGyro(swerve));
         new Trigger(this::intake).whileTrue(new IntakeSequence());
         new Trigger(this::outtake).whileTrue(new OuttakeSequence());
-        new Trigger(this::wantVisionAlign).whileTrue(new FieldOrientedVisionAlignSpeaker());
+        new Trigger(this::wantPassShot).whileTrue(new PresetShotLaunchSequence(Shot.PassShot));
         new Trigger(this::wantVisionAlignAmp).whileTrue(new WrappedPathFollowingToSuppliedPose(RobotContainer.S_VISION::getAmpGoalPose2d));
         new Trigger(this::wantVisionAlignNearestTrap).whileTrue(new WrappedPathFollowingToSuppliedPose(RobotContainer.S_VISION::getNearestTrapPose));
         new Trigger(this::wantToGoAmpSubwoofer).whileTrue(new WrappedPathFollowingToSuppliedPose(RobotContainer.S_VISION::getAmpSideSubwoofer));
