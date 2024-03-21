@@ -63,8 +63,12 @@ public class Launcher extends SubsystemBase{
 
     public void setLauncher(double speed){
         mLauncherTargetSpeed = speed;
+        var mRightLauncherTargetSpeed = speed;
+
+        if(speed>0)
+            mRightLauncherTargetSpeed = speed*0.8;
         mLeftLauncherPID.setReference(mLauncherTargetSpeed, ControlType.kVelocity);
-        mRightLauncherPID.setReference(mLauncherTargetSpeed, ControlType.kVelocity);
+        mRightLauncherPID.setReference(mRightLauncherTargetSpeed, ControlType.kVelocity);
     }
 
     public boolean isLauncherAtSpeed(){

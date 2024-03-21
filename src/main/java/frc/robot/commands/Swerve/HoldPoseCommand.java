@@ -22,8 +22,8 @@ public class HoldPoseCommand extends Command {
   public HoldPoseCommand(Pose2d pose) {
     mSwerve = RobotContainer.S_SWERVE;
     addRequirements(RobotContainer.S_SWERVE);
-    xPid = new PIDController(Constants.kSwerveAutoPIDP, Constants.kSwerveAutoPIDI, Constants.kSwerveAutoPIDD);
-    yPid = new PIDController(Constants.kSwerveAutoPIDP, Constants.kSwerveAutoPIDI, Constants.kSwerveAutoPIDD);
+    xPid = new PIDController(Constants.kSwerveAutoPIDP * 1.2, Constants.kSwerveAutoPIDI, Constants.kSwerveAutoPIDD);
+    yPid = new PIDController(Constants.kSwerveAutoPIDP * 1.2, Constants.kSwerveAutoPIDI, Constants.kSwerveAutoPIDD);
     mPoseToHold = pose;
   }
 

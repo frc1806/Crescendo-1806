@@ -5,6 +5,7 @@ import java.io.File;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathfindHolonomic;
 import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerTrajectory;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -73,15 +74,15 @@ public class Swerve extends SubsystemBase {
     public Command getPathFindCommand(Pose2d targetPosition){
         return new PathfindHolonomic(
                 targetPosition, 
-                new PathConstraints(maximumSpeed, maximumSpeed, 3.0, 3.0),
+                new PathConstraints(maximumSpeed, 3.5 , 3.0, 3.0),
                 this::getPose,
                 this::getRobotOrientedVelocity,
                 this::setChassisSpeed,
                 new HolonomicPathFollowerConfig(
                 new PIDConstants(Constants.kSwerveAutoPIDP, Constants.kSwerveAutoPIDI, Constants.kSwerveAutoPIDD),
                 new PIDConstants(
-                    swerveDrive.swerveController.config.headingPIDF.p * (365 / (2 * Math.PI)),
-                    swerveDrive.swerveController.config.headingPIDF.i* (365 / (2 * Math.PI)),
+                    swerveDrive.swerveController.config.headingPIDF.p,
+                    swerveDrive.swerveController.config.headingPIDF.i,
                     swerveDrive.swerveController.config.headingPIDF.d),
                 Constants.kMaxModuleSpeed,
                 Units.feetToMeters(Constants.kDriveBaseRadius),

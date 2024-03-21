@@ -38,22 +38,24 @@ import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Launcher;
 
 public class RobotContainer {
-  
+
+    private static final VisionShotLibrary VISION_SHOT_LIBRARY = new VisionShotLibrary() //these are estimates TODO: Tune
+    .withShotEntry(1.09, 335.0, 5000.0)
+    .withShotEntry(1.68, 325.0, 5000.0)
+    .withShotEntry(2.14, 321.0, 5000.0)
+    .withShotEntry(4, 280.0, 6000.0
+    );
   public static final Swerve S_SWERVE = new Swerve();
   public static final DriverControls S_DRIVERCONTROLS = new DriverControls();
   public static final Reel S_INTAKE = new Reel();
   public static final Angler S_ANGLER = new Angler();
-  public static final Vision S_VISION = new Vision();
+  public static final Vision S_VISION = new Vision(VISION_SHOT_LIBRARY);
   public static final Launcher S_LAUNCHER = new Launcher();
   public static final LED S_LED = new LED();
   public static final BoatHook S_BOATHOOK = new BoatHook();
   public static final DriverStationChecker S_DRIVERSTATIONCHECKER = new DriverStationChecker();
 
-  private static final VisionShotLibrary mVisionShotLibrary = new VisionShotLibrary() //these are estimates TODO: Tune
-    .withShotEntry(1, 350.0, 3400.0)
-    .withShotEntry(2, 310.0, 4000.0)
-    .withShotEntry(3, 290.0, 5000.0)
-    .withShotEntry(4, 280.0, 6000.0);
+
 
 
 
@@ -69,7 +71,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("mobilityPointDrive", S_SWERVE.autonDriveBackwards(5));
     NamedCommands.registerCommand("intakeMax", new SetIntake(1.0));
     NamedCommands.registerCommand("intakeStop", new SetIntake(0.0));
-    NamedCommands.registerCommand("visionShot", new VisionShotSequence(S_VISION.CalculateShotAngle(), S_VISION.CalculateShotSpeed()));
+    NamedCommands.registerCommand("visionShot", new VisionShotSequence(S_VISION::CalculateShotAngle, S_VISION::CalculateShotSpeed));
     NamedCommands.registerCommand("IntakeSequence", new IntakeSequence());
     NamedCommands.registerCommand("PresetSubwooferShot", new PresetShotLaunchSequence(Shot.SUBWOOFER));
     NamedCommands.registerCommand("PreparePresetSubwooferShot", new PreparePresetLaunchSequence(Shot.SUBWOOFER));
@@ -101,7 +103,7 @@ public class RobotContainer {
 
   private void configureBindings() {
 
-    S_DRIVERCONTROLS.registerTriggers(S_SWERVE, S_INTAKE, S_ANGLER, S_VISION, S_LAUNCHER, S_LED, S_BOATHOOK, mVisionShotLibrary);
+    S_DRIVERCONTROLS.registerTriggers(S_SWERVE, S_INTAKE, S_ANGLER, S_VISION, S_LAUNCHER, S_LED, S_BOATHOOK, VISION_SHOT_LIBRARY);
   }
 
   public Command getAutonomousCommand() {

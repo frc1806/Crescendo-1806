@@ -6,6 +6,7 @@ package frc.robot.commands.Launcher;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Launcher;
@@ -14,10 +15,12 @@ public class LaunchNoteFromSupplier extends Command {
   /** Creates a new SetLauncherFromVision. */
   private DoubleSupplier mSpeedDoubleSupplier;
   private Launcher mLauncher;
+  private Timer mTimer;
 
   public LaunchNoteFromSupplier(DoubleSupplier speedSupplier) {
      mLauncher = RobotContainer.S_LAUNCHER;
      mSpeedDoubleSupplier = speedSupplier;
+     mTimer = new Timer();
      addRequirements(mLauncher);
   }
 
@@ -25,6 +28,7 @@ public class LaunchNoteFromSupplier extends Command {
   @Override
   public void initialize() {
     mLauncher.setLauncher(mSpeedDoubleSupplier.getAsDouble());
+    mTimer.restart();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,6 +46,6 @@ public class LaunchNoteFromSupplier extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return mLauncher.isLauncherAtSpeed();
+    return mTimer.hasElapsed(.25);
   }
 }

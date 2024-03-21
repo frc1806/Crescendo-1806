@@ -24,12 +24,17 @@ public class Constants {
     public static final double kMaxModuleSpeed = 5.1;
     public static final double kDriveBaseRadius = 6.8125;
     // Translation PID
-    public static final double kSwerveAutoPIDP = 2.5;
-    public static final double kSwerveAutoPIDI = 0.0;
-    public static final double kSwerveAutoPIDD = 0.001;
+    public static final double kSwerveAutoPIDP = 0.25;
+    public static final double kSwerveAutoPIDI = 0.001;
+    public static final double kSwerveAutoPIDD = 0.000;
+
+    public static final double kSwerveAutoTurnPidP = 1.0;
+    public static final double kSwerveAutoTurnPidI = 0.00;
+    public static final double kSwerveAutoTurnPidD = 0.00;
+
 
     // Angler
-    public static final double kAnglerP = 1024.0 / ((32.0/ 360.0) * 4096.0) ; //100% power at 30 degrees away.
+    public static final double kAnglerP = 1024.0 / ((30.0/ 360.0) * 4096.0) ; //100% power at 30 degrees away.
     public static final double kAnglerI = 0.0;
     public static final double kAnglerD = 0.0;
     public static final double kAnglerCruiseVelocity = (70.0 / 360.0) * 4096.0;
@@ -43,20 +48,20 @@ public class Constants {
 
     // Pose Estimator Constants
     public static final Transform3d kFrontLeftCamToCenter = new Transform3d(
-        new Translation3d(Units.inchesToMeters(14-1.25), Units.inchesToMeters(4), Units.inchesToMeters(7.5+1.75)),
-        new Rotation3d(Units.degreesToRadians(-5.5), Units.degreesToRadians(-20), Units.degreesToRadians(20))
+        new Translation3d(Units.inchesToMeters(14-1.25), Units.inchesToMeters(4.25), Units.inchesToMeters(7.5+1.75)),
+        new Rotation3d(Units.degreesToRadians(180-5.5), Units.degreesToRadians(-20), Units.degreesToRadians(20))
     );
     public static final Transform3d kFrontRightCamToCenter = new Transform3d(
-        new Translation3d(Units.inchesToMeters(14-1.25), Units.inchesToMeters(-4), Units.inchesToMeters(7.5+1.75)),
-        new Rotation3d(Units.degreesToRadians(5.5), Units.degreesToRadians(-20), Units.degreesToRadians(-20))
+        new Translation3d(Units.inchesToMeters(14-1.25), Units.inchesToMeters(-4.25), Units.inchesToMeters(7.5+1.75)),
+        new Rotation3d(Units.degreesToRadians(180+5.5), Units.degreesToRadians(-20), Units.degreesToRadians(-20))
     );
     public static final Transform3d kBackLeftCamToCenter = new Transform3d(
-        new Translation3d(Units.inchesToMeters(11), Units.inchesToMeters(4), Units.inchesToMeters(7.5+5.5)),
-        new Rotation3d(Units.degreesToRadians(-5.5), Units.degreesToRadians(-20), Units.degreesToRadians(160))
+        new Translation3d(Units.inchesToMeters(11), Units.inchesToMeters(4.25), Units.inchesToMeters(7.5+5.5)),
+        new Rotation3d(Units.degreesToRadians(180-5.5), Units.degreesToRadians(-20), Units.degreesToRadians(160))
     );
     public static final Transform3d kBackRightCamToCenter = new Transform3d(
-        new Translation3d(Units.inchesToMeters(11), Units.inchesToMeters(-4), Units.inchesToMeters(7.5+5.5)),
-        new Rotation3d(Units.degreesToRadians(5.5), Units.degreesToRadians(-20), Units.degreesToRadians(-160))
+        new Translation3d(Units.inchesToMeters(11), Units.inchesToMeters(-4.25), Units.inchesToMeters(7.5+5.5)),
+        new Rotation3d(Units.degreesToRadians(180+5.5), Units.degreesToRadians(-20), Units.degreesToRadians(-160))
     );
 
     // Swerve Drive Pose Estimator Constants

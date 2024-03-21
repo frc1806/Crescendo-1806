@@ -287,7 +287,7 @@ public class DriverControls extends SubsystemBase{
         new Trigger(this::o_wantExtendBoatHook).whileTrue(boatHook.extendBoatHook());
         new Trigger(this::o_wantRetractBoatHook).whileTrue(boatHook.retractBoatHook());
         new Trigger(this::o_wantStopBoatHook).whileTrue(boatHook.stopBoatHook());
-        new Trigger(this::wantVisionShot).whileTrue(new VisionShotSequence(vision.CalculateShotAngle(), vision.CalculateShotSpeed()));
+        new Trigger(this::wantVisionShot).whileTrue(new VisionShotSequence(vision::CalculateShotAngle, vision::CalculateShotSpeed));
 
         new Trigger(this::o_wantSubwooferShot).whileTrue(new PresetShotLaunchSequence(Shot.SUBWOOFER));
         //TODO: Higher/Lower currently only work for subwoofer
@@ -296,10 +296,7 @@ public class DriverControls extends SubsystemBase{
 
         new Trigger(this::o_wantAmpShot).whileTrue(new FancyAmpSequence());
         //Debug
-        new Trigger(this::d_wantDashboardShot).whileTrue(new PresetShotLaunchSequence(new Shot(
-            "Dashboard Shot",
-            SmartDashboard.getNumber("Angle", 300.0),
-            SmartDashboard.getNumber("Launcher Power", 3000.0))));
+        new Trigger(this::d_wantDashboardShot).whileTrue(new PresetShotLaunchSequence(Shot.TestShot));
 
         new Trigger(this::d_wantCloseShot).whileTrue(new PresetShotLaunchSequence(Shot.CLOSE));
         new Trigger(this::d_wantYeet).whileTrue(new PresetShotLaunchSequence(Shot.YEET));

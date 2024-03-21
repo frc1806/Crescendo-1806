@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -41,10 +42,12 @@ public class Vision extends SubsystemBase {
     private Shot visionShot;
     private static Translation3d ORIGINTRANSLATION = new Translation3d();
     Optional<EstimatedRobotPose> mFrontLeftUpdate, mFrontRightUpdate, mRearLeftUpdate, mRearRightUpdate;
+    VisionShotLibrary mVisionShotLibrary;
     
     private AprilTagFieldLayout mFieldLayout;
 
-    public Vision(){
+    public Vision(VisionShotLibrary visionShotLibrary){
+        mVisionShotLibrary = visionShotLibrary;
         mFrontLeftCam = new PhotonCamera("LeftFront");
         mFrontRightCam = new PhotonCamera("RightFront");
         mBackLeftCam = new PhotonCamera("LeftRear");
@@ -89,13 +92,15 @@ public class Vision extends SubsystemBase {
     }
 
     public Rotation2d getYawToSpeaker(){
-        Translation2d difference = getYAxisMovementCompensatedSpeakerPose().minus(RobotContainer.S_SWERVE.getPose().getTranslation());
+        Translation2d difference = getRobotVelocityCompensatedSpeakerPose().minus(RobotContainer.S_SWERVE.getPose().getTranslation());
         return Rotation2d.fromRadians(PolarCoordinate.toPolarCoordinate(() -> difference.getX(), () -> difference.getY())[1]);
     }
 
 
-    public Translation2d getYAxisMovementCompensatedSpeakerPose(){
-        return getSpeakerTranslation().plus(new Translation2d(0.0, -(RobotContainer.S_SWERVE.getFieldOrientedVelocity().vyMetersPerSecond * .3)));
+    public Translation2d getRobotVelocityCompensatedSpeakerPose(){
+        return getSpeakerTranslation().plus(new Translation2d(
+            -(RobotContainer.S_SWERVE.getFieldOrientedVelocity().vxMetersPerSecond * .3),
+             -(RobotContainer.S_SWERVE.getFieldOrientedVelocity().vyMetersPerSecond * .3)));
     }
 
     public Translation2d getSpeakerTranslation(){
@@ -111,7 +116,7 @@ public class Vision extends SubsystemBase {
     }
 
     public Double getDistanceToSpeaker(){
-        return RobotContainer.S_SWERVE.getPose().getTranslation().getDistance(getSpeakerTranslation());
+        return RobotContainer.S_SWERVE.getPose().getTranslation().getDistance(getRobotVelocityCompensatedSpeakerPose());
     }
 
     public Pose2d getAmpSideSubwoofer(){
@@ -134,16 +139,12 @@ public class Vision extends SubsystemBase {
         return mBlueDriveThruFeeder.getPose(RobotContainer.S_DRIVERSTATIONCHECKER.getCurrentAlliance());
     }
 
-    public DoubleSupplier CalculateShotAngle() {
-        visionShot = VisionShotLibrary.getShotForDistance(getDistanceToSpeaker());
-        mVAngle = visionShot::getPivotAngle;
-        return mVAngle;
+    public double CalculateShotAngle() {
+        return mVisionShotLibrary.getShotForDistance(getDistanceToSpeaker()).getPivotAngle();
     }
 
-    public DoubleSupplier CalculateShotSpeed() {
-        visionShot = VisionShotLibrary.getShotForDistance(getDistanceToSpeaker());
-        mVSpeed = visionShot::getLauncherSpeed;
-        return mVSpeed;
+    public double CalculateShotSpeed() {
+        return mVisionShotLibrary.getShotForDistance(getDistanceToSpeaker()).getLauncherSpeed();
     }
 
     @Override
@@ -188,6 +189,8 @@ public class Vision extends SubsystemBase {
         catch(NoSuchElementException e){
             //System.out.println("Vision.java: Back right estimator had no update to get");
         }
+
+        SmartDashboard.putNumber("Distance To Speaker",getRobotVelocityCompensatedSpeakerPose().getDistance(RobotContainer.S_SWERVE.getPose().getTranslation()));
     }
 
     public void resetRobotOdometryFromVision(){
@@ -250,8 +253,8 @@ public class Vision extends SubsystemBase {
     }
 
     private boolean updateIsValid(EstimatedRobotPose estimatedRobotPose){
-        return updateHasAllNearTargets(estimatedRobotPose);
-        //return updateHasMultipleTargets(estimatedRobotPose) && updateHasAllNearTargets(estimatedRobotPose);
+        //return updateHasAllNearTargets(estimatedRobotPose);
+        return updateHasMultipleTargets(estimatedRobotPose) && updateHasAllNearTargets(estimatedRobotPose);
     }
 
     private boolean updateHasMultipleTargets(EstimatedRobotPose estimatedRobotPose){
@@ -261,7 +264,7 @@ public class Vision extends SubsystemBase {
     private boolean updateHasAllNearTargets(EstimatedRobotPose estimatedRobotPose){
         for(PhotonTrackedTarget target: estimatedRobotPose.targetsUsed){
             double distanceToTag = target.getBestCameraToTarget().getTranslation().getDistance(ORIGINTRANSLATION); 
-            if(distanceToTag > 8.0){
+            if(distanceToTag > 5.5){
                 return false;
             }
         }
