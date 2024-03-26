@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.Angler.AnglerGoToAngle;
 import frc.robot.commands.Launcher.LaunchNote;
+import frc.robot.commands.Launcher.LaunchNoteNoSpin;
 import frc.robot.commands.Launcher.SetLauncher;
 import frc.robot.game.Shot;
 
@@ -34,7 +35,7 @@ public class FancyAmpSequence extends SequentialCommandGroup {
                       new SetLauncher(Shot.FANCY_AMP_PT_2.getLauncherSpeed()),
                       new WaitCommand(0.15)
                     ),
-                    new LaunchNote(Shot.FANCY_AMP_PT_2.getLauncherSpeed())
+                    new LaunchNoteNoSpin(Shot.FANCY_AMP_PT_2.getLauncherSpeed())
                   ), 
                   new AnglerGoToAngle(Shot.FANCY_AMP_PT_2.getPivotAngle()
 )

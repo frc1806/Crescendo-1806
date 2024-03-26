@@ -71,6 +71,12 @@ public class Launcher extends SubsystemBase{
         mRightLauncherPID.setReference(mRightLauncherTargetSpeed, ControlType.kVelocity);
     }
 
+    public void setLauncherNoSpin(double speed){
+        mLauncherTargetSpeed = speed;
+        mLeftLauncherPID.setReference(mLauncherTargetSpeed, ControlType.kVelocity);
+        mRightLauncherPID.setReference(mLauncherTargetSpeed, ControlType.kVelocity);
+    }
+     
     public boolean isLauncherAtSpeed(){
         return mLauncherTargetSpeed != 0 
             && Math.abs(mLeftSparkEncoder.getVelocity() - mLauncherTargetSpeed) < Constants.kLauncherAcceptableSpeedTolerance;
@@ -86,6 +92,12 @@ public class Launcher extends SubsystemBase{
         mLauncherTargetSpeed = 3000.0;
         setLauncher(mLauncherTargetSpeed);
         mIndexLeader.setVoltage(6.0);
+    }
+
+    public void runMotorsForTimedOuttake(double power){
+        mLauncherTargetSpeed = 3000.0;
+        setLauncher(mLauncherTargetSpeed);
+        mIndexLeader.setVoltage(power);
     }
 
     public void runMotorsForCleaning(){

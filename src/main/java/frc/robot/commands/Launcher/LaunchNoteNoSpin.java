@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Launcher;
 
-public class LaunchNote extends Command {
+public class LaunchNoteNoSpin extends Command {
   private Launcher mLauncher;
   private double mSpeed;
   private boolean mIsNoteLeaving = false;
@@ -17,14 +17,14 @@ public class LaunchNote extends Command {
   private Timer mTimer = new Timer();
 
   /** Creates a new LaunchNote. */
-  public LaunchNote(double wantedSpeed) {
+  public LaunchNoteNoSpin(double wantedSpeed) {
     mLauncher = RobotContainer.S_LAUNCHER;
     addRequirements(RobotContainer.S_LAUNCHER);
     mSpeed = wantedSpeed;
     //mIsNoteLeaving = false;
   }
 
-  public LaunchNote(double wantedSpeed, double time){
+  public LaunchNoteNoSpin(double wantedSpeed, double time){
     mLauncher = RobotContainer.S_LAUNCHER;
     addRequirements(mLauncher);
     mSpeed = wantedSpeed;
@@ -34,7 +34,7 @@ public class LaunchNote extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    mLauncher.setLauncher(mSpeed);
+    mLauncher.setLauncherNoSpin(mSpeed);
     mLauncher.sendNoteToFlywheel();
     mTimer.restart();
   }

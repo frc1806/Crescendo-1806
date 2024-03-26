@@ -49,25 +49,25 @@ public class Constants {
     // Pose Estimator Constants
     public static final Transform3d kFrontLeftCamToCenter = new Transform3d(
         new Translation3d(Units.inchesToMeters(14-1.25), Units.inchesToMeters(4.25), Units.inchesToMeters(7.5+1.75)),
-        new Rotation3d(Units.degreesToRadians(180-5.5), Units.degreesToRadians(-20), Units.degreesToRadians(20))
+        new Rotation3d(Units.degreesToRadians(5.5), Units.degreesToRadians(-20), Units.degreesToRadians(20))
     );
     public static final Transform3d kFrontRightCamToCenter = new Transform3d(
         new Translation3d(Units.inchesToMeters(14-1.25), Units.inchesToMeters(-4.25), Units.inchesToMeters(7.5+1.75)),
-        new Rotation3d(Units.degreesToRadians(180+5.5), Units.degreesToRadians(-20), Units.degreesToRadians(-20))
+        new Rotation3d(Units.degreesToRadians(5.5), Units.degreesToRadians(-20), Units.degreesToRadians(-20))
     );
     public static final Transform3d kBackLeftCamToCenter = new Transform3d(
         new Translation3d(Units.inchesToMeters(11), Units.inchesToMeters(4.25), Units.inchesToMeters(7.5+5.5)),
-        new Rotation3d(Units.degreesToRadians(180-5.5), Units.degreesToRadians(-20), Units.degreesToRadians(160))
+        new Rotation3d(Units.degreesToRadians(5.5), Units.degreesToRadians(-20), Units.degreesToRadians(160))
     );
     public static final Transform3d kBackRightCamToCenter = new Transform3d(
         new Translation3d(Units.inchesToMeters(11), Units.inchesToMeters(-4.25), Units.inchesToMeters(7.5+5.5)),
-        new Rotation3d(Units.degreesToRadians(180+5.5), Units.degreesToRadians(-20), Units.degreesToRadians(-160))
+        new Rotation3d(Units.degreesToRadians(5.5), Units.degreesToRadians(-20), Units.degreesToRadians(-160))
     );
 
     // Swerve Drive Pose Estimator Constants
     public static final SwerveModulePosition[] kSwerveModulePositions = {};
     public static final Vector<N3> kStateStds = VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5));
-    public static final Vector<N3> kVisionStds = VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(10));
+    public static final Vector<N3> kVisionStds = VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5));
 
     // Launcher
     public static final double kLeftLauncherkP = (1/1000);

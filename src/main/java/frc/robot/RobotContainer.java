@@ -43,7 +43,9 @@ public class RobotContainer {
     .withShotEntry(1.09, 335.0, 5000.0)
     .withShotEntry(1.68, 325.0, 5000.0)
     .withShotEntry(2.14, 321.0, 5000.0)
-    .withShotEntry(4, 280.0, 6000.0
+    
+    .withShotEntry(2.66, 319.0, 5000.0)
+    .withShotEntry(3.14, 315.25, 5500.0
     );
   public static final Swerve S_SWERVE = new Swerve();
   public static final DriverControls S_DRIVERCONTROLS = new DriverControls();

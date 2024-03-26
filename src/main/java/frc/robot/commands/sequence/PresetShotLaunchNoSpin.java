@@ -8,14 +8,15 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Angler.AnglerGoToAngle;
 import frc.robot.commands.Launcher.LaunchNote;
+import frc.robot.commands.Launcher.LaunchNoteNoSpin;
 import frc.robot.commands.Launcher.SetLauncher;
 import frc.robot.game.Shot;
 
 
-public class PresetShotLaunchSequence extends SequentialCommandGroup {
+public class PresetShotLaunchNoSpin extends SequentialCommandGroup {
 
   /** Creates a new LaunchSequence. */
-  public PresetShotLaunchSequence(Shot wantedShot) {
+  public PresetShotLaunchNoSpin(Shot wantedShot) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands( 
@@ -26,7 +27,7 @@ public class PresetShotLaunchSequence extends SequentialCommandGroup {
                     )
                 ),
                 new ParallelCommandGroup(                 
-                   new LaunchNote(wantedShot.getLauncherSpeed(), 0.75), 
+                   new LaunchNoteNoSpin(wantedShot.getLauncherSpeed(), 0.75), 
                     new AnglerGoToAngle(wantedShot.getPivotAngle()
                     )
                 )

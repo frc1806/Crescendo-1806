@@ -12,6 +12,7 @@ import frc.robot.RobotContainer;
 import frc.robot.commands.Angler.AnglerGoToAngle;
 import frc.robot.commands.Intake.SetIntake;
 import frc.robot.commands.Launcher.LauncherIntake;
+import frc.robot.commands.Launcher.TimedLauncherOuttake;
 import frc.robot.game.Shot;
 import frc.robot.util.rumbleutil.RumbleCommand;
 import frc.robot.util.rumbleutil.SineWave;
@@ -33,7 +34,9 @@ public class IntakeSequence extends SequentialCommandGroup {
           new SetIntake(1.0)
         )
       ),
-      RobotContainer.S_DRIVERCONTROLS.addDriverRumbleCommand(new RumbleCommand(new SineWave(0.25, 0.75), RumbleType.kRightRumble, 1.0))
+      RobotContainer.S_DRIVERCONTROLS.addDriverRumbleCommand(new RumbleCommand(new SineWave(0.25, 0.75), RumbleType.kRightRumble, 1.0)),
+      new TimedLauncherOuttake(RobotContainer.S_LAUNCHER, 0.01),
+      new LauncherIntake()
     );
   }
 }

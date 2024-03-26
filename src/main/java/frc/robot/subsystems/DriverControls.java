@@ -37,6 +37,7 @@ import frc.robot.commands.sequence.FancyAmpSequence;
 import frc.robot.commands.sequence.IntakeSequence;
 import frc.robot.commands.sequence.OuttakeSequence;
 import frc.robot.commands.sequence.ParallelCleaningGroup;
+import frc.robot.commands.sequence.PresetShotLaunchNoSpin;
 import frc.robot.commands.sequence.PresetShotLaunchSequence;
 import frc.robot.commands.sequence.VisionShotSequence;
 import frc.robot.game.Shot;
@@ -276,7 +277,7 @@ public class DriverControls extends SubsystemBase{
         new Trigger(this::intake).whileTrue(new IntakeSequence());
         new Trigger(this::outtake).whileTrue(new OuttakeSequence());
         new Trigger(this::wantPassShot).whileTrue(new PresetShotLaunchSequence(Shot.PassShot));
-        new Trigger(this::wantVisionAlignAmp).whileTrue(new WrappedPathFollowingToSuppliedPose(RobotContainer.S_VISION::getAmpGoalPose2d));
+        new Trigger(this::wantVisionAlignAmp).whileTrue(new WrappedPathFollowingToSuppliedPose(RobotContainer.S_VISION::getAmpGoalWithSpacePose2d));
         new Trigger(this::wantVisionAlignNearestTrap).whileTrue(new WrappedPathFollowingToSuppliedPose(RobotContainer.S_VISION::getNearestTrapPose));
         new Trigger(this::wantToGoAmpSubwoofer).whileTrue(new WrappedPathFollowingToSuppliedPose(RobotContainer.S_VISION::getAmpSideSubwoofer));
         new Trigger(this::wantToGoCenterSubwoofer).whileTrue(new WrappedPathFollowingToSuppliedPose(RobotContainer.S_VISION::getCenterSubwoofer));
@@ -294,7 +295,7 @@ public class DriverControls extends SubsystemBase{
         new Trigger(this::o_wantModifyShotHigher).whileTrue(new PresetShotLaunchSequence(Shot.SUBWOOFER.getHigherShot()));
         new Trigger(this::o_wantModifyShotLower).whileTrue(new PresetShotLaunchSequence(Shot.SUBWOOFER.getLowerShot()));
 
-        new Trigger(this::o_wantAmpShot).whileTrue(new FancyAmpSequence());
+        new Trigger(this::o_wantAmpShot).whileTrue(new PresetShotLaunchNoSpin(Shot.BACKWARDS_AMPLIFIER));
         //Debug
         new Trigger(this::d_wantDashboardShot).whileTrue(new PresetShotLaunchSequence(Shot.TestShot));
 

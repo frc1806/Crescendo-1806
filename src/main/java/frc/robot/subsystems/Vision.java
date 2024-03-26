@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -36,6 +37,7 @@ public class Vision extends SubsystemBase {
     private PhotonPoseEstimator mFrontLeftEstimator, mFrontRightEstimator, mBackLeftEstimator, mBackRightEstimator;
     private FlippableBlueAlliancePose mBlueSpeakerPose, mBlueSubwooferAmp, mBlueSubwooferCenter, mBlueSubwooferAntiAmp, mBlueDriveThruFeeder, mBluePreDriveThruFeeder;
     private FlippableBlueAlliancePose mBlueAmpPose;
+    private FlippableBlueAlliancePose mBlueAmpPoseWithSpace;
     private BlueAllianceFieldPoseCollection mBlueAllianceTrapPoses;
     private DoubleSupplier mVAngle;
     private DoubleSupplier mVSpeed;
@@ -75,6 +77,7 @@ public class Vision extends SubsystemBase {
         mBluePreDriveThruFeeder = new FlippableBlueAlliancePose(new Pose2d(15.94, 2.27, Rotation2d.fromDegrees(-150.0)));
         mBlueDriveThruFeeder = new FlippableBlueAlliancePose(new Pose2d(14.85, 0.74, Rotation2d.fromDegrees(-150.0)));
         mBlueAmpPose = new FlippableBlueAlliancePose(new Translation2d(1.84, 7.64), Rotation2d.fromDegrees(90.0));
+        mBlueAmpPoseWithSpace = new FlippableBlueAlliancePose(new Translation2d(1.7384, Units.inchesToMeters(302.244)), Rotation2d.fromDegrees(-90.0));
 
         ArrayList<FlippableBlueAlliancePose> blueTrapPoses= new ArrayList<>();
         blueTrapPoses.add(new FlippableBlueAlliancePose(new Translation2d(4.36, 4.92), Rotation2d.fromDegrees(-60.0)));
@@ -109,6 +112,10 @@ public class Vision extends SubsystemBase {
 
     public Pose2d getAmpGoalPose2d(){
         return mBlueAmpPose.getPose(RobotContainer.S_DRIVERSTATIONCHECKER.getCurrentAlliance());
+    }
+
+    public Pose2d getAmpGoalWithSpacePose2d(){
+        return mBlueAmpPoseWithSpace.getPose(RobotContainer.S_DRIVERSTATIONCHECKER.getCurrentAlliance());
     }
 
     public Pose2d getNearestTrapPose(){
