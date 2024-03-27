@@ -3,57 +3,57 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7636103146671328,
-        "y": 6.67517683109546
+        "x": 2.883271729453586,
+        "y": 6.089635003806385
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.710162230595501,
-        "y": 7.330983677659224
+        "x": 3.2814401720101576,
+        "y": 6.347273407813577
+      },
+      "isLocked": false,
+      "linkedName": "SourceSide4NoteShot3"
+    },
+    {
+      "anchor": {
+        "x": 3.0355126045487455,
+        "y": 6.8039960330990565
+      },
+      "prevControl": {
+        "x": 3.0355126045487455,
+        "y": 6.4292492636340475
+      },
+      "nextControl": {
+        "x": 3.0355126045487455,
+        "y": 7.4953322528344355
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.115462616089283,
+        "x": 2.239175719435603,
         "y": 7.14361029292672
       },
       "prevControl": {
-        "x": 5.682161663895367,
-        "y": 7.120188619835157
-      },
-      "nextControl": {
-        "x": 6.618294525984737,
-        "y": 7.170790396164312
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 7.766690569044476,
-        "y": 7.436381206571257
-      },
-      "prevControl": {
-        "x": 7.4504979823083755,
-        "y": 7.448092043117039
+        "x": 2.4968141234427965,
+        "y": 7.284140331476098
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "SourceSide4NoteShot4"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.05,
-      "rotationDegrees": -120.0,
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 90.0,
       "rotateFast": true
     },
     {
-      "waypointRelativePos": 0.75,
-      "rotationDegrees": 0.0,
-      "rotateFast": true
+      "waypointRelativePos": 1.15,
+      "rotationDegrees": 90.0,
+      "rotateFast": false
     }
   ],
   "constraintZones": [],
@@ -66,13 +66,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -2.1210963966614416,
+    "rotation": -141.8427734126309,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "4 Note Paths Forward",
+  "folder": "Source Side 4 Note Vision",
   "previewStartingState": {
-    "rotation": -123.69006752597979,
+    "rotation": -167.19573393471322,
     "velocity": 0
   },
   "useDefaultConstraints": true

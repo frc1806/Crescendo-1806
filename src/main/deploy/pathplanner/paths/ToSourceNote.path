@@ -3,56 +3,56 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7636103146671328,
-        "y": 6.67517683109546
+        "x": 1.44283883432246,
+        "y": 4.075371117931965
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.710162230595501,
-        "y": 7.330983677659224
+        "x": 1.6536338921465275,
+        "y": 4.063660281386183
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.115462616089283,
-        "y": 7.14361029292672
+        "x": 2.6373441619921745,
+        "y": 4.075371117931965
       },
       "prevControl": {
-        "x": 5.682161663895367,
-        "y": 7.120188619835157
+        "x": 2.4656366532701286,
+        "y": 4.063192816520036
       },
       "nextControl": {
-        "x": 6.618294525984737,
-        "y": 7.170790396164312
+        "x": 3.2243319019702255,
+        "y": 4.117003040005515
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.766690569044476,
-        "y": 7.436381206571257
+        "x": 1.8995614596079393,
+        "y": 4.403274541213847
       },
       "prevControl": {
-        "x": 7.4504979823083755,
-        "y": 7.448092043117039
+        "x": 2.2274648828898216,
+        "y": 4.368142031576503
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "SourceSide4NoteShot2"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.05,
-      "rotationDegrees": -120.0,
+      "waypointRelativePos": 0.1,
+      "rotationDegrees": 0.0,
       "rotateFast": true
     },
     {
-      "waypointRelativePos": 0.75,
-      "rotationDegrees": 0.0,
+      "waypointRelativePos": 1.75,
+      "rotationDegrees": 0,
       "rotateFast": true
     }
   ],
@@ -66,13 +66,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -2.1210963966614416,
+    "rotation": 145.34485748147523,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "4 Note Paths Forward",
+  "folder": "Source Side 4 Note Vision",
   "previewStartingState": {
-    "rotation": -123.69006752597979,
+    "rotation": 124.31089532814461,
     "velocity": 0
   },
   "useDefaultConstraints": true

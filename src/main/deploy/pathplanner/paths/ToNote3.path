@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.7009952201722585,
-        "y": 5.587918812201261
+        "x": 2.883271729453586,
+        "y": 5.632912378520905
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.146950839356224,
-        "y": 5.326713926155125
+        "x": 2.60221165235483,
+        "y": 5.1293464070523
       },
       "isLocked": false,
-      "linkedName": "Center 3 Note End"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.8968988847068604,
-        "y": 7.015216939524788
+        "x": 2.531946633080141,
+        "y": 4.145636137206654
       },
       "prevControl": {
-        "x": 4.5760731521463045,
-        "y": 6.968573209873693
+        "x": 1.3480526573141178,
+        "y": 4.193958340299144
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,11 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "3 Note Paths",
+  "folder": "Amp Side 4 Note Vision",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0
