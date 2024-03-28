@@ -13,7 +13,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -29,8 +28,6 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.DoubleSupplier;
 
-import javax.swing.text.html.Option;
-
 public class Vision extends SubsystemBase {
     
     private PhotonCamera mFrontLeftCam, mFrontRightCam, mBackLeftCam, mBackRightCam;
@@ -39,9 +36,7 @@ public class Vision extends SubsystemBase {
     private FlippableBlueAlliancePose mBlueAmpPose;
     private FlippableBlueAlliancePose mBlueAmpPoseWithSpace;
     private BlueAllianceFieldPoseCollection mBlueAllianceTrapPoses;
-    private DoubleSupplier mVAngle;
-    private DoubleSupplier mVSpeed;
-    private Shot visionShot;
+    //private BlueAllianceFieldPoseCollection mBlueAllianceSpeakerPoses;
     private static Translation3d ORIGINTRANSLATION = new Translation3d();
     Optional<EstimatedRobotPose> mFrontLeftUpdate, mFrontRightUpdate, mRearLeftUpdate, mRearRightUpdate;
     VisionShotLibrary mVisionShotLibrary;
@@ -70,7 +65,7 @@ public class Vision extends SubsystemBase {
         mBackLeftEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
         mBackRightEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
 
-        mBlueSpeakerPose = new FlippableBlueAlliancePose(new Translation2d(0.2, 5.55), Rotation2d.fromDegrees(180));
+        mBlueSpeakerPose = new FlippableBlueAlliancePose(new Translation2d(0.25, 5.55), Rotation2d.fromDegrees(180));
         mBlueSubwooferCenter = new FlippableBlueAlliancePose(new Pose2d(1.36, 5.52, Rotation2d.fromDegrees(180)));
         mBlueSubwooferAntiAmp = new FlippableBlueAlliancePose(new Pose2d(0.76, 4.41, Rotation2d.fromDegrees(120)));
         mBlueSubwooferAmp= new FlippableBlueAlliancePose(new Pose2d(0.76, 6.66, Rotation2d.fromDegrees(-120)));
@@ -83,6 +78,10 @@ public class Vision extends SubsystemBase {
         blueTrapPoses.add(new FlippableBlueAlliancePose(new Translation2d(4.36, 4.92), Rotation2d.fromDegrees(-60.0)));
         blueTrapPoses.add(new FlippableBlueAlliancePose(new Translation2d(4.41, 3.33), Rotation2d.fromDegrees(60.0)));
         blueTrapPoses.add(new FlippableBlueAlliancePose(new Translation2d(5.78, 4.1), Rotation2d.fromDegrees(180.0)));
+
+        /*ArrayList<FlippableBlueAlliancePose> blueSpeakerPoses = new ArrayList<>();
+        blueSpeakerPoses.add(new FlippableBlueAlliancePose(new Translation2d(0.2, 5.55), Rotation2d.fromDegrees(180)));
+        blueSpeakerPoses.add(new FlippableBlueAlliancePose(new Translation2d(0.2, 5.55), Rotation2d.fromDegrees(180)));*/
         
         mBlueAllianceTrapPoses = new BlueAllianceFieldPoseCollection(blueTrapPoses);
 

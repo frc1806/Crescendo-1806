@@ -34,11 +34,11 @@ public class Constants {
 
 
     // Angler
-    public static final double kAnglerP = 1024.0 / ((30.0/ 360.0) * 4096.0) ; //100% power at 30 degrees away.
-    public static final double kAnglerI = 0.0;
-    public static final double kAnglerD = 0.0;
-    public static final double kAnglerCruiseVelocity = (70.0 / 360.0) * 4096.0;
-    public static final double kAnglerMaxAcceleration = (60.0 / 360.0) * 4096.0;
+    public static final double kAnglerP = 1024.0 / ((45/ 360.0) * 4096.0) ; //100% power at 30 degrees away.
+    public static final double kAnglerI = 0.025;
+    public static final double kAnglerD = 0.001;
+    public static final double kAnglerCruiseVelocity = (80.0 / 360.0) * 4096.0;
+    public static final double kAnglerMaxAcceleration = (40.0 / 360.0) * 4096.0;
     public static final double kAcceptableAngleError = 6.0;
     public static final double kAnglerGearRatio = 1.0; //to find out //unused?
     public static final double kSpeakerHeight = 1.828; //Meters

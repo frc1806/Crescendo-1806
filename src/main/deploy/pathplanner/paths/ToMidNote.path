@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.6607658350837373,
-        "y": 4.6960454548583845
+        "x": 2.3211515752560734,
+        "y": 4.906840512682451
       },
       "isLocked": false,
       "linkedName": "SourceSide4NoteShot2"
     },
     {
       "anchor": {
-        "x": 2.883271729453586,
-        "y": 5.199611426326989
+        "x": 3.0823559507318716,
+        "y": 5.305008955239023
       },
       "prevControl": {
-        "x": 2.5553683061717036,
-        "y": 4.766310474133072
+        "x": 2.976958421819838,
+        "y": 4.649202108675259
       },
       "nextControl": {
-        "x": 3.2111751527354686,
-        "y": 5.632912378520905
+        "x": 3.1685797019627633,
+        "y": 5.841512296231238
       },
       "isLocked": false,
       "linkedName": null
@@ -72,7 +72,7 @@
   "reversed": false,
   "folder": "Source Side 4 Note Vision",
   "previewStartingState": {
-    "rotation": 133.5311992856142,
+    "rotation": 52.54942176826328,
     "velocity": 0
   },
   "useDefaultConstraints": true

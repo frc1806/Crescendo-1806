@@ -9,31 +9,21 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.commands.ResetOdometryFromVision;
-import frc.robot.commands.Swerve.FieldOrientedDrive;
-import frc.robot.commands.Swerve.FieldOrientedVisionAlignSpeaker;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
-import frc.robot.commands.Swerve.WrappedPathFollowers.WrappedPathFollowingAmp;
-import frc.robot.commands.Swerve.WrappedPathFollowers.WrappedPathFollowingDriveThru;
-import frc.robot.commands.Swerve.WrappedPathFollowers.WrappedPathFollowingNearestTrap;
-import frc.robot.commands.Swerve.WrappedPathFollowers.WrappedPathFollowingPreDriveThru;
 import frc.robot.commands.Swerve.WrappedPathFollowers.WrappedPathFollowingToSuppliedPose;
-import frc.robot.commands.sequence.FancyAmpSequence;
 import frc.robot.commands.sequence.IntakeSequence;
 import frc.robot.commands.sequence.OuttakeSequence;
 import frc.robot.commands.sequence.ParallelCleaningGroup;
@@ -143,6 +133,12 @@ public class DriverControls extends SubsystemBase{
 
     public void setLastSnapDegree(double newLastSnapDegree){
         lastSnapDegree = newLastSnapDegree;
+    }
+
+    public void setLastSnapDegreeToCurrentAngleIfAuto(){
+        if(RobotState.isAutonomous()){
+            lastSnapDegree = RobotContainer.S_SWERVE.getPose().getRotation().getDegrees();
+        }
     }
     
     public boolean wantPreciseRotation(){

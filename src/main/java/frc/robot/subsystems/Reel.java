@@ -14,6 +14,8 @@ public class Reel extends SubsystemBase{
     public Reel(){
         mIntakeMotor = new CANSparkMax(RobotMap.kIntakeMotorId, MotorType.kBrushless);
         mIntakeMotor.setInverted(true);
+        mIntakeMotor.setSmartCurrentLimit(50);
+        mIntakeMotor.setOpenLoopRampRate(0.05);
     }
 
     /*public Command setIntake(double speed){

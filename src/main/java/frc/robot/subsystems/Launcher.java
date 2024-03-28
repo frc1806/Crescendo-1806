@@ -45,6 +45,7 @@ public class Launcher extends SubsystemBase{
         mRightLauncherPID.setI(Constants.kRightLauncherkI);
         mRightLauncherPID.setD(Constants.kRightLauncherkD);
         mRightLauncherPID.setFF(Constants.kRightLauncherkF);
+
         
 
         mIndexLeader = new CANSparkFlex(RobotMap.kIndexerLeaderId, CANSparkFlex.MotorType.kBrushless);
@@ -59,6 +60,16 @@ public class Launcher extends SubsystemBase{
 
         setLauncherMode(IdleMode.kBrake);
         setIndexerMode(IdleMode.kBrake);
+
+        mLauncherLeftMotor.setSmartCurrentLimit(60);
+        mLauncherRightMotor.setSmartCurrentLimit(60);
+        mLauncherLeftMotor.setOpenLoopRampRate(0.1);
+        mLauncherRightMotor.setOpenLoopRampRate(0.1);
+
+        mIndexLeader.setSmartCurrentLimit(20);
+        mIndexFollower.setSmartCurrentLimit(20);
+        mIndexLeader.setOpenLoopRampRate(0.05);
+        mIndexFollower.setOpenLoopRampRate(0.05);
     }
 
     public void setLauncher(double speed){

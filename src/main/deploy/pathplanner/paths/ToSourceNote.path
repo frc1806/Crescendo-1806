@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.44283883432246,
-        "y": 4.075371117931965
+        "x": 1.44,
+        "y": 4.03
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6536338921465275,
-        "y": 4.063660281386183
+        "x": 1.6511201082219642,
+        "y": 4.03
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.6373441619921745,
-        "y": 4.075371117931965
+        "x": 2.496814123442796,
+        "y": 4.03
       },
       "prevControl": {
-        "x": 2.4656366532701286,
-        "y": 4.063192816520036
+        "x": 2.32510661472075,
+        "y": 4.0178216985880715
       },
       "nextControl": {
-        "x": 3.2243319019702255,
-        "y": 4.117003040005515
+        "x": 3.083801863420847,
+        "y": 4.07163192207355
       },
       "isLocked": false,
       "linkedName": null
@@ -72,7 +72,7 @@
   "reversed": false,
   "folder": "Source Side 4 Note Vision",
   "previewStartingState": {
-    "rotation": 124.31089532814461,
+    "rotation": 0.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

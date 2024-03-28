@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.44283883432246,
-      "y": 4.075371117931965
+      "x": 1.19,
+      "y": 4.03
     },
-    "rotation": 178.5679038158354
+    "rotation": 120.0
   },
   "command": {
     "type": "sequential",
@@ -18,7 +18,26 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "turnTowardsCloseSourceNote"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AnglerHome"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
           "data": {
             "commands": [
               {
@@ -28,9 +47,22 @@
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "IntakeSequence"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "IntakeSequence"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.0
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -43,7 +75,26 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "turnTowardsCloseMidNote"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AnglerHome"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
           "data": {
             "commands": [
               {
@@ -53,9 +104,22 @@
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "IntakeSequence"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "IntakeSequence"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 15.0
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -68,7 +132,26 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "turnTowardsCloseAmpNote"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AnglerHome"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
           "data": {
             "commands": [
               {
@@ -78,9 +161,22 @@
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "IntakeSequence"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "IntakeSequence"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 15.0
+                      }
+                    }
+                  ]
                 }
               }
             ]

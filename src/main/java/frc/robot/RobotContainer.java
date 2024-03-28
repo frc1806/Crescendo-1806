@@ -9,6 +9,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,6 +21,7 @@ import frc.robot.commands.Auto.SubwooferShotTimedDrive;
 import frc.robot.commands.Intake.SetIntake;
 import frc.robot.commands.Launcher.IdleLauncher;
 import frc.robot.commands.Swerve.FieldOrientedDrive;
+import frc.robot.commands.Swerve.FieldOrientedVisionAlignPoint;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.commands.sequence.IntakeSequence;
@@ -35,6 +37,7 @@ import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Reel;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Vision;
+import frc.robot.util.fieldmirroring.FlippableBlueAlliancePose;
 import frc.robot.subsystems.Launcher;
 
 public class RobotContainer {
@@ -78,8 +81,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("PresetSubwooferShot", new PresetShotLaunchSequence(Shot.SUBWOOFER));
     NamedCommands.registerCommand("PreparePresetSubwooferShot", new PreparePresetLaunchSequence(Shot.SUBWOOFER));
     NamedCommands.registerCommand("PresetAmpShot", new PresetShotLaunchSequence(Shot.AMPLIFIER));
-
-    
+    NamedCommands.registerCommand("turnTowardsCloseAmpNote", new FieldOrientedVisionAlignPoint(new FlippableBlueAlliancePose(new Translation2d(2.88, 6.99), Rotation2d.fromDegrees(0))));
+    NamedCommands.registerCommand("turnTowardsCloseMidNote", new FieldOrientedVisionAlignPoint(new FlippableBlueAlliancePose(new Translation2d(2.88, 5.55), Rotation2d.fromDegrees(0))));
+    NamedCommands.registerCommand("turnTowardsCloseSourceNote", new FieldOrientedVisionAlignPoint(new FlippableBlueAlliancePose(new Translation2d(2.88, 4.10), Rotation2d.fromDegrees(0))));
+    NamedCommands.registerCommand("AnglerHome", new AnglerGoToAngle(Shot.HOME.getPivotAngle()));
     autoChooser = AutoBuilder.buildAutoChooser(); 
 
     //SUBWOOFER SINGLE SHOT MOBILITY AUTOS

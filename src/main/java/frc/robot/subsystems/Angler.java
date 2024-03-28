@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.FollowerType;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -33,7 +34,7 @@ public class Angler extends SubsystemBase {
     private boolean isAnglerEnabled;
 
     public Angler() {
-
+        SupplyCurrentLimitConfiguration config = new SupplyCurrentLimitConfiguration(true, 30, 50, 0.5);
         //LEFT MOTOR
         mAnglerMotorLeft = new TalonSRX(RobotMap.AnglerLeftMotorId);
         mAnglerMotorLeft.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition);
@@ -43,11 +44,13 @@ public class Angler extends SubsystemBase {
         mAnglerMotorLeft.config_kP(0, Constants.kAnglerP);
         mAnglerMotorLeft.config_kI(0, Constants.kAnglerI);
         mAnglerMotorLeft.config_kD(0, Constants.kAnglerD);
+        mAnglerMotorLeft.config_IntegralZone(0, 50);
         mAnglerMotorLeft.configMotionCruiseVelocity(Constants.kAnglerCruiseVelocity); //degrees per tenth of a second, scaled to encoder units.
         mAnglerMotorLeft.configMotionAcceleration(Constants.kAnglerMaxAcceleration); // degrees per tenth of a second squared scaled to encoder units.
         mAnglerMotorLeft.configMotionSCurveStrength(1);
         mAnglerMotorLeft.set(ControlMode.PercentOutput, 0.0);
         mAnglerMotorLeft.setNeutralMode(NeutralMode.Brake);
+        mAnglerMotorLeft.configSupplyCurrentLimit(config);
         
     
 
@@ -69,8 +72,9 @@ public class Angler extends SubsystemBase {
         mAnglerMotorRight.follow(mAnglerMotorLeft, FollowerType.PercentOutput);
         mAnglerMotorRight.setInverted(InvertType.InvertMotorOutput);
         //END FOLLOWER STYLE
-        mAnglerMotorRight.set(ControlMode.PercentOutput, 0.0);
+        //mAnglerMotorRight.set(ControlMode.PercentOutput, 0.0);
         mAnglerMotorRight.setNeutralMode(NeutralMode.Brake);
+        mAnglerMotorRight.configSupplyCurrentLimit(config);
 
 
 
@@ -84,9 +88,9 @@ public class Angler extends SubsystemBase {
     }
 
     public void goToPosition(double wantedAngle){
-        if(wantedAngle < 250.0){
+        if(wantedAngle < 245.0){
             System.out.println("Tried to set a launcher angle of:" + wantedAngle);
-            wantedAngle = 250.0;
+            wantedAngle = 245.0;
         }
         if(wantedAngle > 400.0){
             System.out.println("Tried to set a launcher angle of:" + wantedAngle);

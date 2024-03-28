@@ -8,36 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.2814401720101576,
-        "y": 6.347273407813577
+        "x": 3.1291992969149973,
+        "y": 6.45267093672561
       },
       "isLocked": false,
       "linkedName": "SourceSide4NoteShot3"
     },
     {
       "anchor": {
-        "x": 3.0355126045487455,
-        "y": 6.8039960330990565
+        "x": 2.9886692583656194,
+        "y": 6.8391285427364
       },
       "prevControl": {
-        "x": 3.0355126045487455,
-        "y": 6.4292492636340475
-      },
-      "nextControl": {
-        "x": 3.0355126045487455,
-        "y": 7.4953322528344355
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.239175719435603,
-        "y": 7.14361029292672
-      },
-      "prevControl": {
-        "x": 2.4968141234427965,
-        "y": 7.284140331476098
+        "x": 2.8130067101788967,
+        "y": 6.464381773271392
       },
       "nextControl": null,
       "isLocked": false,
@@ -51,7 +35,7 @@
       "rotateFast": true
     },
     {
-      "waypointRelativePos": 1.15,
+      "waypointRelativePos": 1,
       "rotationDegrees": 90.0,
       "rotateFast": false
     }
@@ -66,13 +50,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -141.8427734126309,
+    "rotation": 90.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Source Side 4 Note Vision",
   "previewStartingState": {
-    "rotation": -167.19573393471322,
+    "rotation": 90.62275568720632,
     "velocity": 0
   },
   "useDefaultConstraints": true
