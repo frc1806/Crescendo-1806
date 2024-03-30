@@ -12,7 +12,7 @@ public class Shot {
     }
 
     //home angle needs to be determined
-    public static Shot HOME = new Shot("Home", 247.5, 0.0);
+    public static Shot HOME = new Shot("Home", 248.5, 0.0);
     //make more shots here
     public static Shot SUBWOOFER = new Shot("Subwoofer", 335.0, 5000.0);
     public static Shot BACKWARDS_SUBWOOFER = new Shot("Backwards Subwoofer", 30, 5000);

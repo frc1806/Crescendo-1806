@@ -13,7 +13,7 @@ public class LaunchNote extends Command {
   private Launcher mLauncher;
   private double mSpeed;
   private boolean mIsNoteLeaving = false;
-  private double mTimeout = 0.15;
+  private double mTimeout = 0.35;
   private Timer mTimer = new Timer();
 
   /** Creates a new LaunchNote. */

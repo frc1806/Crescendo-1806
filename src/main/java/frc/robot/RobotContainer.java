@@ -42,13 +42,13 @@ import frc.robot.subsystems.Launcher;
 
 public class RobotContainer {
 
-    private static final VisionShotLibrary VISION_SHOT_LIBRARY = new VisionShotLibrary() //these are estimates TODO: Tune
-    .withShotEntry(1.09, 335.0, 5000.0)
-    .withShotEntry(1.68, 325.0, 5000.0)
-    .withShotEntry(2.14, 321.0, 5000.0)
+    private static final VisionShotLibrary VISION_SHOT_LIBRARY = new VisionShotLibrary() //3/30/2024 Dropped all 4 degrees
+    .withShotEntry(1.09, 333.0, 5000.0)
+    .withShotEntry(1.68, 323.0, 5000.0)
+    .withShotEntry(2.14, 317.0, 5000.0)
     
-    .withShotEntry(2.66, 319.0, 5000.0)
-    .withShotEntry(3.14, 315.25, 5500.0
+    .withShotEntry(2.66, 315.0, 5000.0)
+    .withShotEntry(3.14, 311.25, 5500.0
     );
   public static final Swerve S_SWERVE = new Swerve();
   public static final DriverControls S_DRIVERCONTROLS = new DriverControls();
