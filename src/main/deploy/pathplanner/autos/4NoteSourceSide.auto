@@ -57,9 +57,22 @@
                       }
                     },
                     {
-                      "type": "wait",
+                      "type": "parallel",
                       "data": {
-                        "waitTime": 15.0
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "PrepareVisionShotNoAlign"
+                            }
+                          },
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 15.0
+                            }
+                          }
+                        ]
                       }
                     }
                   ]
@@ -114,9 +127,22 @@
                       }
                     },
                     {
-                      "type": "wait",
+                      "type": "parallel",
                       "data": {
-                        "waitTime": 15.0
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "PrepareVisionShotNoAlign"
+                            }
+                          },
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 15.0
+                            }
+                          }
+                        ]
                       }
                     }
                   ]
@@ -171,9 +197,22 @@
                       }
                     },
                     {
-                      "type": "wait",
+                      "type": "parallel",
                       "data": {
-                        "waitTime": 15.0
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "PrepareVisionShotNoAlign"
+                            }
+                          },
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 15.0
+                            }
+                          }
+                        ]
                       }
                     }
                   ]
