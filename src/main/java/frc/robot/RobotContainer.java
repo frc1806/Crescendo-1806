@@ -20,6 +20,8 @@ import frc.robot.commands.Angler.AnglerGoToAngle;
 import frc.robot.commands.Auto.SubwooferShotTimedDrive;
 import frc.robot.commands.Intake.SetIntake;
 import frc.robot.commands.Launcher.IdleLauncher;
+import frc.robot.commands.Sweeper.SweeperExtend;
+import frc.robot.commands.Sweeper.SweeperStopIntake;
 import frc.robot.commands.Swerve.FieldOrientedDrive;
 import frc.robot.commands.Swerve.FieldOrientedVisionAlignPoint;
 import frc.robot.commands.Swerve.LockPods;
@@ -27,6 +29,7 @@ import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.commands.sequence.IntakeSequence;
 import frc.robot.commands.sequence.PreparePresetLaunchSequence;
 import frc.robot.commands.sequence.PresetShotLaunchSequence;
+import frc.robot.commands.sequence.SweeperSweepSequence;
 import frc.robot.game.Shot;
 import frc.robot.game.VisionShotLibrary;
 import frc.robot.subsystems.Angler;
@@ -35,6 +38,8 @@ import frc.robot.subsystems.DriverControls;
 import frc.robot.subsystems.DriverStationChecker;
 import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Reel;
+import frc.robot.subsystems.SweeperExtension;
+import frc.robot.subsystems.SweeperIntake;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Vision;
 import frc.robot.util.fieldmirroring.FlippableBlueAlliancePose;
@@ -42,13 +47,13 @@ import frc.robot.subsystems.Launcher;
 
 public class RobotContainer {
 
-    private static final VisionShotLibrary VISION_SHOT_LIBRARY = new VisionShotLibrary() //3/30/2024 Dropped all 4 degrees
-    .withShotEntry(1.09, 333.0, 5000.0)
-    .withShotEntry(1.68, 323.0, 5000.0)
-    .withShotEntry(2.14, 317.0, 5000.0)
+    private static final VisionShotLibrary VISION_SHOT_LIBRARY = new VisionShotLibrary()
+    .withShotEntry(1.09, 328.0, 5000.0)
+    .withShotEntry(1.68, 318.0, 5000.0)
+    .withShotEntry(2.14, 312.0, 5000.0)
     
-    .withShotEntry(2.66, 315.0, 5000.0)
-    .withShotEntry(3.14, 311.25, 5500.0
+    .withShotEntry(2.66, 310.0, 5000.0)
+    .withShotEntry(3.14, 306.25, 5500.0
     );
   public static final Swerve S_SWERVE = new Swerve();
   public static final DriverControls S_DRIVERCONTROLS = new DriverControls();
@@ -59,6 +64,8 @@ public class RobotContainer {
   public static final LED S_LED = new LED();
   public static final BoatHook S_BOATHOOK = new BoatHook();
   public static final DriverStationChecker S_DRIVERSTATIONCHECKER = new DriverStationChecker();
+  public static final SweeperExtension S_SWEEPER_EXTEND = new SweeperExtension();
+  public static final SweeperIntake S_SWEEPER_INTAKE = new SweeperIntake();
 
 
 
@@ -85,6 +92,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("turnTowardsCloseMidNote", new FieldOrientedVisionAlignPoint(new FlippableBlueAlliancePose(new Translation2d(2.88, 5.55), Rotation2d.fromDegrees(0))));
     NamedCommands.registerCommand("turnTowardsCloseSourceNote", new FieldOrientedVisionAlignPoint(new FlippableBlueAlliancePose(new Translation2d(2.88, 4.10), Rotation2d.fromDegrees(0))));
     NamedCommands.registerCommand("AnglerHome", new AnglerGoToAngle(Shot.HOME.getPivotAngle()));
+    NamedCommands.registerCommand("Sweep", new SweeperSweepSequence());
     autoChooser = AutoBuilder.buildAutoChooser(); 
 
     //SUBWOOFER SINGLE SHOT MOBILITY AUTOS
@@ -106,6 +114,8 @@ public class RobotContainer {
     CommandScheduler.getInstance().setDefaultCommand(S_INTAKE, new SetIntake(0.0));
     CommandScheduler.getInstance().setDefaultCommand(S_ANGLER, new AnglerGoToAngle(Shot.HOME.getPivotAngle()));
     CommandScheduler.getInstance().setDefaultCommand(S_LAUNCHER, new IdleLauncher());
+    CommandScheduler.getInstance().setDefaultCommand(S_SWEEPER_EXTEND, new SweeperExtend(0.0));
+    CommandScheduler.getInstance().setDefaultCommand(S_SWEEPER_INTAKE, new SweeperStopIntake());
   }
 
   private void configureBindings() {

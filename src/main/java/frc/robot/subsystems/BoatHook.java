@@ -1,7 +1,8 @@
 package frc.robot.subsystems;
 
 
-import com.revrobotics.CANSparkMax;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -10,44 +11,33 @@ import frc.robot.RobotMap;
 
 public class BoatHook extends SubsystemBase{
     
-    private CANSparkMax mBoatHookMotorLeader;
-    private CANSparkMax mBoatHookMotorFollower;
+    private TalonSRX mBoatHookMotor;
 
     private double mBoatHookWantedSpeed;
 
     public BoatHook(){
-        mBoatHookMotorLeader = new CANSparkMax(RobotMap.kBoatHookMotorLeaderId, CANSparkMax.MotorType.kBrushless);
-        mBoatHookMotorFollower = new CANSparkMax(RobotMap.kBoatHookMotorFollowerId, CANSparkMax.MotorType.kBrushless);
-        mBoatHookMotorFollower.follow(mBoatHookMotorLeader);
-
-    
+        mBoatHookMotor = new TalonSRX(RobotMap.kBoatHookMotor);
     }
 
-    public Command extendBoatHook(){
+
+    public Command ExtendBoatHook(){
 
       return this.run(() -> {
-            mBoatHookWantedSpeed = 0.5;
-            mBoatHookMotorLeader.set(mBoatHookWantedSpeed);
+            mBoatHookWantedSpeed = 0.75;
+            mBoatHookMotor.set(ControlMode.PercentOutput, mBoatHookWantedSpeed);
         });
 
 
     }
 
-    public Command stopBoatHook(){
+    public Command StopBoatHook(){
 
-        return this.run(() -> {
+      return this.run(() -> {
             mBoatHookWantedSpeed = 0.0;
-            mBoatHookMotorLeader.set(mBoatHookWantedSpeed);
+            mBoatHookMotor.set(ControlMode.PercentOutput, mBoatHookWantedSpeed);
         });
 
-    }
 
-    public Command retractBoatHook(){
-
-        return this.run(() -> {
-            mBoatHookWantedSpeed = -0.5;
-            mBoatHookMotorLeader.set(mBoatHookWantedSpeed);
-        });
     }
 
     @Override

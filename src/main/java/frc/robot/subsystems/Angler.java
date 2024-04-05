@@ -44,7 +44,7 @@ public class Angler extends SubsystemBase {
         mAnglerMotorLeft.config_kP(0, Constants.kAnglerP);
         mAnglerMotorLeft.config_kI(0, Constants.kAnglerI);
         mAnglerMotorLeft.config_kD(0, Constants.kAnglerD);
-        mAnglerMotorLeft.config_IntegralZone(0, 50);
+        mAnglerMotorLeft.config_IntegralZone(0, Constants.kAnglerIz);
         mAnglerMotorLeft.configMotionCruiseVelocity(Constants.kAnglerCruiseVelocity); //degrees per tenth of a second, scaled to encoder units.
         mAnglerMotorLeft.configMotionAcceleration(Constants.kAnglerMaxAcceleration); // degrees per tenth of a second squared scaled to encoder units.
         mAnglerMotorLeft.configMotionSCurveStrength(1);
@@ -207,6 +207,7 @@ public class Angler extends SubsystemBase {
             isAnglerEnabled = false;
         }
 
+
         //Run motor with manual contorl if wanted
         if((RobotContainer.S_DRIVERCONTROLS.d_wantAnglerManual() || RobotContainer.S_DRIVERCONTROLS.o_wantManualAnglerRotate())){
                 setMotor(mWantedManualPower);
@@ -216,6 +217,12 @@ public class Angler extends SubsystemBase {
             if(!isAnglerEnabled)
             {
                 setMotor(0.0);
+            }
+            else{
+                if(atPosition() && getAngle() > 340.00)
+                {
+                    setMotor(0.0);
+                }
             }
         }
     }

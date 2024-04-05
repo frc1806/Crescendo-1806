@@ -61,13 +61,13 @@ public class Launcher extends SubsystemBase{
         setLauncherMode(IdleMode.kBrake);
         setIndexerMode(IdleMode.kBrake);
 
-        mLauncherLeftMotor.setSmartCurrentLimit(60);
-        mLauncherRightMotor.setSmartCurrentLimit(60);
-        mLauncherLeftMotor.setOpenLoopRampRate(0.1);
-        mLauncherRightMotor.setOpenLoopRampRate(0.1);
+        mLauncherLeftMotor.setSmartCurrentLimit(80);
+        mLauncherRightMotor.setSmartCurrentLimit(80);
+        mLauncherLeftMotor.setOpenLoopRampRate(0.025);
+        mLauncherRightMotor.setOpenLoopRampRate(0.025);
 
-        mIndexLeader.setSmartCurrentLimit(20);
-        mIndexFollower.setSmartCurrentLimit(20);
+        mIndexLeader.setSmartCurrentLimit(40);
+        mIndexFollower.setSmartCurrentLimit(40);
         mIndexLeader.setOpenLoopRampRate(0.05);
         mIndexFollower.setOpenLoopRampRate(0.05);
     }

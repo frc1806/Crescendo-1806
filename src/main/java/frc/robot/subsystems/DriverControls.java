@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.ResetOdometryFromVision;
+import frc.robot.commands.Sweeper.SweeperAmpIntake;
 import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.commands.Swerve.WrappedPathFollowers.WrappedPathFollowingToSuppliedPose;
@@ -29,6 +30,9 @@ import frc.robot.commands.sequence.OuttakeSequence;
 import frc.robot.commands.sequence.ParallelCleaningGroup;
 import frc.robot.commands.sequence.PresetShotLaunchNoSpin;
 import frc.robot.commands.sequence.PresetShotLaunchSequence;
+import frc.robot.commands.sequence.SweeperAmpScoreSequence;
+import frc.robot.commands.sequence.SweeperIntakeSequence;
+import frc.robot.commands.sequence.SweeperSweepSequence;
 import frc.robot.commands.sequence.VisionShotSequence;
 import frc.robot.game.Shot;
 import frc.robot.game.VisionShotLibrary;
@@ -224,11 +228,9 @@ public class DriverControls extends SubsystemBase{
     public boolean o_wantExtendBoatHook(){
         return operatorController.getRightTriggerAxis() > 0;
     }
-    public boolean o_wantRetractBoatHook(){
-        return operatorController.getLeftTriggerAxis() > 0;
-    }
+
     public boolean o_wantStopBoatHook(){
-        return operatorController.getLeftTriggerAxis() == 0 && operatorController.getRightTriggerAxis() == 0;
+        return operatorController.getRightTriggerAxis() == 0;
     }
 
     public boolean o_wantModifyShotHigher(){
@@ -238,6 +240,18 @@ public class DriverControls extends SubsystemBase{
 
     public boolean o_wantModifyShotLower(){
         return operatorController.getPOV() == 180 && o_wantSubwooferShot();
+    }
+
+    public boolean o_wantSweeperAmpIntake(){
+        return operatorController.getLeftTriggerAxis() > .2;
+    }
+
+    public boolean o_wantSweeperScore(){
+        return operatorController.getRightTriggerAxis() > .2;
+    }
+
+    public boolean o_wantSweep(){
+        return operatorController.getLeftBumper();
     }
 
     // Debug Controls
@@ -281,15 +295,18 @@ public class DriverControls extends SubsystemBase{
         new Trigger(this::wantResetRobotOdometryFromVision).whileTrue(new ResetOdometryFromVision());
         //new Trigger(this::wantFeederDriveThru).whileTrue(new SequentialCommandGroup(new WrappedPathFollowingToSuppliedPose(RobotContainer.S_VISION::getPreDriveThruFeeder), new WaitCommand(0.030), new ParallelCommandGroup(new WrappedPathFollowingToSuppliedPose(RobotContainer.S_VISION::getDriveThruFeeder), new IntakeSequence())));
         //Operator
-        new Trigger(this::o_wantExtendBoatHook).whileTrue(boatHook.extendBoatHook());
-        new Trigger(this::o_wantRetractBoatHook).whileTrue(boatHook.retractBoatHook());
-        new Trigger(this::o_wantStopBoatHook).whileTrue(boatHook.stopBoatHook());
+        new Trigger(this::o_wantExtendBoatHook).whileTrue(boatHook.ExtendBoatHook());
+        new Trigger(this::o_wantStopBoatHook).whileTrue(boatHook.StopBoatHook());
         new Trigger(this::wantVisionShot).whileTrue(new VisionShotSequence(vision::CalculateShotAngle, vision::CalculateShotSpeed));
 
         new Trigger(this::o_wantSubwooferShot).whileTrue(new PresetShotLaunchSequence(Shot.SUBWOOFER));
         //TODO: Higher/Lower currently only work for subwoofer
         new Trigger(this::o_wantModifyShotHigher).whileTrue(new PresetShotLaunchSequence(Shot.SUBWOOFER.getHigherShot()));
         new Trigger(this::o_wantModifyShotLower).whileTrue(new PresetShotLaunchSequence(Shot.SUBWOOFER.getLowerShot()));
+
+        new Trigger(this::o_wantSweep).whileTrue(new SweeperSweepSequence());
+        new Trigger(this::o_wantSweeperAmpIntake).whileTrue(new SweeperIntakeSequence());
+        new Trigger(this::o_wantSweeperScore).whileTrue(new SweeperAmpScoreSequence());
 
         new Trigger(this::o_wantAmpShot).whileTrue(new PresetShotLaunchNoSpin(Shot.BACKWARDS_AMPLIFIER));
         //Debug

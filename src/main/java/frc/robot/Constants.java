@@ -34,12 +34,13 @@ public class Constants {
 
 
     // Angler
-    public static final double kAnglerP = 1024.0 / ((45/ 360.0) * 4096.0) ; //100% power at 30 degrees away.
-    public static final double kAnglerI = 0.025;
-    public static final double kAnglerD = 0.001;
-    public static final double kAnglerCruiseVelocity = (80.0 / 360.0) * 4096.0;
-    public static final double kAnglerMaxAcceleration = (40.0 / 360.0) * 4096.0;
-    public static final double kAcceptableAngleError = 6.0;
+    public static final double kAnglerP = 1024.0 / ((60/ 360.0) * 4096.0) ; //100% power at 30 degrees away.
+    public static final double kAnglerI = 0.010;
+    public static final double kAnglerD = 0.00025;
+    public static final double kAnglerIz = 65;
+    public static final double kAnglerCruiseVelocity = (90.0 / 360.0) * 4096.0;
+    public static final double kAnglerMaxAcceleration = (25.0 / 360.0) * 4096.0;
+    public static final double kAcceptableAngleError = 1.0;
     public static final double kAnglerGearRatio = 1.0; //to find out //unused?
     public static final double kSpeakerHeight = 1.828; //Meters
     public static final double kAnglerTwistDetectionAngleDifference = 5.0;
@@ -87,4 +88,20 @@ public class Constants {
     public static final double kColorFlowAnimationSpeed = 0.5;
     public static final double kStrobeAnimationSpeed = 0.5;
     public static final double kRGBFadeAnimationSpeed = 0.5;
+
+
+    //Sweeper
+    public static final double kSweeperExtendConversionFactor = (Math.PI * 1.2) / 5.0; //Pitch circumference / gear ratio
+    public static final double kSweeperAceeptableDistanceDelta = 0.25;
+    public static final double kSweeperExtendkP = 0.1;
+    public static final double kSweeperExtendkI = 0.000;
+    public static final double kSweeperExtendkD = 0.000;
+
+    public static final double kSweeperExtendSoftkP = 0.05;
+    public static final double kSweeperExtendSoftkI = 0.000;
+    public static final double kSweeperExtendSoftkD = 0.000;
+
+    public static final double kSweeperIntakeSweepVolts = 10.0;
+    public static final double kSweeperIntakeAmpIntakeVolts = 5.0;
+    public static final double kSweeperIntakeAmpOuttakeVolts = -5.0;
 }
