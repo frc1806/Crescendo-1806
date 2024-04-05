@@ -28,8 +28,10 @@ import frc.robot.commands.Swerve.LockPods;
 import frc.robot.commands.Swerve.ResetGyro;
 import frc.robot.commands.sequence.IntakeSequence;
 import frc.robot.commands.sequence.PreparePresetLaunchSequence;
+import frc.robot.commands.sequence.PrepareVisionShotNoAlign;
 import frc.robot.commands.sequence.PresetShotLaunchSequence;
 import frc.robot.commands.sequence.SweeperSweepSequence;
+import frc.robot.commands.sequence.VisionShotNoAlign;
 import frc.robot.game.Shot;
 import frc.robot.game.VisionShotLibrary;
 import frc.robot.subsystems.Angler;
@@ -93,6 +95,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("turnTowardsCloseSourceNote", new FieldOrientedVisionAlignPoint(new FlippableBlueAlliancePose(new Translation2d(2.88, 4.10), Rotation2d.fromDegrees(0))));
     NamedCommands.registerCommand("AnglerHome", new AnglerGoToAngle(Shot.HOME.getPivotAngle()));
     NamedCommands.registerCommand("Sweep", new SweeperSweepSequence());
+    NamedCommands.registerCommand("PrepareVisionShotNoAlign", new PrepareVisionShotNoAlign(S_VISION::CalculateShotAngle, S_VISION::CalculateShotSpeed));
+    NamedCommands.registerCommand("VisionShotNoAlign", new VisionShotNoAlign(S_VISION::CalculateShotAngle, S_VISION::CalculateShotSpeed));
     autoChooser = AutoBuilder.buildAutoChooser(); 
 
     //SUBWOOFER SINGLE SHOT MOBILITY AUTOS

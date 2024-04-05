@@ -91,10 +91,10 @@ public class Constants {
 
 
     //Sweeper
-    public static final double kSweeperExtendConversionFactor = (Math.PI * 1.2) / 5.0; //Pitch circumference / gear ratio
+    public static final double kSweeperExtendConversionFactor = (Math.PI * 1.2) / 4.0; //Pitch circumference / gear ratio
     public static final double kSweeperAceeptableDistanceDelta = 0.25;
     public static final double kSweeperExtendkP = 0.1;
-    public static final double kSweeperExtendkI = 0.000;
+    public static final double kSweeperExtendkI = 0.001;
     public static final double kSweeperExtendkD = 0.000;
 
     public static final double kSweeperExtendSoftkP = 0.05;

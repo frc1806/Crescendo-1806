@@ -17,7 +17,7 @@ import java.util.function.DoubleSupplier;
 public class PrepareVisionShot extends SequentialCommandGroup {
 
   /** Creates a new LaunchSequence. */
-  public PrepareVisionShot(DoubleSupplier angleSupplier, DoubleSupplier speedSupplier, double time) {
+  public PrepareVisionShot(DoubleSupplier angleSupplier, DoubleSupplier speedSupplier) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands( 
