@@ -1,6 +1,12 @@
 {
   "version": 1.0,
-  "startingPose": null,
+  "startingPose": {
+    "position": {
+      "x": 1.3140196323188638,
+      "y": 5.541275082550166
+    },
+    "rotation": 178.48763566288125
+  },
   "command": {
     "type": "sequential",
     "data": {
@@ -8,7 +14,13 @@
         {
           "type": "named",
           "data": {
-            "name": "visionShot"
+            "name": "PresetSubwooferShot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "turnTowardsCloseMidNote"
           }
         },
         {

@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.407706324685116,
-      "y": 4.520382906671662
+      "x": 0.7284778050297884,
+      "y": 4.42669621430541
     },
-    "rotation": 180.0
+    "rotation": 126.86989764584402
   },
   "command": {
     "type": "sequential",
@@ -22,15 +22,28 @@
           "data": {
             "commands": [
               {
-                "type": "named",
-                "data": {
-                  "name": "IntakeSequence"
-                }
-              },
-              {
                 "type": "path",
                 "data": {
                   "pathName": "SourceSideBeAnnoying1"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "IntakeSequence"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 15.0
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -46,6 +59,94 @@
           "type": "named",
           "data": {
             "name": "visionShot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AnglerHome"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "SourceSide3"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "IntakeSequence"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 15.0
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "SourceSide4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "visionShot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AnglerHome"
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "SourceSideFar5"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "IntakeSequence"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 15.0
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       ]
