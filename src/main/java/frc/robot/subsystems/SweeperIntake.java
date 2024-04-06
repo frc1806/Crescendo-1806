@@ -19,7 +19,7 @@ public class SweeperIntake extends SubsystemBase {
   /** Creates a new SweeperIntake. */
   public SweeperIntake() {
     mSweeperIntake = new CANSparkMax(RobotMap.kSweeperIntakeId, MotorType.kBrushless);
-    mSweeperIntake.setSmartCurrentLimit(80);
+    mSweeperIntake.setSmartCurrentLimit(90);
     mSweeperIntake.setVoltage(0.0);
   }
 

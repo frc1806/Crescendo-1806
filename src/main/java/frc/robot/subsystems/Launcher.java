@@ -58,7 +58,7 @@ public class Launcher extends SubsystemBase{
         mRightSparkEncoder = mLauncherRightMotor.getEncoder();
 
 
-        setLauncherMode(IdleMode.kBrake);
+        setLauncherMode(IdleMode.kCoast);
         setIndexerMode(IdleMode.kBrake);
 
         mLauncherLeftMotor.setSmartCurrentLimit(80);

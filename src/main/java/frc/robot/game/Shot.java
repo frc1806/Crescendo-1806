@@ -14,12 +14,12 @@ public class Shot {
     //home angle needs to be determined
     public static Shot HOME = new Shot("Home", 248.5, 0.0);
     //make more shots here
-    public static Shot SUBWOOFER = new Shot("Subwoofer", 335.0, 5000.0);
+    public static Shot SUBWOOFER = new Shot("Subwoofer", 328.0, 5000.0);
     public static Shot BACKWARDS_SUBWOOFER = new Shot("Backwards Subwoofer", 30, 5000);
     public static Shot AMPLIFIER = new Shot("Amplifier", 331.0, 800);
     public static Shot FANCY_AMP_PT_1 = new Shot("Fancy Amp Pt 1", 340.0, 877);
     public static Shot FANCY_AMP_PT_2 = new Shot("Fancy Amp Pt 2", 300.0, 877);
-    public static Shot BACKWARDS_AMPLIFIER = new Shot("Backwards Amplifier", 386, 640);
+    public static Shot BACKWARDS_AMPLIFIER = new Shot("Backwards Amplifier", 386, 725);
     //old backwards amp 640
     public static Shot CLOSE = new Shot("Close", 350.0, 4000.0);
     public static Shot YEET = new Shot ("Yeet", 305, 4000.0);

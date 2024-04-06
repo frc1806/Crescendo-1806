@@ -11,6 +11,7 @@ import com.revrobotics.SparkRelativeEncoder;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
@@ -47,5 +48,11 @@ public class SweeperExtension extends SubsystemBase {
 
   public boolean isAtPosition(){
     return Math.abs(mSweeperExtensionEncoder.getPosition() - mWantedExtension) < Constants.kSweeperAceeptableDistanceDelta; 
+  }
+
+  @Override
+  public void periodic(){
+    SmartDashboard.putNumber("Sweeper Wanted Extension", mWantedExtension);
+    //SmartDashboard.putNumber("Sweeper Current Extension", mSweeperExtensionEncoder.getPosition()); 
   }
 }

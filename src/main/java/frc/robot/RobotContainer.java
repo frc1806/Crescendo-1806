@@ -52,10 +52,10 @@ public class RobotContainer {
     private static final VisionShotLibrary VISION_SHOT_LIBRARY = new VisionShotLibrary()
     .withShotEntry(1.09, 328.0, 5000.0)
     .withShotEntry(1.68, 318.0, 5000.0)
-    .withShotEntry(2.14, 312.0, 5000.0)
+    .withShotEntry(2.14, 317.0, 5000.0)
     
-    .withShotEntry(2.66, 310.0, 5000.0)
-    .withShotEntry(3.14, 306.25, 5500.0
+    .withShotEntry(2.66, 315.0, 5250.0)
+    .withShotEntry(3.14, 311.25, 5500.0
     );
   public static final Swerve S_SWERVE = new Swerve();
   public static final DriverControls S_DRIVERCONTROLS = new DriverControls();
