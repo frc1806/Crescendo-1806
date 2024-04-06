@@ -10,6 +10,14 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 
 public class Constants {
+
+    public enum MotorType{
+        kNEO,
+        kVortex,
+        kKracken
+    }
+
+    public static MotorType kIntakeMotorType = MotorType.kKracken;
     // Driver Controls
     public static final int kDriverControllerPort = 0;
     public static final int kOperatorControllerPort = 1;
