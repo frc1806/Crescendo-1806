@@ -97,6 +97,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("Sweep", new SweeperSweepSequence());
     NamedCommands.registerCommand("PrepareVisionShotNoAlign", new PrepareVisionShotNoAlign(S_VISION::CalculateShotAngle, S_VISION::CalculateShotSpeed));
     NamedCommands.registerCommand("VisionShotNoAlign", new VisionShotNoAlign(S_VISION::CalculateShotAngle, S_VISION::CalculateShotSpeed));
+    NamedCommands.registerCommand("PreparePass", new PreparePresetLaunchSequence(Shot.PassShot));
+    NamedCommands.registerCommand("Pass", new PresetShotLaunchSequence(Shot.PassShot));
     autoChooser = AutoBuilder.buildAutoChooser(); 
 
     //SUBWOOFER SINGLE SHOT MOBILITY AUTOS

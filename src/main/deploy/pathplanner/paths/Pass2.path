@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.153148175055266,
+        "y": 2.41243232843099
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.227992087938526,
+        "y": 2.8574441171706875
+      },
+      "isLocked": false,
+      "linkedName": "BeAnnoying1"
+    },
+    {
+      "anchor": {
+        "x": 6.220860145001316,
+        "y": 6.136478349989511
+      },
+      "prevControl": {
+        "x": 7.227992087938526,
+        "y": 6.113056676897948
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "SourcePass2End"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 5.1,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 152.3317276678008,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "FastPass",
+  "previewStartingState": {
+    "rotation": 0.8243428208451778,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
